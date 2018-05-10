@@ -1,7 +1,7 @@
-# simple-merge
+﻿# simple-merge
 
 TEAM INFO.
-================
+-----------------
 TEAM NAME: TEAM 16
 MEMBERS  : 김은경
            김소연
@@ -12,7 +12,7 @@ MEMBERS  : 김은경
 
 
 Work History
-================
+----------------
 <First meeting>
 DATE: 5/9
 WORK: 1. every team member made SRS each, and did presentation

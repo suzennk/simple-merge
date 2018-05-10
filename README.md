@@ -1,7 +1,7 @@
 ﻿# simple-merge
 
 TEAM INFO.
------------------
+==========
 TEAM NAME: TEAM 16
 
 MEMBERS  : 
@@ -15,16 +15,16 @@ MEMBERS  :
 
 
 Work History
-----------------
+============
 First meeting
+-------------
+* DATE: 5/9
 
-DATE: 5/9
-
-WORK: 
-1. every team member made SRS, and do presentation
-2. discuss about how to merge SRS as one
-3. discuss about how to deal with alternative flow of the use case 'Load'
-   (especially, when a same file loaded at two edit panels)
-4. set next topic: how to set interface of Simple-merge system
+* WORK: 
+ - every team member made SRS, and did presentation
+ - discuss about how to merge SRS as one
+ - discuss about how to deal with alternative flow of the use case 'Load'
+ - (especially, when a same file is loaded at two edit panels)
+ - set next topic: how to set interface of Simple-merge system
 
 

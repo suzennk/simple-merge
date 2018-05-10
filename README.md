@@ -4,23 +4,27 @@ TEAM INFO.
 -----------------
 TEAM NAME: TEAM 16
 
-MEMBERS  : 김은경
-           김소연
-           김수진
-           남유선
-           손승표
-           윤신영 [leader]
+MEMBERS  : 
+1. 김은경
+2. 김소연
+3. 김수진
+4. 남유선
+5. 손승표
+6. 윤신영 [leader]
 
 
 
 Work History
 ----------------
-###First meeting
+First meeting
+
 DATE: 5/9
-WORK: 1. every team member made SRS each, and did presentation
-      2. discuss about how to merge SRS as one
-      3. discuss about alternative flow of use case 'Load'
-         (how to deal with a event when same file is loaded to two edit panels)
-      4. set next topic : how to set interface of Simple-merge system
+
+WORK: 
+1. every team member made SRS, and do presentation
+2. discuss about how to merge SRS as one
+3. discuss about how to deal with alternative flow of the use case 'Load'
+   (especially, when a same file loaded at two edit panels)
+4. set next topic: how to set interface of Simple-merge system
 
 

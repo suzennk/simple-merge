@@ -18,7 +18,7 @@ Work History
 ============
 First meeting
 -------------
-**DATE**: 2018/05/09
+**DATE** : 2018/05/09
 
 **WORK**:  
 >1. every team member made SRS, and did presentation
@@ -30,7 +30,7 @@ First meeting
 
 Second meeting
 --------------
-**DATE**: 2018/5/14
+**DATE** : 2018/5/14
 
 **WORK**:
 >1. all team members discuss about use cases & non-functional requirements

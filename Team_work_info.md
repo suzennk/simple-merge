@@ -18,20 +18,20 @@ Work History
 ============
 First meeting
 -------------
-* DATE: 5/9
+**DATE**: 2018/05/09
 
-* WORK: 
-1. every team member made SRS, and did presentation
-2. discuss about how to merge SRS as one
-3. discuss about how to deal with alternative flow of the use case 'Load'
-- (especially, when a same file is loaded at two edit panels)
-4. set next topic: study JUnit/EasyMock & Git
+**WORK**:  
+>1. every team member made SRS, and did presentation
+>2. discuss about how to merge SRS as one
+>3. discuss about how to deal with alternative flow of the use case 'Load'
+>- (especially, when a same file is loaded at two edit panels)
+>4. set next topic: study JUnit/EasyMock & Git
 
 
 Second meeting
 --------------
-* DATE: 5/14
+**DATE**: 2018/5/14
 
-* WORK:
-1. all team members discuss about use cases & non-functional requirements
-2. set next topic: set interface of Simple-merge system, set complete version of SRS
+**WORK**:
+>1. all team members discuss about use cases & non-functional requirements
+>2. set next topic: set interface of Simple-merge system, set complete version of SRS

@@ -1,10 +1,10 @@
 ﻿# Simple Merge
 
-##TEAM INFO
+## TEAM INFO
 
-###TEAM 16
+### TEAM 16
 
-###MEMBERS  : 
+### MEMBERS  : 
 1. 김은경 (20163927) [recorder]
 2. 김소연 (20165417) 
 3. 김수진 (20160342) 

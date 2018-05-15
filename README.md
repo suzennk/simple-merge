@@ -1,10 +1,9 @@
 ﻿# Simple Merge
-## Team 16
-TEAM INFO.
-==========
-TEAM NAME: TEAM 16
 
-MEMBERS  : 
+##TEAM INFO.
+###TEAM 16
+
+###MEMBERS  : 
 1. 김은경 (20163927) [recorder]
 2. 김소연 (20165417) 
 3. 김수진 (20160342) 
@@ -12,6 +11,7 @@ MEMBERS  :
 5. 손승표 (20162581) 
 6. 윤신영 (20163657) [leader]
 
+## Project Settings
 
 ### The project cannot be built until buld path errors are resolved 에러
 1. Right CLick on your project folder, Choose Build Path > Configure Build Path
@@ -25,8 +25,7 @@ MEMBERS  :
 
 Work History
 ============
-First meeting
--------------
+## First meeting
 * DATE: 5/9
 
 * WORK: 

@@ -1,6 +1,7 @@
 ﻿# Simple Merge
 
-##TEAM INFO.
+##TEAM INFO
+
 ###TEAM 16
 
 ###MEMBERS  : 

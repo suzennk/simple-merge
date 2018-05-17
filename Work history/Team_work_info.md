@@ -1,4 +1,4 @@
-# Simple Merge
+﻿# Simple Merge
 
 TEAM 16
 ==========
@@ -27,8 +27,18 @@ First meeting
 
 Second meeting
 --------------
-**DATE** : 2018/5/14
+**DATE** : 2018/05/14
 
 **WORK**:
 >1. all team members discuss about use cases & non-functional requirements
 >2. set next topic: set interface of Simple-merge system, set complete version of SRS
+
+
+Third meeting
+-------------
+**DATE** : 2018/05/16
+
+**WORK**:
+>1. all team member did final touch of SRS
+>2. all team member discuss about how to set class based on MVC model
+>3. set next topic: set interface(class) of Simple-merge & divide code work

@@ -1,14 +1,10 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
 public class MainView extends JFrame{
-	private JPanel MainPanel;
+	private JPanel mainPanel;
 
 	private JPanel toolPanel;
 	private JButton compareBtn;
@@ -23,6 +19,8 @@ public class MainView extends JFrame{
 	
 	public MainView() {
 		super();
+		
+		mainPanel = new JPanel();
 		
 		toolPanel = new JPanel();
 		
@@ -102,12 +100,12 @@ public class MainView extends JFrame{
 		holderPanel.add(leftPV);
 		holderPanel.add(rightPV);
 		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(toolPanel, BorderLayout.NORTH);
+		mainPanel.add(holderPanel, BorderLayout.CENTER);
 		
-		this.setLayout(new BorderLayout());
-		this.add(toolPanel, BorderLayout.NORTH);
-		this.add(holderPanel, BorderLayout.CENTER);
+		this.add(mainPanel);
 		this.pack();
-		
 		this.setSize(1200, 900);
 		this.setVisible(true);
 		
@@ -116,7 +114,6 @@ public class MainView extends JFrame{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		MainView mv = new MainView();
-		
 		
 	}
 

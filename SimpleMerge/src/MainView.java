@@ -86,7 +86,7 @@ public class MainView extends JFrame{
 			
 		});
 		
-		toolPanel.setLayout(new FlowLayout());
+		toolPanel.setLayout(new GridLayout(1, 5));
 		toolPanel.setBackground(Color.CYAN);
 		
 		toolPanel.add(compareBtn);

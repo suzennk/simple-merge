@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -12,8 +14,8 @@ public class MainView extends JFrame{
 	private JButton compareBtn;
 	private JButton upBtn;
 	private JButton downBtn;
-	private JButton copyToLBtn;
-	private JButton copyToRBtn;
+	private JButton copyToLeftBtn;
+	private JButton copyToRightBtn;
 	
 	private JPanel holderPanel;
 	private PanelView leftPV;
@@ -27,12 +29,62 @@ public class MainView extends JFrame{
 		compareBtn = new JButton("compare");
 		upBtn = new JButton("up");
 		downBtn = new JButton("down");
-		copyToLBtn = new JButton("copy to left");
-		copyToRBtn = new JButton("copy to right");
+		copyToLeftBtn = new JButton("copy to left");
+		copyToRightBtn = new JButton("copy to right");
 		
 		holderPanel = new JPanel();
 		leftPV = new PanelView();
 		rightPV = new PanelView();
+		
+		compareBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("compare button pressed.");
+			}
+			
+		});
+		
+		upBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("up button pressed.");
+			}
+			
+		});
+		
+		downBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("down button pressed.");
+			}
+			
+		});
+		
+		copyToLeftBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("copy to left button pressed.");
+			}
+			
+		});
+		
+		copyToRightBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("copy to right button pressed.");
+			}
+			
+		});
 		
 		toolPanel.setLayout(new FlowLayout());
 		toolPanel.setBackground(Color.CYAN);
@@ -40,8 +92,8 @@ public class MainView extends JFrame{
 		toolPanel.add(compareBtn);
 		toolPanel.add(upBtn);
 		toolPanel.add(downBtn);
-		toolPanel.add(copyToLBtn);
-		toolPanel.add(copyToRBtn);
+		toolPanel.add(copyToLeftBtn);
+		toolPanel.add(copyToRightBtn);
 		
 		leftPV.setBackground(Color.RED);
 		rightPV.setBackground(Color.GREEN);

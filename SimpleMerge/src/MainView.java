@@ -6,6 +6,7 @@ import javax.swing.*;
 public class MainView extends JFrame{
 	private JPanel mainPanel;
 
+	// 도구 패널
 	private JPanel toolPanel;
 	private JButton compareBtn;
 	private JButton upBtn;
@@ -13,24 +14,25 @@ public class MainView extends JFrame{
 	private JButton copyToLeftBtn;
 	private JButton copyToRightBtn;
 	
+	// 세부 패널 (왼쪽, 오른쪽)
 	private JPanel holderPanel;
 	private PanelView leftPV;
 	private PanelView rightPV;
 	
-	public MainView() {
+	public MainView() throws Exception {
 		super("Simple Merge");
 		
 		mainPanel = new JPanel();
 		
 		toolPanel = new JPanel();
+		
+		compareBtn = new JButton("Compare");
+		upBtn = new JButton("Up");
+		downBtn = new JButton("Down");
+		copyToLeftBtn = new JButton("Copy to left");
+		copyToRightBtn = new JButton("Copy to right");
+		
 		holderPanel = new JPanel();
-		
-		compareBtn = new JButton("compare");
-		upBtn = new JButton("up");
-		downBtn = new JButton("down");
-		copyToLeftBtn = new JButton("copy to left");
-		copyToRightBtn = new JButton("copy to right");
-		
 		leftPV = new PanelView();
 		rightPV = new PanelView();
 		
@@ -91,7 +93,7 @@ public class MainView extends JFrame{
 		leftPV.setBackground(Color.RED);
 		rightPV.setBackground(Color.GREEN);
 		
-		holderPanel.setLayout(new GridLayout());
+		holderPanel.setLayout(new GridLayout(1, 2, 10, 0));
 		holderPanel.add(leftPV);
 		holderPanel.add(rightPV);
 		
@@ -103,13 +105,15 @@ public class MainView extends JFrame{
 		this.pack();
 		this.setSize(1200, 900);
 		this.setVisible(true);
-		
+	
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("Start!");
+		
 		MainView mv = new MainView();
 		
+		System.out.println("End!");
 	}
-
 }

@@ -50,6 +50,8 @@ Fourth meeting
 
 **WORK**
 >1. all team member set interface based on MVC model
->2. all team member set specific interface of Panelinfo.java
+>2. all team member set specific interface of Panelinfo.java (Model)
 >3. divide code work
+>- (controller: 김수진,남유선,손승표,윤신영)
+>- (view      : 김소연,김은경)
 >4. set next topic: until 5/27, finish developing initial version of program

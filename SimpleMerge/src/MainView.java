@@ -18,11 +18,12 @@ public class MainView extends JFrame{
 	private PanelView rightPV;
 	
 	public MainView() {
-		super();
+		super("Simple Merge");
 		
 		mainPanel = new JPanel();
 		
 		toolPanel = new JPanel();
+		holderPanel = new JPanel();
 		
 		compareBtn = new JButton("compare");
 		upBtn = new JButton("up");
@@ -30,13 +31,11 @@ public class MainView extends JFrame{
 		copyToLeftBtn = new JButton("copy to left");
 		copyToRightBtn = new JButton("copy to right");
 		
-		holderPanel = new JPanel();
 		leftPV = new PanelView();
 		rightPV = new PanelView();
 		
 		compareBtn.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("compare button pressed.");
@@ -46,7 +45,6 @@ public class MainView extends JFrame{
 		
 		upBtn.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("up button pressed.");
@@ -56,7 +54,6 @@ public class MainView extends JFrame{
 		
 		downBtn.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("down button pressed.");
@@ -66,7 +63,6 @@ public class MainView extends JFrame{
 		
 		copyToLeftBtn.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("copy to left button pressed.");
@@ -76,7 +72,6 @@ public class MainView extends JFrame{
 		
 		copyToRightBtn.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("copy to right button pressed.");

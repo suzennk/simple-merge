@@ -42,3 +42,16 @@ Third meeting
 >1. all team member did final touch of SRS
 >2. all team member discuss about how to set class based on MVC model
 >3. set next topic: set interface(class) of Simple-merge & divide code work
+
+
+Fourth meeting
+===============
+**DATE** : 2018/05/21
+
+**WORK**
+>1. all team member set interface based on MVC model
+>2. all team member set specific interface of Panelinfo.java (Model)
+>3. divide code work
+>- (controller: 김수진,남유선,손승표,윤신영)
+>- (view      : 김소연,김은경)
+>4. set next topic: until 5/27, finish developing initial version of program

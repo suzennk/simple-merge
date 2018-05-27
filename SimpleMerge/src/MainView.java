@@ -102,10 +102,9 @@ public class MainView extends JFrame{
 				int returnVal = fileChooser.showOpenDialog(null);
 	            if( returnVal == JFileChooser.APPROVE_OPTION) {
 	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	String rightFilePath = null;
-	            	if (rightPV.pc.getFile() != null )
-	            		rightFilePath = rightPV.pc.getFile().toString();
-	            	if (filePath != rightFilePath)
+	            	if (rightPV.pc.getFile() == null )
+	            		leftPV.pc.load(filePath);
+	            	else if (filePath != rightPV.pc.getFile().toString())
 	            		leftPV.pc.load(filePath);
 	            	else 
 	            		System.out.println("File is already open in another panel.");
@@ -127,19 +126,18 @@ public class MainView extends JFrame{
 				int returnVal = fileChooser.showOpenDialog(null);
 	            if( returnVal == JFileChooser.APPROVE_OPTION) {
 	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	String leftFilePath = null;
-	            	if (leftPV.pc.getFile() != null )
-	            		leftFilePath = leftPV.pc.getFile().toString();
-	            	if (filePath != leftFilePath) {
+	            	if (leftPV.pc.getFile() == null )
 	            		rightPV.pc.load(filePath);
-	    	            // Set the text in view
-	    	            rightPV.myTextArea.setText(rightPV.pc.getFileContent());
-	            	} else 
+	            	else if (filePath != leftPV.pc.getFile().toString())
+	            		rightPV.pc.load(filePath);
+	            	else 
 	            		System.out.println("File is already open in another panel.");
 	            } else {
 	                System.out.println("File load canceled.");
 				}
 	            
+	            // Set the text in view
+	            rightPV.myTextArea.setText(rightPV.pc.getFileContent());
 			}
 		});
 		compareBtn.addActionListener(new ActionListener() {

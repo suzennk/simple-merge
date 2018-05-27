@@ -5,6 +5,7 @@ public class PanelController {
 	private String fileContent;	
 	
 	public PanelController() {
+		panelInfo = new PanelInfo();
 		
 	}
 	

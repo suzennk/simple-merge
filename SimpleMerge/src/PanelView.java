@@ -15,9 +15,10 @@ public class PanelView extends JPanel {
 	   private JButton saveBtn;
 	   private JButton saveAsBtn;
 	   
-	   private JTextArea myTextArea;
+//	   private JTextArea myTextArea;
+	   private JEditorPane myTextArea;
 	   private JScrollPane scrollPane;
-	   private JTextField statusBar;
+	   private JLabel statusBar;
 	   
 	   public PanelView() throws Exception{
 		   myPanel = new JPanel();
@@ -28,9 +29,11 @@ public class PanelView extends JPanel {
 		   saveBtn = new JButton("Save");
 		   saveAsBtn = new JButton("Save As");
 		   
-		   myTextArea = new JTextArea();
+//		   myTextArea = new JTextArea();
+		   myTextArea = new JEditorPane();
+		   
 		   scrollPane = new JScrollPane(myTextArea);
-		   statusBar = new JTextField();
+		   statusBar = new JLabel("View Mode");
 		   
 		   loadBtn.addActionListener(new ActionListener() {
 

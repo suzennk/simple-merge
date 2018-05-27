@@ -19,9 +19,14 @@ public class PanelController {
 	}
 	
 	/** opens the file of the corresponding file path 
-	 * and sets the file of PanelInfo. **/
-	public void load(String filePath) {
+	 * and sets the file of PanelInfo.
+	 * @return true if success, false if fail 
+	 */
+	public boolean load(String filePath) {
 		// TODO error handling
+		if (panelInfo.getFile() == null) {
+			return false;
+		}
 		try {
 			
 			fr = new FileReader(filePath);
@@ -39,17 +44,22 @@ public class PanelController {
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			if (br != null) try {br.close();} catch (IOException e) {}
 			if (fr != null) try {fr.close();} catch (IOException e) {}
 		}
+		return true;
 	}
 	
 
-	/** saves the file content **/
-	public void save() {
+	/** saves the file content
+	 * @return true if success, false if failure. 
+	 */
+	public boolean save() {
 		try {
 			String filePath = panelInfo.getFilePath();
 			fw = new FileWriter(filePath);
@@ -58,27 +68,42 @@ public class PanelController {
 			bw.write(fileContent);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			if (bw != null) try {bw.close();} catch (IOException e) {}
 			if (fw != null) try {fw.close();} catch (IOException e) {}
 		}
+		return true;
 	}
 	
-	public void saveAs(/* TODO */) {
-		// TODO
+	/** save the file content w/ different file name
+	 * @param newFilePath
+	 * @return true if success, false if failure.
+	 */
+	public boolean saveAs(String newFilePath) {
+		try {
+			fw = new FileWriter(newFilePath);
+			bw = new BufferedWriter(fw);
+			
+			bw.write(fileContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (bw != null) try {bw.close();} catch (IOException e) {}
+			if (fw != null) try {fw.close();} catch (IOException e) {}
+		}
+		return true;
 	}
 	
+	/**
+	 * Checks if a file is open in the panel
+	 * in order to save it before opening another file
+	 */
 	public boolean fileIsOpen() {
-		/* TODO */
-		return true;	
+		return panelInfo.getFile() != null;	
 	}
-	
-	/** panelInfo의 파일 내용을 리턴 **/
-	public void fetchFileContent() {
-		this.fileContent = new String(panelInfo.getFileContents());
-	}
-	
-	
+		
 	public void setMode(Mode mode) {
 		this.panelInfo.setMode(mode);
 	}

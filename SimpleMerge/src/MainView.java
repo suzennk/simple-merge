@@ -6,7 +6,7 @@ import javax.swing.*;
 public class MainView extends JFrame{
 	private JPanel mainPanel;
 
-	// 도구 패널
+	// tool panel
 	private JPanel toolPanel;
 	private JButton compareBtn;
 	private JButton upBtn;
@@ -14,7 +14,15 @@ public class MainView extends JFrame{
 	private JButton copyToLeftBtn;
 	private JButton copyToRightBtn;
 	
-	// 세부 패널 (왼쪽, 오른쪽)
+	// image icon for ImageBtn
+	private ImageIcon compare_icon;
+	private ImageIcon up_icon;
+	private ImageIcon down_icon;
+	private ImageIcon left_icon;
+	private ImageIcon right_icon;
+	
+	
+	// specific panel (right, left)
 	private JPanel holderPanel;
 	private PanelView leftPV;
 	private PanelView rightPV;
@@ -26,11 +34,47 @@ public class MainView extends JFrame{
 		
 		toolPanel = new JPanel();
 		
-		compareBtn = new JButton("Compare");
-		upBtn = new JButton("Up");
-		downBtn = new JButton("Down");
-		copyToLeftBtn = new JButton("Copy to left");
-		copyToRightBtn = new JButton("Copy to right");
+		// set image icon
+		compare_icon=new ImageIcon("res/compare.png");
+		up_icon=new ImageIcon("res/up.png");
+		down_icon=new ImageIcon("res/down.png");
+		left_icon=new ImageIcon("res/left.png");
+		right_icon=new ImageIcon("res/right.png");
+		
+		// set size of image button
+		Image compare_img=compare_icon.getImage(); compare_img=compare_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image up_img=up_icon.getImage(); up_img=up_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image down_img=down_icon.getImage(); down_img=down_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image left_img=left_icon.getImage(); left_img=left_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image right_img=right_icon.getImage(); right_img=right_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		
+		compare_icon=new ImageIcon(compare_img);
+		up_icon=new ImageIcon(up_img);
+		down_icon=new ImageIcon(down_img);
+		left_icon=new ImageIcon(left_img);
+		right_icon=new ImageIcon(right_img);
+		
+		// set image button
+		compareBtn = new JButton(compare_icon);
+		upBtn = new JButton(up_icon);
+		downBtn = new JButton(down_icon);
+		copyToLeftBtn = new JButton(left_icon);
+		copyToRightBtn = new JButton(right_icon);
+		
+		
+		// make Image Button's border invisible
+		compareBtn.setBorderPainted(false); compareBtn.setFocusPainted(false);
+		upBtn.setBorderPainted(false); upBtn.setFocusPainted(false);
+		downBtn.setBorderPainted(false); downBtn.setFocusPainted(false);
+		copyToLeftBtn.setBorderPainted(false); copyToLeftBtn.setFocusPainted(false);
+		copyToRightBtn.setBorderPainted(false); copyToRightBtn.setFocusPainted(false);
+		
+		add(compareBtn);
+		add(upBtn);
+		add(downBtn);
+		add(copyToLeftBtn);
+		add(copyToRightBtn);
+		
 		
 		holderPanel = new JPanel();
 		leftPV = new PanelView();
@@ -104,7 +148,6 @@ public class MainView extends JFrame{
 		this.add(mainPanel);
 		this.pack();
 		this.setSize(1200, 900);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	
 	}

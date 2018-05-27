@@ -27,27 +27,15 @@ public class PanelView extends JPanel {
 	private ImageIcon save_icon;
 	private ImageIcon saveAs_icon;
 	   
-	//private JTextArea myTextArea;
 	JEditorPane myTextArea;
 	private JScrollPane scrollPane;
 	private JLabel statusBar;
 	
-//	private JFileChooser fileChooser;
 	   
 	   
 	public PanelView() throws Exception{
 		pc = new PanelController();
-		
-//		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정 
-//        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리를 지정 
-//        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용  
-//        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목 
-//        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드 
-        
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter 확장자 추가 
-//        fileChooser.setFileFilter(filter); // 파일 필터를 추가
-        
-		
+	
 		myPanel = new JPanel();
 		menuPanel = new JPanel();
 		   
@@ -123,12 +111,14 @@ public class PanelView extends JPanel {
 		   
 		editBtn.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Edit button pressed.");
-				}
-				
-			});
+				myTextArea.enable();
+			}
+
+		});
 		
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

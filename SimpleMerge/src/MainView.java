@@ -102,11 +102,13 @@ public class MainView extends JFrame{
 				int returnVal = fileChooser.showOpenDialog(null);
 	            if( returnVal == JFileChooser.APPROVE_OPTION) {
 	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	if (rightPV.pc.getFile() == null )
+	            	if (rightPV.pc.getFile() == null ) {
 	            		leftPV.pc.load(filePath);
-	            	else if (filePath != rightPV.pc.getFile().toString())
+	            		leftPV.myTextArea.disable();
+	            	} else if (!filePath.equals(rightPV.pc.getFile().toString())) {
 	            		leftPV.pc.load(filePath);
-	            	else 
+	            		leftPV.myTextArea.disable();
+	            	} else 
 	            		System.out.println("File is already open in another panel.");
 	            } else {
 	                System.out.println("File load canceled.");
@@ -126,11 +128,13 @@ public class MainView extends JFrame{
 				int returnVal = fileChooser.showOpenDialog(null);
 	            if( returnVal == JFileChooser.APPROVE_OPTION) {
 	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	if (leftPV.pc.getFile() == null )
+	            	if (leftPV.pc.getFile() == null) {
 	            		rightPV.pc.load(filePath);
-	            	else if (filePath != leftPV.pc.getFile().toString())
+	            		rightPV.myTextArea.disable();
+	            	} else if (!filePath.equals(leftPV.pc.getFile().toString())) {
 	            		rightPV.pc.load(filePath);
-	            	else 
+	            		rightPV.myTextArea.disable();
+	            	} else 
 	            		System.out.println("File is already open in another panel.");
 	            } else {
 	                System.out.println("File load canceled.");

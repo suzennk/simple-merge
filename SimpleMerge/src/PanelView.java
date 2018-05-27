@@ -15,6 +15,12 @@ public class PanelView extends JPanel {
 	   private JButton saveBtn;
 	   private JButton saveAsBtn;
 	   
+//	   image icon for imageBtn
+		private ImageIcon load_icon;
+		private ImageIcon edit_icon;
+		private ImageIcon save_icon;
+		private ImageIcon saveAs_icon;
+	   
 //	   private JTextArea myTextArea;
 	   private JEditorPane myTextArea;
 	   private JScrollPane scrollPane;
@@ -24,10 +30,41 @@ public class PanelView extends JPanel {
 		   myPanel = new JPanel();
 		   
 		   menuPanel = new JPanel();
-		   loadBtn = new JButton("Load");
-		   editBtn = new JButton("Edit");
-		   saveBtn = new JButton("Save");
-		   saveAsBtn = new JButton("Save As");
+		   
+//	   set image icon
+		   load_icon=new ImageIcon("res/load.png");
+		   edit_icon=new ImageIcon("res/edit.png");
+		   save_icon=new ImageIcon("res/save.png");
+		   saveAs_icon=new ImageIcon("res/save_as.png");
+			
+//     set size of image button
+		   Image load_img=load_icon.getImage(); load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		   Image edit_img=edit_icon.getImage(); edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		   Image save_img=save_icon.getImage(); save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		   Image saveAs_img=saveAs_icon.getImage(); saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+			
+			load_icon=new ImageIcon(load_img);
+			edit_icon=new ImageIcon(edit_img);
+			save_icon=new ImageIcon(save_img);
+			saveAs_icon=new ImageIcon(saveAs_img);
+			
+//     set image button
+			loadBtn = new JButton(load_icon);
+			editBtn = new JButton(edit_icon);
+			saveBtn = new JButton(save_icon);
+			saveAsBtn = new JButton(saveAs_icon);
+			
+			
+//     make Image Button's border invisible
+			loadBtn.setBorderPainted(false); loadBtn.setFocusPainted(false);
+			editBtn.setBorderPainted(false); editBtn.setFocusPainted(false);
+			saveBtn.setBorderPainted(false); saveBtn.setFocusPainted(false);
+			saveAsBtn.setBorderPainted(false); saveAsBtn.setFocusPainted(false);
+			
+			add(loadBtn);
+			add(editBtn);
+			add(saveBtn);
+			add(saveAsBtn);
 		   
 //		   myTextArea = new JTextArea();
 		   myTextArea = new JEditorPane();

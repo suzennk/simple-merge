@@ -141,19 +141,6 @@ public class PanelController {
 		return this.panelInfo.getMode();
 	}
 
-	private void setFile(File file) {
-		// TODO error handling
-		this.panelInfo.setFile(file);
-	}
-
-	/**
-	 * 
-	 * @return currently open file, null if no file open
-	 */
-	private File getFile() {
-		return this.panelInfo.getFile();
-	}
-
 	/**
 	 * @return true is the file has been updated
 	 */
@@ -167,6 +154,22 @@ public class PanelController {
 
 	public void setFileContent(String fileContent) {
 		this.fileContent = fileContent;
+	}
+
+	/**
+	 * Set the file of panelInfo
+	 * @param file
+	 */
+	private void setFile(File file) {
+		// TODO error handling
+		this.panelInfo.setFile(file);
+	}
+
+	/**
+	 * @return currently open file, null if no file open
+	 */
+	private File getFile() {
+		return this.panelInfo.getFile();
 	}
 
 	public static void main(String[] args) {

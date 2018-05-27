@@ -1,8 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PanelController {
 	private PanelInfo panelInfo;
@@ -13,15 +11,14 @@ public class PanelController {
 	private BufferedWriter bw = null;
 
 	private String fileContent;
-	private boolean dirty = false;
+	private int currentIndex;		// start index for find() function
+	private boolean dirty;
 	
-	private Matcher matcher;
-	private Pattern pattern;
 	
-
 	public PanelController() {
 		panelInfo = new PanelInfo();
-
+		currentIndex = 0;
+		dirty = false;
 	}
 
 	/**
@@ -112,6 +109,33 @@ public class PanelController {
 		this.setUpdated(false);
 		return true;
 	}
+	
+	
+	// PanelView에서 find할 때 setCurrent index 해줘야 함.
+	/**
+	 * Find findPattern in the file
+	 * @param findPattern
+	 * @return start index of found location
+	 */
+	public int find(String findPattern) {
+		int startIndex = this.fileContent.toLowerCase().indexOf(findPattern.toLowerCase(), this.currentIndex);
+		
+		if (startIndex == -1 && this.currentIndex != 0)
+			startIndex = this.fileContent.toLowerCase().indexOf(findPattern.toLowerCase(), 0);
+		
+		this.currentIndex = startIndex + findPattern.length();
+				
+		if (startIndex == -1)
+			System.out.println("No match found");
+		else if (startIndex == this.fileContent.toLowerCase().lastIndexOf(findPattern.toLowerCase())) {
+			System.out.println("Found Index : " + startIndex);
+			System.out.println("This is the last match.");
+			this.currentIndex = 0;
+		} else
+			System.out.println("Found Index : " + startIndex);
+		
+		return startIndex;
+	}
 
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
@@ -151,6 +175,15 @@ public class PanelController {
 	public void setFileContent(String fileContent) {
 		this.fileContent = fileContent;
 	}
+	
+	public int getCurrentIndex() {
+		return currentIndex;
+	}
+
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
 
 	/**
 	 * Set the file of panelInfo
@@ -168,32 +201,6 @@ public class PanelController {
 		return this.panelInfo.getFile();
 	}
 
-	/**
-	 * Find the corresponding substring from file content
-	 * @param String that you want to find
-	 * @return ArrayList<Integer> of start indices
-	 */
-	public ArrayList<Integer> find(String patternString) {
-		ArrayList<Integer> indices = new ArrayList<Integer>(); 
-		
-		pattern = Pattern.compile(patternString);				// 찾을 String
-		matcher = pattern.matcher(this.getFileContent());		// 전체 범위
-		
-		while (matcher.find()) {
-			int start = matcher.start();
-			indices.add(start);
-		}
-		
-		if (indices.isEmpty()) {
-			System.out.println("No Match Found");
-		}
-		else {
-			System.out.println(indices);
-		}
-		
-		return indices;
-		
-	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

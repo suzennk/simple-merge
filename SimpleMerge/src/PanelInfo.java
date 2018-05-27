@@ -2,44 +2,39 @@ import java.io.*;
 
 public class PanelInfo {
 	private File file;
-	private String fileContent;
-	private boolean dirty;
+//	private String fileContent;
 	private Mode mode;
 	
 	public PanelInfo() {
 		// TODO
 	}
 	
-	File getFile() {
+	public File getFile() {
 		return this.file;
 	}
 	
-	void setFile(File file) {
+	public void setFile(File file) {
 		this.file = file;
 	}
 	
-	String getFileContents() {
-		return this.fileContent;
-	}
+//	public String getFileContents() {
+//		return this.fileContent;
+//	}
+//	
+//	public void setFileContent(String fileContent) {
+//		this.fileContent = fileContent;
+//	}
 	
-	void setFileContent(String fileContent) {
-		this.fileContent = fileContent;
-	}
-	
-	boolean isUpdated() {
-		return dirty;
-	}
-	
-	void setUpdated(boolean flag) {
-		this.dirty = flag;
-	}
-	
-	Mode getMode() {
+	public Mode getMode() {
 		return this.mode;
 	}
 	
-	void setMode(Mode mode) {
+	public void setMode(Mode mode) {
 		this.mode = mode;
+	}
+	
+	public String getFilePath() {
+		return file.toString();
 	}
 	
 	public static void main(String[] args) {

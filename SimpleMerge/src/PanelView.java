@@ -1,9 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
-// ÆÄÀÏ ¼±ÅÃÃ¢Àº JFileChooser·Î ±¸Çö
+import javafx.stage.FileChooser;
+
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ JFileChooserï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
@@ -26,11 +31,24 @@ public class PanelView extends JPanel {
 	private JEditorPane myTextArea;
 	private JScrollPane scrollPane;
 	private JLabel statusBar;
+	
+	private JFileChooser fileChooser;
 	   
 	   
 	public PanelView() throws Exception{
+		pc = new PanelController();
+		
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // ë””ë ‰í† ë¦¬ ì„¤ì •
+        fileChooser.setCurrentDirectory(new File("/")); // í˜„ì¬ ì‚¬ìš© ë””ë ‰í† ë¦¬ë¥¼ ì§€ì •
+        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter ëª¨ë“  íŒŒì¼ ì ìš© 
+        fileChooser.setDialogTitle("Choose File to Open"); // ì°½ì˜ ì œëª©
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // íŒŒì¼ ì„ íƒ ëª¨ë“œ
+        
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); // filter í™•ì¥ì ì¶”ê°€
+//        fileChooser.setFileFilter(filter); // íŒŒì¼ í•„í„°ë¥¼ ì¶”ê°€
+        
+		
 		myPanel = new JPanel();
-		   
 		menuPanel = new JPanel();
 		   
 		// set image icon
@@ -77,8 +95,8 @@ public class PanelView extends JPanel {
 		   		"Maecenas diam ipsum, semper at pulvinar vel, vestibulum sit amet mi. \nAliquam sagittis, quam nec placerat aliquet, neque sapien feugiat urna, eu interdum velit dui tincidunt dolor. \nAliquam eget elementum ante. \nIn laoreet odio nec vehicula rhoncus. \nPellentesque ultrices molestie fermentum. \nDonec non vulputate felis. \nDonec sollicitudin erat at felis tristique accumsan. \nFusce at augue vitae mi laoreet aliquet at id massa. \nProin convallis est sapien, et imperdiet risus feugiat non. \nIn vitae sodales orci. \nDuis a nibh ut urna lacinia feugiat. \nAenean pellentesque sodales est ac ornare. \nNam commodo diam ac quam congue imperdiet. \nSed sit amet sem accumsan, tempor nibh eget, luctus ligula. \nDonec posuere id lorem ut auctor. \r\n" + 
 		   		"Duis ut augue erat. \nVestibulum porttitor, felis et pulvinar convallis, metus justo efficitur metus, rhoncus ultrices mauris nisi ac diam. \nDonec sollicitudin eros et neque ultricies posuere. \nSed rutrum tempor mollis. \nDonec aliquam mattis sodales. \nMaecenas arcu lorem, condimentum non nunc lacinia, pulvinar egestas dui. \nVivamus a velit placerat, auctor libero ut, porta leo. ");
 
-		// ÀÌ°Å´Â view mode ¶§ »ç¿ëÇÏ¸é µÉ°Í°°¾Æ¼­ ³Ö¾ú½À´Ï´ç!
-		myTextArea.disable();
+		// ï¿½Ì°Å´ï¿½ view mode ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½É°Í°ï¿½ï¿½Æ¼ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!
+//		myTextArea.disable();
 		   
 		scrollPane = new JScrollPane(myTextArea);
 		   
@@ -89,10 +107,18 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Load button pressed.");
-					
-				//pc.load(/*file path*/);
-				}
 				
+				// Load file via fileChooser
+				int returnVal = fileChooser.showOpenDialog(null);
+	            if( returnVal == JFileChooser.APPROVE_OPTION) {
+	                pc.load(fileChooser.getSelectedFile().toString());
+	            } else {
+	                System.out.println("File load canceled.");
+				}
+	            
+	            // Set the text in view
+	            myTextArea.setText(pc.getFileContent());
+			}
 		});
 		   
 		editBtn.addActionListener(new ActionListener() {

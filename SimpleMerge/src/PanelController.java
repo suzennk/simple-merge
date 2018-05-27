@@ -1,5 +1,8 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PanelController {
 	private PanelInfo panelInfo;
@@ -11,6 +14,10 @@ public class PanelController {
 
 	private String fileContent;
 	private boolean dirty = false;
+	
+	private Matcher matcher;
+	private Pattern pattern;
+	
 
 	public PanelController() {
 		panelInfo = new PanelInfo();
@@ -35,7 +42,6 @@ public class PanelController {
 		}
 
 		try {
-
 			fr = new FileReader(filePath);
 			br = new BufferedReader(fr);
 
@@ -152,6 +158,10 @@ public class PanelController {
 		this.dirty = flag;
 	}
 
+	public String getFileContent() {
+		return this.fileContent;
+	}
+	
 	public void setFileContent(String fileContent) {
 		this.fileContent = fileContent;
 	}
@@ -172,6 +182,33 @@ public class PanelController {
 		return this.panelInfo.getFile();
 	}
 
+	/**
+	 * Find the corresponding substring from file content
+	 * @param String that you want to find
+	 * @return ArrayList<Integer> of start indices
+	 */
+	public ArrayList<Integer> find(String patternString) {
+		ArrayList<Integer> indices = new ArrayList<Integer>(); 
+		
+		pattern = Pattern.compile(patternString);				// 찾을 String
+		matcher = pattern.matcher(this.getFileContent());		// 전체 범위
+		
+		while (matcher.find()) {
+			int start = matcher.start();
+			indices.add(start);
+		}
+		
+		if (indices.isEmpty()) {
+			System.out.println("No Match Found");
+		}
+		else {
+			System.out.println(indices);
+		}
+		
+		return indices;
+		
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Test PanelController.");
@@ -188,7 +225,8 @@ public class PanelController {
 			System.out.println("2. Save File");
 			System.out.println("3. Save File As ...");
 			System.out.println("4. Append file content");
-			System.out.println("5. Exit");
+			System.out.println("5. Find");
+			System.out.println("6. Exit");
 
 			System.out.print("Select menu: ");
 			int menu = s.nextInt();
@@ -217,6 +255,11 @@ public class PanelController {
 				pc.setUpdated(true);
 				break;
 			case 5:
+				System.out.println("Enter String to find : ");
+				String pattern = s2.nextLine();
+				pc.find(pattern);
+				break;
+			case 6:
 				iterate = false;
 				break;
 			default:
@@ -224,9 +267,8 @@ public class PanelController {
 				continue;
 			}
 
-			System.out.println("Exit Program.");
-
 		}
+		System.out.println("Exit Program.");
 
 	}
 

@@ -7,6 +7,7 @@ import javax.swing.*;
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
+	   private PanelController pc;
 	   private JPanel myPanel;
 	   
 	   private JPanel menuPanel;
@@ -19,6 +20,7 @@ public class PanelView extends JPanel {
 	   private JEditorPane myTextArea;
 	   private JScrollPane scrollPane;
 	   private JLabel statusBar;
+	   
 	   
 	   public PanelView() throws Exception{
 		   myPanel = new JPanel();
@@ -40,6 +42,8 @@ public class PanelView extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					System.out.println("Load button pressed.");
+					
+					//pc.load(/*file path*/);
 				}
 				
 			});
@@ -58,6 +62,8 @@ public class PanelView extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					System.out.println("Save button pressed.");
+					
+					//pc.save();
 				}
 				
 			});
@@ -67,6 +73,8 @@ public class PanelView extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					System.out.println("Save As button pressed.");
+					
+					//pc.saveAs(/*new file path*/);
 				}
 				
 			});

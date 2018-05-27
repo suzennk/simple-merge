@@ -54,4 +54,9 @@ Fourth meeting
 >3. divide code work
 >- (controller: 김수진,남유선,손승표,윤신영)
 >- (view      : 김소연,김은경)
->4. set next topic: until 5/27, finish developing initial version of program
+>4. Made interface
+>- MainView.java : 김수진
+>- MergeController.java : 손승표, 윤신영
+>- PanelController.java : 김수진, 남유선
+>- PanelView.java : 김소연
+>5. set next topic: until 5/27, finish developing initial version of program

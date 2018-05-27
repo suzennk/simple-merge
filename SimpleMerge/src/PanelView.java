@@ -8,7 +8,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import javafx.stage.FileChooser;
 
-// ���� ����â�� JFileChooser�� ����
+// 파일 선택창은 JFileChooser로 구현 
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
@@ -38,13 +38,13 @@ public class PanelView extends JPanel {
 	public PanelView() throws Exception{
 		pc = new PanelController();
 		
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정
-        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리를 지정
-        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용 
-        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정 
+        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리를 지정 
+        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용  
+        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목 
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드 
         
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); // filter 확장자 추가
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter 확장자 추가 
 //        fileChooser.setFileFilter(filter); // 파일 필터를 추가
         
 		
@@ -95,7 +95,7 @@ public class PanelView extends JPanel {
 		   		"Maecenas diam ipsum, semper at pulvinar vel, vestibulum sit amet mi. \nAliquam sagittis, quam nec placerat aliquet, neque sapien feugiat urna, eu interdum velit dui tincidunt dolor. \nAliquam eget elementum ante. \nIn laoreet odio nec vehicula rhoncus. \nPellentesque ultrices molestie fermentum. \nDonec non vulputate felis. \nDonec sollicitudin erat at felis tristique accumsan. \nFusce at augue vitae mi laoreet aliquet at id massa. \nProin convallis est sapien, et imperdiet risus feugiat non. \nIn vitae sodales orci. \nDuis a nibh ut urna lacinia feugiat. \nAenean pellentesque sodales est ac ornare. \nNam commodo diam ac quam congue imperdiet. \nSed sit amet sem accumsan, tempor nibh eget, luctus ligula. \nDonec posuere id lorem ut auctor. \r\n" + 
 		   		"Duis ut augue erat. \nVestibulum porttitor, felis et pulvinar convallis, metus justo efficitur metus, rhoncus ultrices mauris nisi ac diam. \nDonec sollicitudin eros et neque ultricies posuere. \nSed rutrum tempor mollis. \nDonec aliquam mattis sodales. \nMaecenas arcu lorem, condimentum non nunc lacinia, pulvinar egestas dui. \nVivamus a velit placerat, auctor libero ut, porta leo. ");
 
-		// �̰Ŵ� view mode �� ����ϸ� �ɰͰ��Ƽ� �־����ϴ�!
+		// 이거는 view mode 때 사용하면 될것같아서 넣었습니당! 
 //		myTextArea.disable();
 		   
 		scrollPane = new JScrollPane(myTextArea);
@@ -134,8 +134,15 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 		  		// TODO Auto-generated method stub
 		  		System.out.println("Save button pressed.");
-					
-				//pc.save();
+				
+		  		String editedContent = myTextArea.getText();
+		  		/*TODO
+		  		 * Where to put "setFileContent(String)"??
+		  		 * in Panel View 
+		  		 * or pass editedContent as parameter of save() function?? 
+		  		 */
+				pc.setFileContent(editedContent);
+		  		pc.save();
 		  	}
 				
 		});

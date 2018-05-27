@@ -104,6 +104,7 @@ public class MainView extends JFrame{
 		this.add(mainPanel);
 		this.pack();
 		this.setSize(1200, 900);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	
 	}

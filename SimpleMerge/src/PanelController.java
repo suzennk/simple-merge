@@ -57,16 +57,8 @@ public class PanelController {
 			e.printStackTrace();
 			return false;
 		} finally {
-			if (br != null)
-				try {
-					br.close();
-				} catch (IOException e) {
-				}
-			if (fr != null)
-				try {
-					fr.close();
-				} catch (IOException e) {
-				}
+			if (br != null)	try { br.close(); } catch (IOException e) {}
+			if (fr != null)	try { fr.close(); } catch (IOException e) {}
 		}
 
 		System.out.println(this.fileContent);
@@ -107,15 +99,9 @@ public class PanelController {
 			return false;
 		} finally {
 			if (bw != null)
-				try {
-					bw.close();
-				} catch (IOException e) {
-				}
+				try { bw.close(); } catch (IOException e) {}
 			if (fw != null)
-				try {
-					fw.close();
-				} catch (IOException e) {
-				}
+				try { fw.close(); } catch (IOException e) {}
 		}
 		this.setUpdated(false);
 		return true;

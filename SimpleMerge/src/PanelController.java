@@ -32,7 +32,7 @@ public class PanelController {
 			
 			while ((s = br.readLine()) != null ) {
 				fileContent += s;
-				fileContent += "\n";
+				fileContent += "\r\n";
 			}
 			
 			this.setFile(new File(filePath));
@@ -49,9 +49,18 @@ public class PanelController {
 	
 
 	/** saves the file content **/
-	public void save(/* TODO */) {
-		if (dirty) {
+	public void save() {
+		try {
+			String filePath = panelInfo.getFilePath();
+			fw = new FileWriter(filePath);
+			bw = new BufferedWriter(fw);
 			
+			bw.write(fileContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (bw != null) try {bw.close();} catch (IOException e) {}
+			if (fw != null) try {fw.close();} catch (IOException e) {}
 		}
 	}
 	
@@ -83,6 +92,10 @@ public class PanelController {
 		this.panelInfo.setFile(file);
 	}
 	
+	private File getFile() {
+		return this.panelInfo.getFile();
+	}
+	
 	boolean isUpdated() {
 		return dirty;
 	}
@@ -103,6 +116,10 @@ public class PanelController {
 		
 		pc.load(filePath);
 		
+		String modifiedString = "abcdefghijklmnop";
+		pc.fileContent += modifiedString;
+		
+		pc.save();
 		
 	}
 	

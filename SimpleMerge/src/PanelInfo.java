@@ -33,6 +33,10 @@ public class PanelInfo {
 		this.mode = mode;
 	}
 	
+	public String getFilePath() {
+		return file.toString();
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Test PanelInfo.java");

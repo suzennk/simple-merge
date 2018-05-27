@@ -224,7 +224,7 @@ public class PanelController {
 	/**
 	 * @return currently open file, null if no file open
 	 */
-	private File getFile() {
+	public File getFile() {
 		return this.panelInfo.getFile();
 	}
 

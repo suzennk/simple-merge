@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 
 public class MainView extends JFrame{
 	private JPanel mainPanel;
@@ -26,6 +28,8 @@ public class MainView extends JFrame{
 	private JPanel holderPanel;
 	private PanelView leftPV;
 	private PanelView rightPV;
+	
+	private JFileChooser fileChooser;
 	
 	public MainView() throws Exception {
 		super("Simple Merge");
@@ -75,11 +79,69 @@ public class MainView extends JFrame{
 		add(copyToLeftBtn);
 		add(copyToRightBtn);
 		
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // �뵒�젆�넗由� �꽕�젙 
+        fileChooser.setCurrentDirectory(new File("/")); // �쁽�옱 �궗�슜 �뵒�젆�넗由щ�� 吏��젙 
+        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 紐⑤뱺 �뙆�씪 �쟻�슜  
+        fileChooser.setDialogTitle("Choose File to Open"); // 李쎌쓽 �젣紐� 
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // �뙆�씪 �꽑�깮 紐⑤뱶 
+        
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter �솗�옣�옄 異붽� 
+//        fileChooser.setFileFilter(filter); // �뙆�씪 �븘�꽣瑜� 異붽�
+        
 		
 		holderPanel = new JPanel();
 		leftPV = new PanelView();
 		rightPV = new PanelView();
 		
+		leftPV.loadBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Load button pressed.");
+				
+				// Load file via fileChooser
+				int returnVal = fileChooser.showOpenDialog(null);
+	            if( returnVal == JFileChooser.APPROVE_OPTION) {
+	            	String filePath = fileChooser.getSelectedFile().toString();
+	            	String rightFilePath = null;
+	            	if (rightPV.pc.getFile() != null )
+	            		rightFilePath = rightPV.pc.getFile().toString();
+	            	if (filePath != rightFilePath)
+	            		leftPV.pc.load(filePath);
+	            	else 
+	            		System.out.println("File is already open in another panel.");
+	            } else {
+	                System.out.println("File load canceled.");
+				}
+	            
+	            // Set the text in view
+	            leftPV.myTextArea.setText(leftPV.pc.getFileContent());
+			}
+		});
+		
+		rightPV.loadBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Load button pressed.");
+				
+				// Load file via fileChooser
+				int returnVal = fileChooser.showOpenDialog(null);
+	            if( returnVal == JFileChooser.APPROVE_OPTION) {
+	            	String filePath = fileChooser.getSelectedFile().toString();
+	            	String leftFilePath = null;
+	            	if (leftPV.pc.getFile() != null )
+	            		leftFilePath = leftPV.pc.getFile().toString();
+	            	if (filePath != leftFilePath) {
+	            		rightPV.pc.load(filePath);
+	    	            // Set the text in view
+	    	            rightPV.myTextArea.setText(rightPV.pc.getFileContent());
+	            	} else 
+	            		System.out.println("File is already open in another panel.");
+	            } else {
+	                System.out.println("File load canceled.");
+				}
+	            
+			}
+		});
 		compareBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

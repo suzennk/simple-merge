@@ -16,7 +16,7 @@ public class FileComparator {
 		/* 행이나 열의 index가 0인 element는 0으로 초기화한다 */
 		for (int i = 0; i <= m; i++)
 			C[i][0] = 0;
-		for (int i = 0; i <= n; i++)
+		for (int j = 0; j <= n; j++)
 			C[0][j] = 0;
 	
 		for (int i = 1; i <= m; i++) {

@@ -123,7 +123,7 @@ public class PanelController {
 		if (startIndex == -1 && this.currentIndex != 0)
 			startIndex = this.fileContent.toLowerCase().indexOf(findPattern.toLowerCase(), 0);
 		
-		this.currentIndex = startIndex + findPattern.length();
+		this.currentIndex = startIndex + 1;
 				
 		if (startIndex == -1)
 			System.out.println("No match found");
@@ -137,6 +137,33 @@ public class PanelController {
 		return startIndex;
 	}
 
+	/**
+	 * Replace substring of length at start index to replacePattern
+	 * @param startIndex
+	 * @param length
+	 * @param replacePattern
+	 */
+	public void replace(int startIndex, int length, String replacePattern) {
+		StringBuilder replacedFC = new StringBuilder(this.fileContent);
+		
+		replacedFC.delete(startIndex, startIndex+length);
+		replacedFC.insert(startIndex, replacePattern);
+		fileContent = replacedFC.toString();
+		
+		return;
+	}
+	
+	/**
+	 * Replace all matches of findPattern to replacePattern
+	 * @param findPattern
+	 * @param replacePattern
+	 */
+	public void replaceAll(String findPattern, String replacePattern) {
+		this.fileContent = this.fileContent.replaceAll(findPattern, replacePattern);
+		
+		return;
+	}
+	
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file
@@ -219,7 +246,9 @@ public class PanelController {
 			System.out.println("3. Save File As ...");
 			System.out.println("4. Append file content");
 			System.out.println("5. Find");
-			System.out.println("6. Exit");
+			System.out.println("6. Find & Replace");
+			System.out.println("7. Find & ReplaceAll");
+			System.out.println("8. Exit");
 
 			System.out.print("Select menu: ");
 			int menu = s.nextInt();
@@ -253,6 +282,20 @@ public class PanelController {
 				pc.find(pattern);
 				break;
 			case 6:
+				System.out.println("Enter String to find : ");
+				String find = s2.nextLine();
+				System.out.println("Enter String to replace : ");
+				String replace = s2.nextLine();
+				pc.replace(pc.find(find), find.length(), replace);
+				break;
+			case 7:
+				System.out.println("Enter String to find : ");
+				String find2 = s2.nextLine();
+				System.out.println("Enter String to replace : ");
+				String replace2 = s2.nextLine();
+				pc.replaceAll(find2, replace2);
+				break;
+			case 8:
 				iterate = false;
 				break;
 			default:

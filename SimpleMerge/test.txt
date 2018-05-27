@@ -1,11 +1,11 @@
 
 Your job is to work on these two files:
- - Board.java
- - Solver.java
+ - Board.JAVA
+ - Solver.JAVA
 
 Nothing to do in these three files:
- - MinPQ.java
- - Queue.java
- - Stack.java
-abcdefghijklmnop
-abcdefghijklmnop
+ - MinPQ.Java
+ - Queue.JAVA
+ - Stack.JAVA
+ABCDefghijklmnop
+EFGHefghijklmnop

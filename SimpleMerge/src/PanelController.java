@@ -2,20 +2,21 @@ import java.io.*;
 
 public class PanelController {
 	private PanelInfo panelInfo;
-	private String fileContent;		// ì¼ì¢…ì˜ Buffer ê°™ì´ ì‘
+	private String fileContent;	
 	
 	public PanelController() {
 		
 	}
 	
-	/** fileì„ ì—´ê³  PanelInfoì˜ fileì„ ì„¤ì •. **/
+	/** opens the file of the corresponding file path 
+	 * and sets the file of PanelInfo. **/
 	public void load(String filePath) {
 		// TODO error handling
 		panelInfo.setFile(new File(filePath));
 	}
 	
 
-	/** fileContentì˜ ë‚´ìš©ì„ ì €ì¥ **/
+	/** saves the file content **/
 	public void save(/* TODO */) {
 		// TODO
 	}
@@ -29,7 +30,7 @@ public class PanelController {
 		return true;	
 	}
 	
-	/** panelInfoì˜ íŒŒì¼ ë‚´ìš© ë³µì‚¬ **/
+	/** panelInfoÀÇ ÆÄÀÏ ³»¿ëÀ» ¸®ÅÏ **/
 	public void fetchFileContent() {
 		this.fileContent = new String(panelInfo.getFileContents());
 	}
@@ -48,7 +49,7 @@ public class PanelController {
 		this.panelInfo.setFile(file);
 	}
 	
-	/** panelInfoì˜ ë³€ê²½ì‚¬í•­ì„ PanelVewì—ê²Œ ì•Œë¦°ë‹¤. **/
+	/** panelInfoÀÇ º¯°æ»çÇ×À» PanelView¿¡°Ô ¾Ë¸°´Ù. **/
 	private void updatePanelView() {
 		// TODO
 	}

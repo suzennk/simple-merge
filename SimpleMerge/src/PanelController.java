@@ -49,11 +49,6 @@ public class PanelController {
 		this.panelInfo.setFile(file);
 	}
 	
-	/** panelInfo의 변경사항을 PanelView에게 알린다. **/
-	private void updatePanelView() {
-		// TODO
-	}
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Test PanelController.");

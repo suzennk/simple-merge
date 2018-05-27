@@ -126,16 +126,12 @@ public class MainView extends JFrame{
 		});
 		
 		toolPanel.setLayout(new GridLayout(1, 5));
-		toolPanel.setBackground(Color.CYAN);
 		
 		toolPanel.add(compareBtn);
 		toolPanel.add(upBtn);
 		toolPanel.add(downBtn);
 		toolPanel.add(copyToLeftBtn);
 		toolPanel.add(copyToRightBtn);
-		
-		leftPV.setBackground(Color.RED);
-		rightPV.setBackground(Color.GREEN);
 		
 		holderPanel.setLayout(new GridLayout(1, 2, 10, 0));
 		holderPanel.add(leftPV);

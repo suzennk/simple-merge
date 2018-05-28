@@ -1,10 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
-
 
 public class MainView extends JFrame{
 	private JPanel mainPanel;
@@ -32,8 +28,6 @@ public class MainView extends JFrame{
 	private PanelView leftPV;
 	private PanelView rightPV;
 	
-	private JFileChooser fileChooser;
-	
 	public MainView() throws Exception {
 		super("Simple Merge");
 		
@@ -41,15 +35,6 @@ public class MainView extends JFrame{
 		toolPanel = new JPanel();
 		
 		comparePressed = 0; //comparePressed: even=NOT pressed, odd= pressed
-		
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정
-        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리 지정 
-        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용
-        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목 
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드
-        
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter 확장자 추가 
-//        fileChooser.setFileFilter(filter); // 파일 필터를 추가
 		
 		// set image icon
 		compare_icon=new ImageIcon("res/compare.png");
@@ -104,52 +89,14 @@ public class MainView extends JFrame{
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Load button pressed.");
-				
-				// Load file via fileChooser
-				int returnVal = fileChooser.showOpenDialog(null);
-	            if( returnVal == JFileChooser.APPROVE_OPTION) {
-	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	if (rightPV.pc.getFile() == null ) {
-	            		leftPV.pc.load(filePath);
-	            		leftPV.myTextArea.disable();
-	            	} else if (!filePath.equals(rightPV.pc.getFile().toString())) {
-	            		leftPV.pc.load(filePath);
-	            		leftPV.myTextArea.disable();
-	            	} else 
-	            		System.out.println("File is already open in another panel.");
-	            } else {
-	                System.out.println("File load canceled.");
-				}
-	            
-	            // Set the text in view
-	            leftPV.myTextArea.setText(leftPV.pc.getFileContent());
+				load(leftPV, rightPV);
 			}
 		});
 		
 		rightPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Load button pressed.");
-				
-				// Load file via fileChooser
-				int returnVal = fileChooser.showOpenDialog(null);
-	            if( returnVal == JFileChooser.APPROVE_OPTION) {
-	            	String filePath = fileChooser.getSelectedFile().toString();
-	            	if (leftPV.pc.getFile() == null) {
-	            		rightPV.pc.load(filePath);
-	            		rightPV.myTextArea.disable();
-	            	} else if (!filePath.equals(leftPV.pc.getFile().toString())) {
-	            		rightPV.pc.load(filePath);
-	            		rightPV.myTextArea.disable();
-	            	} else 
-	            		System.out.println("File is already open in another panel.");
-	            } else {
-	                System.out.println("File load canceled.");
-				}
-	            
-	            // Set the text in view
-	            rightPV.myTextArea.setText(rightPV.pc.getFileContent());
+				load(rightPV, leftPV);
 			}
 		});
 		
@@ -163,13 +110,11 @@ public class MainView extends JFrame{
 					//compareBtn pressed once->do compare
 					compareBtn.setIcon(notCompare_icon);
 					
-					
 				}
 				else{
 					//compareBtn pressed twice->escape compare mode
 					compareBtn.setIcon(compare_icon);
 				}
-				
 			}
 			
 		});
@@ -231,10 +176,36 @@ public class MainView extends JFrame{
 		this.setSize(1200, 900);
 		this.setVisible(true);
 	
+
 	}
 	
-	
-	
+	private void load(PanelView mine, PanelView yours) {
+		System.out.println("Load button pressed.");
+		
+		// Load file via fileDialog
+		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
+		fd.setVisible(true);
+		
+		if (fd.getFile() != null) {
+			String filePath = fd.getDirectory() + fd.getFile();
+        	if (yours.pc.getFile() == null) {
+        		if (mine.pc.load(filePath)) {
+        			mine.setMode(Mode.VIEW);
+        			mine.myTextArea.setText(mine.pc.getFileContent());
+        		}
+        	} else if (!filePath.equals(yours.pc.getFile().toString())) {
+        		if(mine.pc.load(filePath)) {
+        			mine.setMode(Mode.VIEW);
+        			mine.myTextArea.setText(mine.pc.getFileContent());
+        		}
+        	} else 
+        		System.out.println("File is already open in another panel.");
+        } else {
+            System.out.println("File load canceled.");
+		}
+        
+	}
+
 	
 	
 	public static void main(String[] args) throws Exception {

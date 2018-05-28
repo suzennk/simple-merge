@@ -249,6 +249,7 @@ public class PanelController {
 	private void toArrayList() {
 		String[] fcArray = fileContent.split("\r\n");
 		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
+
 	}
 	
 	/**
@@ -265,6 +266,7 @@ public class PanelController {
 		
 		this.fileContent = new String(fcBuilder.toString());
 		
+
 	}
 	
 	

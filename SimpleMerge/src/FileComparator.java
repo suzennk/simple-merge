@@ -110,14 +110,19 @@ public class FileComparator {
 		ArrayList<String> s2 = new ArrayList<String>();
 		s1.add("abcdef");
 		s1.add("aaa");
+		s1.add("bbb");
+		s1.add("ccc");
 		s1.add("same part");
 		s1.add("diff part for a");
 		s1.add("hihihi");
 
 		s2.add("abcdef");
-		s2.add("bbb");
+		s2.add("ddd");
+		s2.add("eee");
 		s2.add("same part");
 		s2.add("hihihi");
+		s2.add("good");
+		s2.add("bye");
 
 		FileComparator fc = new FileComparator(s1, s2);
 		fc.LCSLength(s1, s2);

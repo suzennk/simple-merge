@@ -8,7 +8,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import javafx.stage.FileChooser;
 
-// ï¿½ë™†ï¿½ì”ª ï¿½ê½‘ï¿½ê¹®ï§¡ìŒï¿½ JFileChooseræ¿¡ï¿½ æ´Ñ‹ì½ 
+// ~~~~JFileChooser~~~~~
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
@@ -38,14 +38,14 @@ public class PanelView extends JPanel {
 	public PanelView() throws Exception{
 		pc = new PanelController();
 		
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // ï¿½ëµ’ï¿½ì †ï¿½ë„—ç”±ï¿½ ï¿½ê½•ï¿½ì ™ 
-        fileChooser.setCurrentDirectory(new File("/")); // ï¿½ì½ï¿½ì˜± ï¿½ê¶—ï¿½ìŠœ ï¿½ëµ’ï¿½ì †ï¿½ë„—ç”±Ñ‰ï¿½ï¿½ ï§ï¿½ï¿½ì ™ 
-        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter ï§â‘¤ë±º ï¿½ë™†ï¿½ì”ª ï¿½ìŸ»ï¿½ìŠœ  
-        fileChooser.setDialogTitle("Choose File to Open"); // ï§¡ìŒì“½ ï¿½ì £ï§ï¿½ 
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // ï¿½ë™†ï¿½ì”ª ï¿½ê½‘ï¿½ê¹® ï§â‘¤ë±¶ 
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // µğ·ºÅä¸® ¼³Á¤
+        fileChooser.setCurrentDirectory(new File("/")); // ÇöÀç »ç¿ë µğ·ºÅä¸® ÁöÁ¤ 
+        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter ¸ğµç ÆÄÀÏ Àû¿ë
+        fileChooser.setDialogTitle("Choose File to Open"); // Ã¢ÀÇ Á¦¸ñ 
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // ÆÄÀÏ ¼±ÅÃ ¸ğµå
         
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter ï¿½ì†—ï¿½ì˜£ï¿½ì˜„ ç•°ë¶½ï¿½ 
-//        fileChooser.setFileFilter(filter); // ï¿½ë™†ï¿½ì”ª ï¿½ë¸˜ï¿½ê½£ç‘œï¿½ ç•°ë¶½ï¿½
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter È®ÀåÀÚ Ãß°¡ 
+//        fileChooser.setFileFilter(filter); // ÆÄÀÏ ÇÊÅÍ¸¦ Ãß°¡
         
 		
 		myPanel = new JPanel();
@@ -101,7 +101,7 @@ public class PanelView extends JPanel {
 		   		"Maecenas diam ipsum, semper at pulvinar vel, vestibulum sit amet mi. \nAliquam sagittis, quam nec placerat aliquet, neque sapien feugiat urna, eu interdum velit dui tincidunt dolor. \nAliquam eget elementum ante. \nIn laoreet odio nec vehicula rhoncus. \nPellentesque ultrices molestie fermentum. \nDonec non vulputate felis. \nDonec sollicitudin erat at felis tristique accumsan. \nFusce at augue vitae mi laoreet aliquet at id massa. \nProin convallis est sapien, et imperdiet risus feugiat non. \nIn vitae sodales orci. \nDuis a nibh ut urna lacinia feugiat. \nAenean pellentesque sodales est ac ornare. \nNam commodo diam ac quam congue imperdiet. \nSed sit amet sem accumsan, tempor nibh eget, luctus ligula. \nDonec posuere id lorem ut auctor. \r\n" + 
 		   		"Duis ut augue erat. \nVestibulum porttitor, felis et pulvinar convallis, metus justo efficitur metus, rhoncus ultrices mauris nisi ac diam. \nDonec sollicitudin eros et neque ultricies posuere. \nSed rutrum tempor mollis. \nDonec aliquam mattis sodales. \nMaecenas arcu lorem, condimentum non nunc lacinia, pulvinar egestas dui. \nVivamus a velit placerat, auctor libero ut, porta leo. ");
 
-		// ï¿½ì” å«„ê³•ë’— view mode ï¿½ë¸£ ï¿½ê¶—ï¿½ìŠœï¿½ë¸¯ï§ï¿½ ï¿½ë§†å¯ƒê»‰ì»³ï¿½ë¸˜ï¿½ê½Œ ï¿½ê½”ï¿½ë¿€ï¿½ë’¿ï¿½ë•²ï¿½ë–¦! 
+		// ~~~~~~~ view mode ~~~~~~~~~~~! 
 //		myTextArea.disable();
 		   
 		scrollPane = new JScrollPane(myTextArea);
@@ -172,15 +172,16 @@ public class PanelView extends JPanel {
 		  		// Set Mode
 		  		pc.setMode(Mode.VIEW);
 				statusBar.setText("View Mode");
-				
-		  		String editedContent = myTextArea.getText();
-		  		/*TODO
+			
+				/*TODO
 		  		 * Where to put "setFileContent(String)"??
 		  		 * in Panel View 
 		  		 * or pass editedContent as parameter of save() function?? 
 		  		 */
+		  		String editedContent = myTextArea.getText();
 				pc.setFileContent(editedContent);
 		  		pc.save();
+		  		
 		  		myTextArea.setEditable(false);
 		  		
 		  		System.out.println("Save Completed.");
@@ -199,6 +200,8 @@ public class PanelView extends JPanel {
 					
 				int returnVal = fileChooser.showSaveDialog(null);
 				if( returnVal == JFileChooser.APPROVE_OPTION) {
+					String editedContent = myTextArea.getText();
+					pc.setFileContent(editedContent);
 	                pc.saveAs(fileChooser.getSelectedFile().toString());
 	            } else {
 	                System.out.println("File load canceled.");

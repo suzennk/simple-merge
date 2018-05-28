@@ -73,7 +73,12 @@ public class PanelView extends JPanel {
 		editBtn = new JButton(edit_icon);
 		saveBtn = new JButton(save_icon);
 		saveAsBtn = new JButton(saveAs_icon);
-			
+		
+		// set Button Status
+		loadBtn.setEnabled(true);
+		editBtn.setEnabled(false);
+		saveBtn.setEnabled(false);
+		saveAsBtn.setEnabled(false);
 			
 		// make Image Button's border invisible
 		loadBtn.setBorderPainted(false); loadBtn.setFocusPainted(false);
@@ -87,6 +92,7 @@ public class PanelView extends JPanel {
 		this.add(saveAsBtn);		   
 
 		myTextArea = new JEditorPane();
+		myTextArea.setEditable(false);
 
 		// Dummy Text
 		myTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Nulla non urna congue, pellentesque lectus nec, ullamcorper tellus.\n Morbi scelerisque, magna eu porta vestibulum, enim nisi volutpat lectus, quis lacinia mauris leo et lorem. \nSuspendisse erat orci, sagittis vel eros lacinia, maximus pulvinar augue. \nEtiam pretium tortor id neque molestie luctus. \nDonec tincidunt, urna et interdum ornare, diam lectus rutrum enim, et mollis erat tortor et nisi. \nMauris congue lobortis mi, ac sollicitudin quam interdum vitae. \nPellentesque lorem augue, sagittis nec viverra at, imperdiet ac nibh. \nCras faucibus, magna in sodales condimentum, odio massa interdum lectus, molestie tincidunt justo lorem vel leo. \nDonec vestibulum egestas massa vitae feugiat. \nPhasellus tristique finibus pulvinar. \nMorbi molestie nibh sit amet nisi commodo, sit amet condimentum turpis ultrices. \nNullam ac justo ligula. \nPraesent lacinia nisi vel ex aliquam sollicitudin sit amet non leo. \nMaecenas varius feugiat rhoncus. \r\n" + 
@@ -99,25 +105,26 @@ public class PanelView extends JPanel {
 //		myTextArea.disable();
 		   
 		scrollPane = new JScrollPane(myTextArea);
-		   
-		if (pc.getMode() == Mode.VIEW) {
-			statusBar = new JLabel("View Mode");
-		}
-		else if (pc.getMode() == Mode.EDIT) {
-			statusBar = new JLabel("Edit Mode");
-		}
-		else if (pc.getMode() == Mode.COMPARE) {
-			statusBar = new JLabel("Compare Mode");
-		}
-		else{
-			statusBar = new JLabel("False");
-		}
-		   
+		 
+		// default
+		pc.setMode(Mode.VIEW);
+		statusBar = new JLabel("View Mode");
+				
 		loadBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Load button pressed.");
+				
+				// Set Mode
+				pc.setMode(Mode.VIEW);
+				statusBar.setText("View Mode");
+				
+				// Set Button Status
+				loadBtn.setEnabled(false);
+				editBtn.setEnabled(true);
+				saveBtn.setEnabled(false);
+				saveAsBtn.setEnabled(false);
 				
 				// Load file via fileChooser
 				int returnVal = fileChooser.showOpenDialog(null);
@@ -129,6 +136,8 @@ public class PanelView extends JPanel {
 	            
 	            // Set the text in view
 	            myTextArea.setText(pc.getFileContent());
+	            
+	            System.out.println("Load Completed.");
 			}
 		});
 		   
@@ -137,6 +146,20 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Edit button pressed.");
+				
+				// Set Mode
+				pc.setMode(Mode.EDIT);
+				statusBar.setText("Edit Mode");
+				
+				// Set Button Status
+				loadBtn.setEnabled(false);
+				editBtn.setEnabled(false);
+				saveBtn.setEnabled(true);
+				saveAsBtn.setEnabled(true);
+				
+				myTextArea.setEditable(true);
+				
+				System.out.println("Edit Completed.");
 				}
 				
 			});
@@ -145,6 +168,10 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 		  		// TODO Auto-generated method stub
 		  		System.out.println("Save button pressed.");
+		  		
+		  		// Set Mode
+		  		pc.setMode(Mode.VIEW);
+				statusBar.setText("View Mode");
 				
 		  		String editedContent = myTextArea.getText();
 		  		/*TODO
@@ -154,6 +181,9 @@ public class PanelView extends JPanel {
 		  		 */
 				pc.setFileContent(editedContent);
 		  		pc.save();
+		  		myTextArea.setEditable(false);
+		  		
+		  		System.out.println("Save Completed.");
 		  	}
 				
 		});
@@ -163,6 +193,9 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Save As button pressed.");
+				
+				pc.setMode(Mode.VIEW);
+				statusBar.setText("View Mode");
 					
 				int returnVal = fileChooser.showSaveDialog(null);
 				if( returnVal == JFileChooser.APPROVE_OPTION) {
@@ -170,6 +203,10 @@ public class PanelView extends JPanel {
 	            } else {
 	                System.out.println("File load canceled.");
 				}
+				
+				myTextArea.setEditable(false);
+				
+				System.out.println("Save As Completed.");
 			}
 			
 		});

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class PanelController {
@@ -11,6 +12,7 @@ public class PanelController {
 	private BufferedWriter bw = null;
 
 	private String fileContent;
+	private ArrayList <String> fileContentList;
 	private int currentIndex;		// start index for find() function
 	private boolean dirty;
 	
@@ -172,15 +174,52 @@ public class PanelController {
 		return panelInfo.getFile() != null;
 	}
 
-	public void setMode(Mode mode) {
-		this.panelInfo.setMode(mode);
+	
+	/* Getter & Setter */
+	/**
+	 * @return currently open file, null if no file open
+	 */
+	public File getFile() {
+		return this.panelInfo.getFile();
+	}
+	
+	/**
+	 * Set the file of panelInfo
+	 * @param file
+	 */
+	public void setFile(File file) {
+		// TODO error handling
+		this.panelInfo.setFile(file);
 	}
 
+	public String getFileContent() {
+		return this.fileContent;
+	}
+	
+	public void setFileContent(String fileContent) {
+		this.fileContent = fileContent;
+	}
+	
+	public ArrayList<String> getFileContentList() {
+		this.toArrayList();
+		return this.fileContentList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setFileContentList(ArrayList<String> fromMerge) {
+		this.fileContentList = (ArrayList<String>)fromMerge.clone();
+		this.makeListToString();
+	}
+	
 	/**
 	 * @return current mode of text editor
 	 */
 	public Mode getMode() {
 		return this.panelInfo.getMode();
+	}
+	
+	public void setMode(Mode mode) {
+		this.panelInfo.setMode(mode);
 	}
 
 	/**
@@ -193,14 +232,6 @@ public class PanelController {
 	public void setUpdated(boolean flag) {
 		this.dirty = flag;
 	}
-
-	public String getFileContent() {
-		return this.fileContent;
-	}
-	
-	public void setFileContent(String fileContent) {
-		this.fileContent = fileContent;
-	}
 	
 	public int getCurrentIndex() {
 		return currentIndex;
@@ -210,23 +241,33 @@ public class PanelController {
 		this.currentIndex = currentIndex;
 	}
 
-
+	/* Private Functions */
 	/**
-	 * Set the file of panelInfo
-	 * @param file
+	 * Make String(fileContent) to ArrayList<String>(fileContentList)
 	 */
-	public void setFile(File file) {
-		// TODO error handling
-		this.panelInfo.setFile(file);
-	}
+	private void toArrayList() {
+		String[] fcArray = fileContent.split("\r\n");
+		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
 
+	}
+	
 	/**
-	 * @return currently open file, null if no file open
+	 * Make ArrayList<String>(fileContentList) to String(fileContent)
 	 */
-	public File getFile() {
-		return this.panelInfo.getFile();
-	}
+	private void makeListToString() {
+		
+		StringBuilder fcBuilder = new StringBuilder();
+		
+		for (int i = 0; i < this.fileContentList.size(); i++) {
+			fcBuilder.append(this.fileContentList.get(i));
+			fcBuilder.append("\r\n");
+		}
+		
+		this.fileContent = new String(fcBuilder.toString());
+		
 
+	}
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -241,13 +282,16 @@ public class PanelController {
 		boolean iterate = true;
 		while (iterate) {
 			System.out.println("1. Load File");
+			
 			System.out.println("2. Save File");
 			System.out.println("3. Save File As ...");
 			System.out.println("4. Append file content");
 			System.out.println("5. Find");
 			System.out.println("6. Find & Replace");
 			System.out.println("7. Find & ReplaceAll");
-			System.out.println("8. Exit");
+			System.out.println("8. String to List");
+			System.out.println("9. List to String");
+			System.out.println("10. Exit");
 
 			System.out.print("Select menu: ");
 			int menu = s.nextInt();
@@ -295,6 +339,15 @@ public class PanelController {
 				pc.replaceAll(find2, replace2);
 				break;
 			case 8:
+				System.out.println(pc.getFileContentList());
+				break;
+			case 9:
+				ArrayList<String> edited = pc.getFileContentList();
+				edited.add("Is it added????");
+				pc.setFileContentList(edited);
+				System.out.println(pc.fileContent);
+				break;
+			case 10:
 				iterate = false;
 				break;
 			default:

@@ -60,3 +60,13 @@ Fourth meeting
 >- PanelController.java : 김수진, 남유선
 >- PanelView.java : 김소연
 >5. set next topic: until 5/27, finish developing initial version of program
+
+
+Fifth meeting
+--------------
+**DATE** : 2018/05/28
+
+**WORK**
+>1. code review (initial version of simple-merge)
+>2. all team members did presentation about code which they develop individually
+>3. set next meeting: 5/30, continue code review, and develop

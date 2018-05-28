@@ -230,4 +230,8 @@ public class PanelView extends JPanel {
 		this.add(myPanel);
 		this.setVisible(true);
 	}
+
+	public PanelController getPC() {
+		return pc;
+	}
 }

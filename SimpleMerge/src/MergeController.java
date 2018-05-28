@@ -22,8 +22,8 @@ public class MergeController {
 	 */
 	private ArrayList<Integer> leftDiffIndex;
 	private ArrayList<Integer> rightDiffIndex;
-	private ArrayList<String> leftView;
-	private ArrayList<String> rightView;
+	private ArrayList<Integer> leftView;
+	private ArrayList<Integer> rightView;
 	private boolean hasTraversed;
 
 	MergeController() {
@@ -46,8 +46,8 @@ public class MergeController {
 		FileComparator fc = new FileComparator(leftFileController, rightFileController);
 		this.leftDiffIndex = fc.getDiffLeft();
 		this.rightDiffIndex = fc.getDIffRight();
-		this.leftView = new ArrayList<String>();
-		this.rightView = new ArrayList<String>();
+		this.leftView = new ArrayList<Integer>();
+		this.rightView = new ArrayList<Integer>();
 		this.arrange();
 		this.hasTraversed = false;
 	}
@@ -111,18 +111,23 @@ public class MergeController {
 		while (L < L_Max && R < R_Max) {
 			/* 같은 string인 경우 */
 			if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
-				this.leftView.add(this.leftFileController.get(L++));
-				this.rightView.add(this.rightFileController.get(R++));
-			} else {
+				this.leftView.add(L++);
+				this.rightView.add(R++);				
+			}
+			else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
+				this.leftView.add(-2); L++;
+				this.rightView.add(-2); R++;
+			}
+			else {
 				/* 오른쪽 패널에 다른 부분이 있는 경우 왼쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
 				while (this.rightDiffIndex.get(R) == -1) {
-					this.leftView.add("");
-					this.rightView.add(this.rightFileController.get(R++));
+					this.leftView.add(-1);
+					this.rightView.add(R++);
 				}
 				/* 왼쪽 패널에 다른 부분이 있는 경우 오른쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
 				while (this.leftDiffIndex.get(L) == -1) {
-					this.leftView.add(this.leftFileController.get(L++));
-					this.rightView.add("");
+					this.leftView.add(L++);
+					this.rightView.add(-1);
 				}
 			}
 		}
@@ -148,11 +153,11 @@ public class MergeController {
 	public void printArranged() {
 		System.out.println("Left Panel=========");
 		for (int i = 0; i < this.leftView.size(); i++)
-			System.out.println(this.leftView.get(i));
+			System.out.println("["+i+"] "+this.leftView.get(i));
 
 		System.out.println("\nRight Panel=========");
 		for (int i = 0; i < this.rightView.size(); i++)
-			System.out.println(this.rightView.get(i));
+			System.out.println("["+i+"] "+this.rightView.get(i));
 	}
 	
 	public void printAll() {
@@ -175,14 +180,10 @@ public class MergeController {
 		PanelController right = new PanelController();
 
 		left.setFileContent(
-				"same part1\r\n" + "same part2\r\n" + "same part3\r\n" + "different part-a\r\n" + "different part-a\r\n"
-						+ "same part4\r\n" + "same part5\r\n" + "same part6\r\n" + "different part-a\r\n"
-						+ "different part-a\r\n" + "different part-a\r\n" + "same part7\r\n" + "same part8");
+				"same part1\r\n" + "same part2\r\n" +  "different part a\r\n" + "same part3");
 
-		right.setFileContent("same part1\r\n" + "same part2\r\n" + "different part-b\r\n" + "different part-b\r\n"
-				+ "different part-b\r\n" + "different part-b\r\n" + "same part3\r\n" + "same part4\r\n"
-				+ "same part5\r\n" + "different part-b\r\n" + "different part-b\r\n" + "same part6\r\n"
-				+ "same part7\r\n" + "same part8");
+		right.setFileContent("same part1\r\n" + "same part2\r\n" 
+				+ "different part b\r\n" + "same part3");
 
 		MergeController mc = new MergeController(left, right);
 

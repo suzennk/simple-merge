@@ -25,7 +25,11 @@ public class FileComparator {
 		rightDiffIndex = new ArrayList<Integer>();
 		
 		this.LCSLength(left, right);
+<<<<<<< HEAD
 		this.compare();
+=======
+		this.computeDiff(this.C, left, right, left.size(), right.size());
+>>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
 	}
 
 	/**
@@ -33,8 +37,13 @@ public class FileComparator {
 	 * n인 text2를 입력받아 모든 1 <= i <= m 와 1 <= j <= n에 대해 text1[1..i] 와 text2[1..j] 사이의
 	 * 값에 대해 LCS를 연산하고, C[i, j]에 저장한다. C[m, n]은 text1과 text2에 대한 LCS 값을 가지게 된다.
 	 */
+<<<<<<< HEAD
 	int LCSLength(ArrayList<String> left, ArrayList<String> right) {
 		int m = left.size();
+=======
+	public int LCSLength(ArrayList<String> left, ArrayList<String> right) {
+		int m = left.size(); 
+>>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
 		int n = right.size();
 		C = new int[m + 1][n + 1];
 
@@ -62,6 +71,7 @@ public class FileComparator {
 	 * @param i: length(size) of text1
 	 * @param j: length(size) of text2
 	 */
+<<<<<<< HEAD
 	void compare() {
 		/* if two strings have same line, store mutual index */
 		int i = C.length-1;
@@ -87,6 +97,26 @@ public class FileComparator {
 				j--;
 				
 			}
+=======
+	public void computeDiff(int[][] C, ArrayList<String> left, ArrayList<String> right, int i, int j) {
+		this.leftDiffIndex.clear();
+		this.rightDiffIndex.clear();
+		/* if two strings have same line, store mutual index */
+		if (i > 0 && j > 0 && left.get(i - 1).equals(right.get(j - 1))) {
+			computeDiff(C, left, right, i - 1, j - 1);
+			this.leftDiffIndex.add(i - 1, j - 1);
+			this.rightDiffIndex.add(j - 1, i - 1);
+		}
+		
+		/* if two strings have different line, store diff(-1) */
+		else if (j > 0 && (i == 0 || C[i][j - 1] >= C[i - 1][j])) {
+			computeDiff(C, left, right, i, j - 1);
+			this.rightDiffIndex.add(j - 1, diff);
+		} 
+		else if (i > 0 && (j == 0 || C[i][j - 1] < C[i - 1][j])) {
+			computeDiff(C, left, right, i - 1, j);
+			this.leftDiffIndex.add(i - 1, diff);
+>>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
 		}
 	}
 
@@ -157,6 +187,7 @@ public class FileComparator {
 		s1.add("different part-a");
 		s1.add("same part7");
 		s1.add("same part8");
+		s1.add(0, "");
 
 		s2.add("same part1");
 		s2.add("same part2");
@@ -172,8 +203,10 @@ public class FileComparator {
 		s2.add("same part6");
 		s2.add("same part7");
 		s2.add("same part8");
+		s2.add(0, "");
 
 		FileComparator fc = new FileComparator(s1, s2);
+<<<<<<< HEAD
 
 		System.out.println("Left Panel=========");
 		for (int i = 0; i < fc.leftDiffIndex.size(); i++) {
@@ -183,6 +216,19 @@ public class FileComparator {
 		System.out.println("\nRight Panel=========");
 		for (int i = 0; i < fc.rightDiffIndex.size(); i++) {
 			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")");
+=======
+		fc.LCSLength(s1, s2);
+		fc.computeDiff(fc.getC(), s1, s2, s1.size(), s2.size());
+
+		System.out.println("Left Panel=========");
+		for (int i = 1; i < s1.size(); i++) {
+			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")\t"+s1.get(i));
+		}
+
+		System.out.println("\nRight Panel=========");
+		for (int i = 1; i < s2.size(); i++) {
+			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")\t"+s2.get(i));
+>>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
 		}
 
 	}

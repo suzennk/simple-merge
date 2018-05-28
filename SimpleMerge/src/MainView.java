@@ -103,6 +103,10 @@ public class MainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("compare button pressed.");
+				
+				checkUpdated(leftPV);
+				checkUpdated(rightPV);
+				
 				comparePressed++;
 				if(comparePressed%2==1){
 					//compareBtn pressed once->do compare
@@ -180,8 +184,8 @@ public class MainView extends JFrame{
 	
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
-		// TODO Check if dirty!!!!!!!!!!!!!!
-		
+		// Check if dirty!!!!!!!!!!!!!!
+		checkUpdated(mine);
 		// Load file via fileDialog
 		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
 		fd.setVisible(true);
@@ -222,6 +226,20 @@ public class MainView extends JFrame{
 		}
 	}
 	
+	private void checkUpdated(PanelView pv) {
+		Object[] options = {"Save", "Don't Save", "Cancel"};
+				
+		if (pv.pc.isUpdated()) {
+			int n = JOptionPane.showOptionDialog(this, "The file has been edited. Do you want to save the file and continue?", "Question", 
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			if (n == 0 ) { // save
+				pv.save();
+			} else {
+				pv.pc.setUpdated(false);
+				pv.pc.load(pv.pc.getFile().toString());
+			}
+		}
+	}
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub

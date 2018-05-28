@@ -9,8 +9,8 @@ public class MergeController {
 
 	private PanelController leftPanel;
 	private PanelController rightPanel;
-	private ArrayList<String> leftFileController;
-	private ArrayList<String> rightFileController;
+	private ArrayList<String> leftFileContents;
+	private ArrayList<String> rightFileContents;
 	/**
 	 * currentIndex[2] = (start index, end index) 서로 다른 부분의 시작과 끝을 가리키는 index배열 (-1,
 	 * -1)로 초기화됨
@@ -22,8 +22,8 @@ public class MergeController {
 	 */
 	private ArrayList<Integer> leftDiffIndex;
 	private ArrayList<Integer> rightDiffIndex;
-	private ArrayList<Integer> leftView;
-	private ArrayList<Integer> rightView;
+	private ArrayList<Integer> leftViewIndex;
+	private ArrayList<Integer> rightViewIndex;
 	private boolean hasTraversed;
 
 	MergeController() {
@@ -37,17 +37,17 @@ public class MergeController {
 
 		/* panel contents 받아와서 parsing 후 arraylist에 저장 */
 		String[] array = leftPanel.getFileContent().split("\r\n");
-		this.leftFileController = new ArrayList<String>(Arrays.asList(array));
+		this.leftFileContents = new ArrayList<String>(Arrays.asList(array));
 
 		array = rightPanel.getFileContent().split("\r\n");
-		this.rightFileController = new ArrayList<String>(Arrays.asList(array));
+		this.rightFileContents = new ArrayList<String>(Arrays.asList(array));
 
 		/* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
-		FileComparator fc = new FileComparator(leftFileController, rightFileController);
+		FileComparator fc = new FileComparator(leftFileContents, rightFileContents);
 		this.leftDiffIndex = fc.getDiffLeft();
 		this.rightDiffIndex = fc.getDIffRight();
-		this.leftView = new ArrayList<Integer>();
-		this.rightView = new ArrayList<Integer>();
+		this.leftViewIndex = new ArrayList<Integer>();
+		this.rightViewIndex = new ArrayList<Integer>();
 		this.arrange();
 		this.hasTraversed = false;
 	}
@@ -89,21 +89,21 @@ public class MergeController {
 	 * clear all the string and copy from right to left
 	 */
 	public void copyToLeft() {
-		this.leftFileController.clear();
-		this.leftFileController.addAll(this.rightFileController);
+		this.leftFileContents.clear();
+		this.leftFileContents.addAll(this.rightFileContents);
 	}
 
 	/**
 	 * clear all the string and copy from left to right
 	 */
 	public void copyToRight() {
-		this.rightFileController.clear();
-		this.rightFileController.addAll(this.leftFileController);
+		this.rightFileContents.clear();
+		this.rightFileContents.addAll(this.leftFileContents);
 	}
 
 	public void arrange() {
-		this.leftView.clear();
-		this.rightView.clear();
+		this.leftViewIndex.clear();
+		this.rightViewIndex.clear();
 		int L = 0, R = 0;
 		int L_Max = this.leftDiffIndex.size();
 		int R_Max = this.rightDiffIndex.size();
@@ -111,23 +111,23 @@ public class MergeController {
 		while (L < L_Max && R < R_Max) {
 			/* 같은 string인 경우 */
 			if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
-				this.leftView.add(L++);
-				this.rightView.add(R++);				
+				this.leftViewIndex.add(L++);
+				this.rightViewIndex.add(R++);				
 			}
 			else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
-				this.leftView.add(-2); L++;
-				this.rightView.add(-2); R++;
+				this.leftViewIndex.add(-2); L++;
+				this.rightViewIndex.add(-2); R++;
 			}
 			else {
 				/* 오른쪽 패널에 다른 부분이 있는 경우 왼쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
 				while (this.rightDiffIndex.get(R) == -1) {
-					this.leftView.add(-1);
-					this.rightView.add(R++);
+					this.leftViewIndex.add(-1);
+					this.rightViewIndex.add(R++);
 				}
 				/* 왼쪽 패널에 다른 부분이 있는 경우 오른쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
 				while (this.leftDiffIndex.get(L) == -1) {
-					this.leftView.add(L++);
-					this.rightView.add(-1);
+					this.leftViewIndex.add(L++);
+					this.rightViewIndex.add(-1);
 				}
 			}
 		}
@@ -135,11 +135,11 @@ public class MergeController {
 	}
 
 	public ArrayList<String> getLeftFileController() {
-		return this.leftFileController;
+		return this.leftFileContents;
 	}
 
 	public ArrayList<String> getRightFileController() {
-		return this.rightFileController;
+		return this.rightFileContents;
 	}
 
 	public ArrayList<Integer> getLeftDiffIndex() {
@@ -152,22 +152,22 @@ public class MergeController {
 
 	public void printArranged() {
 		System.out.println("Left Panel=========");
-		for (int i = 0; i < this.leftView.size(); i++)
-			System.out.println("["+i+"] "+this.leftView.get(i));
+		for (int i = 0; i < this.leftViewIndex.size(); i++)
+			System.out.println("["+i+"] "+this.leftViewIndex.get(i));
 
 		System.out.println("\nRight Panel=========");
-		for (int i = 0; i < this.rightView.size(); i++)
-			System.out.println("["+i+"] "+this.rightView.get(i));
+		for (int i = 0; i < this.rightViewIndex.size(); i++)
+			System.out.println("["+i+"] "+this.rightViewIndex.get(i));
 	}
 	
 	public void printAll() {
 		System.out.println("Left Panel=========");
-		for (int i = 0; i < this.leftFileController.size(); i++)
-			System.out.println(this.leftFileController.get(i));
+		for (int i = 0; i < this.leftFileContents.size(); i++)
+			System.out.println(this.leftFileContents.get(i));
 
 		System.out.println("\nRight Panel=========");
-		for (int i = 0; i < this.rightFileController.size(); i++)
-			System.out.println(this.rightFileController.get(i));
+		for (int i = 0; i < this.rightFileContents.size(); i++)
+			System.out.println(this.rightFileContents.get(i));
 	}
 
 	public static void main(String[] args) {
@@ -180,10 +180,10 @@ public class MergeController {
 		PanelController right = new PanelController();
 
 		left.setFileContent(
-				"same part1\r\n" + "same part2\r\n" +  "different part a\r\n" + "same part3");
+				"same part1\r\n" + "same part2\r\n" +  "diff but same line1\r\n" + "diff part\r\n"+ "same part3\r\n");
 
 		right.setFileContent("same part1\r\n" + "same part2\r\n" 
-				+ "different part b\r\n" + "same part3");
+				+ "diff but same line2\r\n" + "same part3\r\n");
 
 		MergeController mc = new MergeController(left, right);
 
@@ -211,7 +211,7 @@ public class MergeController {
 				if (index[0] != -1 && index[1] != -1) {
 					System.out.println("Traverse line " + index[0] + " to " + index[1]);
 					for (int i = index[0]; i <= index[1]; i++)
-						System.out.println(mc.leftFileController.get(i));
+						System.out.println(mc.leftFileContents.get(i));
 				}
 				break;
 			case 4:
@@ -219,7 +219,7 @@ public class MergeController {
 				if (index[0] != -1 && index[1] != -1) {
 					System.out.println("Traverse line " + index[0] + " to " + index[1]);
 					for (int i = index[0]; i <= index[1]; i++)
-						System.out.println(mc.leftFileController.get(i));
+						System.out.println(mc.leftFileContents.get(i));
 				}
 				break;
 			case 5:

@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
+
 
 public class MainView extends JFrame{
 	private JPanel mainPanel;
@@ -179,7 +182,7 @@ public class MainView extends JFrame{
 		this.setSize(1200, 900);
 		this.setVisible(true);
 	
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void load(PanelView mine, PanelView yours) {
@@ -194,20 +197,45 @@ public class MainView extends JFrame{
 			String filePath = fd.getDirectory() + fd.getFile();
         	if (yours.pc.getFile() == null) {
         		if (mine.pc.load(filePath)) {
-        			mine.setMode(Mode.VIEW);
-        			mine.myTextArea.setText(mine.pc.getFileContent());
+        			if (accept(mine.pc.getFile())){
+        				mine.setMode(Mode.VIEW);
+            			mine.myTextArea.setText(mine.pc.getFileContent());
+            			mine.myfname.setText(mine.pc.getFile().getName());
+        			}
+        			else {
+        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        				System.out.println("This file format is incorrect.");
+        			}
         		}
         	} else if (!filePath.equals(yours.pc.getFile().toString())) {
         		if(mine.pc.load(filePath)) {
-        			mine.setMode(Mode.VIEW);
-        			mine.myTextArea.setText(mine.pc.getFileContent());
+        			if (mine.pc.load(filePath)) {
+        				mine.setMode(Mode.VIEW);
+            			mine.myTextArea.setText(mine.pc.getFileContent());
+            			mine.myfname.setText(mine.pc.getFile().getName());
+        			}
+        			else {
+        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        				System.out.println("This file format is incorrect.");
+        			}
         		}
-        	} else 
+        	} else {
+        		JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
         		System.out.println("File is already open in another panel.");
-        } else {
+        	}
+        } else 
             System.out.println("File load canceled.");
-		}
         
+	}
+	
+	// Check file format
+	private boolean accept(File file) {
+		if(file.isFile()) {
+			String fileName = file.getName();
+			if(fileName.endsWith(".txt")) return true; // txt format
+		}
+		
+		return false;
 	}
 
 	private void setMode(Mode mode) {

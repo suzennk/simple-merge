@@ -216,7 +216,7 @@ public class PanelController {
 	 * Set the file of panelInfo
 	 * @param file
 	 */
-	private void setFile(File file) {
+	public void setFile(File file) {
 		// TODO error handling
 		this.panelInfo.setFile(file);
 	}
@@ -224,7 +224,7 @@ public class PanelController {
 	/**
 	 * @return currently open file, null if no file open
 	 */
-	private File getFile() {
+	public File getFile() {
 		return this.panelInfo.getFile();
 	}
 

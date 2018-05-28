@@ -108,21 +108,35 @@ public class FileComparator {
 		 * */
 		ArrayList<String> s1 = new ArrayList<String>();
 		ArrayList<String> s2 = new ArrayList<String>();
-		s1.add("abcdef");
-		s1.add("aaa");
-		s1.add("bbb");
-		s1.add("ccc");
-		s1.add("same part");
-		s1.add("diff part for a");
-		s1.add("hihihi");
+		s1.add("same part1");
+		s1.add("same part2");
+		s1.add("same part3");
+		s1.add("different part-a");
+		s1.add("different part-a");
+		s1.add("same part4");
+		s1.add("same part5");
+		s1.add("same part6");
+		s1.add("different part-a");
+		s1.add("different part-a");
+		s1.add("different part-a");
+		s1.add("same part7");
+		s1.add("same part8");
 
-		s2.add("abcdef");
-		s2.add("ddd");
-		s2.add("eee");
-		s2.add("same part");
-		s2.add("hihihi");
-		s2.add("good");
-		s2.add("bye");
+		s2.add("same part1");
+		s2.add("same part2");
+		s2.add("different part-b");
+		s2.add("different part-b");
+		s2.add("different part-b");
+		s2.add("different part-b");
+		s2.add("same part3");
+		s2.add("same part4");
+		s2.add("same part5");
+		s2.add("different part-b");
+		s2.add("different part-b");
+		s2.add("same part6");
+		s2.add("same part7");
+		s2.add("same part8");
+
 
 		FileComparator fc = new FileComparator(s1, s2);
 		fc.LCSLength(s1, s2);
@@ -130,12 +144,12 @@ public class FileComparator {
 
 		System.out.println("Left Panel=========");
 		for (int i = 0; i < s1.size(); i++) {
-			System.out.println("["+fc.leftDiffIndex.get(i)+"]\t"+s1.get(i));
+			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")\t"+s1.get(i));
 		}
 
 		System.out.println("\nRight Panel=========");
 		for (int i = 0; i < s2.size(); i++) {
-			System.out.println("["+fc.rightDiffIndex.get(i)+"]\t"+s2.get(i));
+			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")\t"+s2.get(i));
 		}
 
 	}

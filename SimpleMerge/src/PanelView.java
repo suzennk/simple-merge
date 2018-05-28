@@ -8,13 +8,13 @@ import javax.swing.filechooser.FileSystemView;
 
 import javafx.stage.FileChooser;
 
-// 파일 선택창은 JFileChooser로 구현 
+// �뙆�씪 �꽑�깮李쎌� JFileChooser濡� 援ы쁽 
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
 	private PanelController pc;
 	private JPanel myPanel;
-  
+	
 	private JPanel menuPanel;
 	private JButton loadBtn;
 	private JButton editBtn;
@@ -38,14 +38,14 @@ public class PanelView extends JPanel {
 	public PanelView() throws Exception{
 		pc = new PanelController();
 		
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정 
-        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리를 지정 
-        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용  
-        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목 
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드 
+		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // �뵒�젆�넗由� �꽕�젙 
+        fileChooser.setCurrentDirectory(new File("/")); // �쁽�옱 �궗�슜 �뵒�젆�넗由щ�� 吏��젙 
+        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 紐⑤뱺 �뙆�씪 �쟻�슜  
+        fileChooser.setDialogTitle("Choose File to Open"); // 李쎌쓽 �젣紐� 
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // �뙆�씪 �꽑�깮 紐⑤뱶 
         
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter 확장자 추가 
-//        fileChooser.setFileFilter(filter); // 파일 필터를 추가
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter �솗�옣�옄 異붽� 
+//        fileChooser.setFileFilter(filter); // �뙆�씪 �븘�꽣瑜� 異붽�
         
 		
 		myPanel = new JPanel();
@@ -95,12 +95,23 @@ public class PanelView extends JPanel {
 		   		"Maecenas diam ipsum, semper at pulvinar vel, vestibulum sit amet mi. \nAliquam sagittis, quam nec placerat aliquet, neque sapien feugiat urna, eu interdum velit dui tincidunt dolor. \nAliquam eget elementum ante. \nIn laoreet odio nec vehicula rhoncus. \nPellentesque ultrices molestie fermentum. \nDonec non vulputate felis. \nDonec sollicitudin erat at felis tristique accumsan. \nFusce at augue vitae mi laoreet aliquet at id massa. \nProin convallis est sapien, et imperdiet risus feugiat non. \nIn vitae sodales orci. \nDuis a nibh ut urna lacinia feugiat. \nAenean pellentesque sodales est ac ornare. \nNam commodo diam ac quam congue imperdiet. \nSed sit amet sem accumsan, tempor nibh eget, luctus ligula. \nDonec posuere id lorem ut auctor. \r\n" + 
 		   		"Duis ut augue erat. \nVestibulum porttitor, felis et pulvinar convallis, metus justo efficitur metus, rhoncus ultrices mauris nisi ac diam. \nDonec sollicitudin eros et neque ultricies posuere. \nSed rutrum tempor mollis. \nDonec aliquam mattis sodales. \nMaecenas arcu lorem, condimentum non nunc lacinia, pulvinar egestas dui. \nVivamus a velit placerat, auctor libero ut, porta leo. ");
 
-		// 이거는 view mode 때 사용하면 될것같아서 넣었습니당! 
+		// �씠嫄곕뒗 view mode �븣 �궗�슜�븯硫� �맆寃껉컳�븘�꽌 �꽔�뿀�뒿�땲�떦! 
 //		myTextArea.disable();
 		   
 		scrollPane = new JScrollPane(myTextArea);
 		   
-		statusBar = new JLabel("View Mode");
+		if (pc.getMode() == Mode.VIEW) {
+			statusBar = new JLabel("View Mode");
+		}
+		else if (pc.getMode() == Mode.EDIT) {
+			statusBar = new JLabel("Edit Mode");
+		}
+		else if (pc.getMode() == Mode.COMPARE) {
+			statusBar = new JLabel("Compare Mode");
+		}
+		else{
+			statusBar = new JLabel("False");
+		}
 		   
 		loadBtn.addActionListener(new ActionListener() {
 
@@ -153,7 +164,12 @@ public class PanelView extends JPanel {
 				// TODO Auto-generated method stub
 				System.out.println("Save As button pressed.");
 					
-				//pc.saveAs(/*new file path*/);
+				int returnVal = fileChooser.showSaveDialog(null);
+				if( returnVal == JFileChooser.APPROVE_OPTION) {
+	                pc.saveAs(fileChooser.getSelectedFile().toString());
+	            } else {
+	                System.out.println("File load canceled.");
+				}
 			}
 			
 		});

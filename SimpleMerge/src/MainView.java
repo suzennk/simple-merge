@@ -89,6 +89,10 @@ public class MainView extends JFrame{
 		leftPV = new PanelView();
 		rightPV = new PanelView();
 		
+		// set color of panel
+		leftPV.setPanelColor(255,0,0);
+		rightPV.setPanelColor(0, 255, 0);
+		
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				load(leftPV, rightPV);
@@ -268,6 +272,8 @@ public class MainView extends JFrame{
 			}
 		}
 	}
+	
+	
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub

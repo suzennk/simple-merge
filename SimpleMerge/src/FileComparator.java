@@ -20,12 +20,12 @@ public class FileComparator {
 	private ArrayList<Integer> rightDiffIndex;
 	private final Integer diff = -1;
 
-	public FileComparator(ArrayList<String> left, ArrayList<String> right) {
+	FileComparator(ArrayList<String> left, ArrayList<String> right) {
 		leftDiffIndex = new ArrayList<Integer>();
 		rightDiffIndex = new ArrayList<Integer>();
 		
 		this.LCSLength(left, right);
-		this.compare(this.C, left, right, left.size(), right.size());
+		this.compare();
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class FileComparator {
 	 * n인 text2를 입력받아 모든 1 <= i <= m 와 1 <= j <= n에 대해 text1[1..i] 와 text2[1..j] 사이의
 	 * 값에 대해 LCS를 연산하고, C[i, j]에 저장한다. C[m, n]은 text1과 text2에 대한 LCS 값을 가지게 된다.
 	 */
-	public int LCSLength(ArrayList<String> left, ArrayList<String> right) {
+	int LCSLength(ArrayList<String> left, ArrayList<String> right) {
 		int m = left.size();
 		int n = right.size();
 		C = new int[m + 1][n + 1];
@@ -62,43 +62,79 @@ public class FileComparator {
 	 * @param i: length(size) of text1
 	 * @param j: length(size) of text2
 	 */
-	public void compare(int[][] C, ArrayList<String> left, ArrayList<String> right, int i, int j) {
+	void compare() {
 		/* if two strings have same line, store mutual index */
-		if (i > 0 && j > 0 && left.get(i - 1).equals(right.get(j - 1))) {
-			compare(C, left, right, i - 1, j - 1);
-			this.leftDiffIndex.add(i - 1, j - 1);
-			this.rightDiffIndex.add(j - 1, i - 1);
-		}
+		int i = C.length-1;
+		int j = C[0].length-1;
 		
-		/* if two strings have different line, store diff(-1) */
-		else if (j > 0 && (i == 0 || C[i][j - 1] >= C[i - 1][j])) {
-			compare(C, left, right, i, j - 1);
-			this.rightDiffIndex.add(j - 1, diff);
-		} 
-		else if (i > 0 && (j == 0 || C[i][j - 1] < C[i - 1][j])) {
-			compare(C, left, right, i - 1, j);
-			this.leftDiffIndex.add(i - 1, diff);
+		while(C[i][j] != 0){
+			
+			if(C[i][j] == C[i-1][j]){
+				
+				i--;
+			}
+			
+			else if(C[i][j] == C[i][j-1]){
+				
+				j--;
+			}
+			
+			else{
+				
+				leftDiffIndex.add(0,i-1);						//i가 아닌 i-1은 diffLeft index를 위함
+				rightDiffIndex.add(0,j-1);						//j가 아닌 j-1은 diffRight index를 위함
+				i--;
+				j--;
+				
+			}
 		}
 	}
 
-	/**
-	 * @return C
-	 */
-	public int[][] getC() {
-		return this.C;
+	void arrange() {
+		
+		this.leftView.clear();
+		this.rightView.clear();
+		int L = 0, R = 0;
+		int L_Max = this.leftDiffIndex.size();
+		int R_Max = this.rightDiffIndex.size();
+		
+		while (L < L_Max && R < R_Max) {
+			/* 같은 string인 경우 */
+			if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
+				this.leftView.add(L++);
+				this.rightView.add(R++);				
+			}
+			else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
+				this.leftView.add(-2); L++;
+				this.rightView.add(-2); R++;
+			}
+			else {
+				/* 오른쪽 패널에 다른 부분이 있는 경우 왼쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
+				while (this.rightDiffIndex.get(R) == -1) {
+					this.leftView.add(-1);
+					this.rightView.add(R++);
+				}
+				/* 왼쪽 패널에 다른 부분이 있는 경우 오른쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
+				while (this.leftDiffIndex.get(L) == -1) {
+					this.leftView.add(L++);
+					this.rightView.add(-1);
+				}
+			}
+		}
+
 	}
 	
 	/**
 	 * @return diffLeft
 	 */
-	public ArrayList<Integer> getDiffLeft(){
+	ArrayList<Integer> getDiffLeft(){
 		return this.leftDiffIndex;
 	}
 	
 	/**
 	 * @return diffRight
 	 */
-	public ArrayList<Integer> getDIffRight(){
+	ArrayList<Integer> getDIffRight(){
 		return this.rightDiffIndex;
 	}
 
@@ -137,19 +173,16 @@ public class FileComparator {
 		s2.add("same part7");
 		s2.add("same part8");
 
-
 		FileComparator fc = new FileComparator(s1, s2);
-		fc.LCSLength(s1, s2);
-		fc.compare(fc.getC(), s1, s2, s1.size(), s2.size());
 
 		System.out.println("Left Panel=========");
-		for (int i = 0; i < s1.size(); i++) {
-			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")\t"+s1.get(i));
+		for (int i = 0; i < fc.leftDiffIndex.size(); i++) {
+			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")");
 		}
 
 		System.out.println("\nRight Panel=========");
-		for (int i = 0; i < s2.size(); i++) {
-			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")\t"+s2.get(i));
+		for (int i = 0; i < fc.rightDiffIndex.size(); i++) {
+			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")");
 		}
 
 	}

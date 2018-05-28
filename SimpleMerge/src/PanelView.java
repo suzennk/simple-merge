@@ -12,11 +12,11 @@ import javafx.stage.FileChooser;
 // https://blog.naver.com/cracker542/40119977325
 
 public class PanelView extends JPanel {
-	private PanelController pc;
+	protected PanelController pc;
 	private JPanel myPanel;
 	
-	private JPanel menuPanel;
-	private JButton loadBtn;
+	JPanel menuPanel;
+	protected JButton loadBtn;
 	private JButton editBtn;
 	private JButton saveBtn;
 	private JButton saveAsBtn;
@@ -28,7 +28,7 @@ public class PanelView extends JPanel {
 	private ImageIcon saveAs_icon;
 	   
 	//private JTextArea myTextArea;
-	private JEditorPane myTextArea;
+	protected JEditorPane myTextArea;
 	private JScrollPane scrollPane;
 	private JLabel statusBar;
 	
@@ -36,17 +36,7 @@ public class PanelView extends JPanel {
 	   
 	   
 	public PanelView() throws Exception{
-		pc = new PanelController();
-		
-		fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // 디렉토리 설정
-        fileChooser.setCurrentDirectory(new File("/")); // 현재 사용 디렉토리 지정 
-        fileChooser.setAcceptAllFileFilterUsed(true);   // Filter 모든 파일 적용
-        fileChooser.setDialogTitle("Choose File to Open"); // 창의 제목 
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // 파일 선택 모드
-        
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Binary File", "cd11"); //  filter 확장자 추가 
-//        fileChooser.setFileFilter(filter); // 파일 필터를 추가
-        
+		pc = new PanelController();        
 		
 		myPanel = new JPanel();
 		menuPanel = new JPanel();
@@ -109,37 +99,6 @@ public class PanelView extends JPanel {
 		// default
 		pc.setMode(Mode.VIEW);
 		statusBar = new JLabel("View Mode");
-				
-		loadBtn.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Load button pressed.");
-				
-				// Set Mode
-				pc.setMode(Mode.VIEW);
-				statusBar.setText("View Mode");
-				
-				// Set Button Status
-				loadBtn.setEnabled(false);
-				editBtn.setEnabled(true);
-				saveBtn.setEnabled(false);
-				saveAsBtn.setEnabled(false);
-				
-				// Load file via fileChooser
-				int returnVal = fileChooser.showOpenDialog(null);
-	            if( returnVal == JFileChooser.APPROVE_OPTION) {
-	                pc.load(fileChooser.getSelectedFile().toString());
-	            } else {
-	                System.out.println("File load canceled.");
-				}
-	            
-	            // Set the text in view
-	            myTextArea.setText(pc.getFileContent());
-	            
-	            System.out.println("Load Completed.");
-			}
-		});
 		   
 		editBtn.addActionListener(new ActionListener() {
 
@@ -172,12 +131,7 @@ public class PanelView extends JPanel {
 		  		// Set Mode
 		  		pc.setMode(Mode.VIEW);
 				statusBar.setText("View Mode");
-			
-				/*TODO
-		  		 * Where to put "setFileContent(String)"??
-		  		 * in Panel View 
-		  		 * or pass editedContent as parameter of save() function?? 
-		  		 */
+
 		  		String editedContent = myTextArea.getText();
 				pc.setFileContent(editedContent);
 		  		pc.save();

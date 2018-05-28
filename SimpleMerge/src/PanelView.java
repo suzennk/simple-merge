@@ -178,7 +178,7 @@ public class PanelView extends JPanel {
 			break;
 		default:
 			break;
-			}
+		}
 	}
 	
 

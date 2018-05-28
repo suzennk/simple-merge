@@ -61,7 +61,7 @@ public class MainView extends JFrame{
 		
 		
 		// set image button
-		compareBtn = new JButton(compare_icon);
+		compareBtn = new JButton(notCompare_icon);
 		upBtn = new JButton(up_icon);
 		downBtn = new JButton(down_icon);
 		copyToLeftBtn = new JButton(left_icon);
@@ -88,14 +88,12 @@ public class MainView extends JFrame{
 		
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				load(leftPV, rightPV);
 			}
 		});
 		
 		rightPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				load(rightPV, leftPV);
 			}
 		});
@@ -109,11 +107,12 @@ public class MainView extends JFrame{
 				if(comparePressed%2==1){
 					//compareBtn pressed once->do compare
 					compareBtn.setIcon(notCompare_icon);
-					
+					setMode(Mode.VIEW);
 				}
 				else{
 					//compareBtn pressed twice->escape compare mode
 					compareBtn.setIcon(compare_icon);
+					setMode(Mode.COMPARE);
 				}
 			}
 			
@@ -181,6 +180,7 @@ public class MainView extends JFrame{
 	
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
+		// TODO Check if dirty!!!!!!!!!!!!!!
 		
 		// Load file via fileDialog
 		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
@@ -206,6 +206,21 @@ public class MainView extends JFrame{
         
 	}
 
+	private void setMode(Mode mode) {
+		switch(mode) {
+		case VIEW:
+			leftPV.setMode(Mode.VIEW);
+			rightPV.setMode(Mode.VIEW);
+			break;
+			
+		case COMPARE:
+			leftPV.setMode(Mode.COMPARE);
+			rightPV.setMode(Mode.COMPARE);
+			break;
+		default:
+			break;
+		}
+	}
 	
 	
 	public static void main(String[] args) throws Exception {

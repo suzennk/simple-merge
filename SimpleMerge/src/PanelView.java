@@ -26,6 +26,8 @@ public class PanelView extends JPanel {
 	
 	public JLabel myfname;
 	private JButton xbutton;
+	
+	private Color panelColor;
 	   
 	public PanelView() throws Exception{
 		pc = new PanelController();        
@@ -38,6 +40,8 @@ public class PanelView extends JPanel {
 		myfname = new JLabel("");
 		xbutton = new JButton("X");
 		xbutton.setBorderPainted(false);
+		
+		panelColor=new Color(0,0,0); //set color default as WHITE 
 		
 		// set image icon
 		load_icon=new ImageIcon("res/load.png");
@@ -229,4 +233,9 @@ public class PanelView extends JPanel {
   			setMode(Mode.VIEW);
   		}
 	}
+	
+	public void setPanelColor(int x, int y, int z){
+		panelColor=new Color(x,y,z);
+	}
+	
 }

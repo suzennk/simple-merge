@@ -16,7 +16,7 @@ local.properties
 .recommenders
 
 # Test files
-*.txt
+SimpleMerge/*.txt
 
 # External tool builders
 .externalToolBuilders/

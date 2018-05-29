@@ -27,11 +27,12 @@ public class PanelView extends JPanel {
 	
 	public JLabel myfname;
 	private JButton xbutton;
+	private boolean xPressed;
 	
 	private Color panelColor;
 	   
 	public PanelView() throws Exception{
-		pc = new PanelController();        
+		pc = new PanelController();
 		
 		xPanel = new JPanel();
 		myPanel = new JPanel();
@@ -40,7 +41,7 @@ public class PanelView extends JPanel {
 		
 		myfname = new JLabel("");
 		xbutton = new JButton("X");
-		xbutton.setBorderPainted(false);
+		xPressed = false;
 		
 		panelColor=new Color(0,0,0); //set color default as WHITE 
 		
@@ -65,10 +66,10 @@ public class PanelView extends JPanel {
 		x_icon=new ImageIcon(x_img);
 			
 		// set image button
-		loadBtn = new JButton(load_icon);
-		editBtn = new JButton(edit_icon);
-		saveBtn = new JButton(save_icon);
-		saveAsBtn = new JButton(saveAs_icon);
+		loadBtn = new JButton(load_icon); loadBtn.setContentAreaFilled(false);
+		editBtn = new JButton(edit_icon); editBtn.setContentAreaFilled(false);
+		saveBtn = new JButton(save_icon); saveBtn.setContentAreaFilled(false);
+		saveAsBtn = new JButton(saveAs_icon); saveAsBtn.setContentAreaFilled(false);
 		xbutton=new JButton(x_icon); xbutton.setContentAreaFilled(false); 
 		
 		// set Button Status
@@ -97,8 +98,7 @@ public class PanelView extends JPanel {
 		myTextArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				pc.setUpdated(true);
-				viewDirtyStatus();
+				pc.setUpdated(true); 
 			}
 		});
 		
@@ -128,7 +128,7 @@ public class PanelView extends JPanel {
 		  		System.out.println("Save button pressed.");
 
 		  		save();
-		  		viewDirtyStatus();
+		  		
 		  		System.out.println("Save Completed.");
 		  	}
 				
@@ -150,27 +150,28 @@ public class PanelView extends JPanel {
 						setMode(Mode.VIEW);	
 					}
 				}
-				viewDirtyStatus();
-				//myfname.setText(pc.getFile().getName());
+				
+				myfname.setText(pc.getFile().getName());
 			}
 		});
 		
 		xbutton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				// can't press x button while compare mode
+				if(pc.getMode()==Mode.COMPARE){
+					setXpressed(false);
+					return;
+				}
 				// TODO Auto-generated method stub
 				System.out.println("xbutton pressed.");
+				setXpressed(true);
 				
-				int dirtyCheck = checkUpdated();
+				myfname.setText("");
+				myTextArea.setText("Click the Load Button.");
 				
-				if (dirtyCheck != 2) {
-					myfname.setText("");
-					myTextArea.setText("Click the Load Button.");
-				
-					// Set Mode
-					setMode(Mode.VIEW);
-				}
-				
+				// Set Mode
+				setMode(Mode.VIEW);
 			}
 		});
 		
@@ -196,6 +197,19 @@ public class PanelView extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(myPanel);
 		this.setVisible(true);
+	}
+	
+	// xbutton control
+	public boolean getXpressed(){
+		return xPressed;
+	}
+	
+	public void setXpressed(boolean tf){
+		this.xPressed = tf;
+	}
+	
+	public void setXEnabled(boolean tf){
+		xbutton.setEnabled(tf);
 	}
 
 	public void setMode(Mode mode) {
@@ -248,51 +262,6 @@ public class PanelView extends JPanel {
 	
 	public void setPanelColor(int x, int y, int z){
 		panelColor=new Color(x,y,z);
-	}
-	
-	
-	public int checkUpdated() {
-		Object[] options = {"Save", "Don't Save", "Cancel"};
-				
-		if (pc.isUpdated()) {
-			int n = JOptionPane.showOptionDialog(this, "\"" + pc.getFile().getName() + "\" has been edited. Do you want to save the file and continue?", 
-					"Question", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-			
-			if (n == 0 ) { // Save
-				System.out.println("0. Save button is Clicked");
-				save();
-				viewDirtyStatus();
-			}
-			else if (n == 1) {	// Don't Save
-				System.out.println("1. Don't Save is Clicked");
-				pc.setUpdated(false);
-				//pc.load(pc.getFile().getName());
-				viewDirtyStatus();
-				myTextArea.setText(pc.getFileContent());	// Load before edited file content
-				setMode(Mode.VIEW);		// Change to View Mode
-			}
-			else {	// Cancel and X 
-				System.out.println("Cancel or X is Clicked");
-				n = 2;
-			}
-			return n;
-		}
-		return -1;
-	}
-	
-	/**
-	 * View "*" in File name if dirty
-	 */
-	private void viewDirtyStatus() {
-		// TODO 할 거 하나 더 있지 않았나????
-		
-		if (pc.isUpdated()) {
-			myfname.setText(pc.getFile().getName() + "*");	// inform dirty flag is true
-		}
-		else {
-			myfname.setText(pc.getFile().getName());
-		}
-		
 	}
 	
 }

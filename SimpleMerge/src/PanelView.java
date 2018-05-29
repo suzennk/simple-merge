@@ -1,12 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 public class PanelView extends JPanel {
 	protected PanelController pc;
 	private JPanel myPanel;
+	private JPanel xPanel; // filename, xbutton
+	private JPanel miniPanel; // xPanel + text field
 	
-	JPanel menuPanel;
+	public JPanel menuPanel;	// no private???
 	protected JButton loadBtn;
 	private JButton editBtn;
 	private JButton saveBtn;
@@ -16,39 +19,57 @@ public class PanelView extends JPanel {
 	private ImageIcon edit_icon;
 	private ImageIcon save_icon;
 	private ImageIcon saveAs_icon;
+	private ImageIcon x_icon;
 	   
 	protected JEditorPane myTextArea;
 	private JScrollPane scrollPane;
 	private JLabel statusBar;
+	
+	public JLabel myfname;
+	private JButton xbutton;
+	
+	private Color panelColor;
 	   
 	public PanelView() throws Exception{
 		pc = new PanelController();        
 		
+		xPanel = new JPanel();
 		myPanel = new JPanel();
 		menuPanel = new JPanel();
-		   
+		miniPanel = new JPanel();
+		
+		myfname = new JLabel("");
+		xbutton = new JButton("X");
+		xbutton.setBorderPainted(false);
+		
+		panelColor=new Color(0,0,0); //set color default as WHITE 
+		
 		// set image icon
 		load_icon=new ImageIcon("res/load.png");
 		edit_icon=new ImageIcon("res/edit.png");
 		save_icon=new ImageIcon("res/save.png");
 		saveAs_icon=new ImageIcon("res/save_as.png");
+		x_icon=new ImageIcon("res/reject.png");
 			
 		// set size of image button
 		Image load_img=load_icon.getImage(); load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image edit_img=edit_icon.getImage(); edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image save_img=save_icon.getImage(); save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image saveAs_img=saveAs_icon.getImage(); saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image x_img=x_icon.getImage(); x_img=x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		
 		load_icon=new ImageIcon(load_img);
 		edit_icon=new ImageIcon(edit_img);
 		save_icon=new ImageIcon(save_img);
 		saveAs_icon=new ImageIcon(saveAs_img);
+		x_icon=new ImageIcon(x_img);
 			
 		// set image button
 		loadBtn = new JButton(load_icon);
 		editBtn = new JButton(edit_icon);
 		saveBtn = new JButton(save_icon);
 		saveAsBtn = new JButton(saveAs_icon);
+		xbutton=new JButton(x_icon); xbutton.setContentAreaFilled(false); 
 		
 		// set Button Status
 		loadBtn.setEnabled(true);
@@ -61,6 +82,7 @@ public class PanelView extends JPanel {
 		editBtn.setBorderPainted(false); editBtn.setFocusPainted(false);
 		saveBtn.setBorderPainted(false); saveBtn.setFocusPainted(false);
 		saveAsBtn.setBorderPainted(false); saveAsBtn.setFocusPainted(false);
+		xbutton.setFocusPainted(false); xbutton.setBorderPainted(false);
 			
 		this.add(loadBtn);
 		this.add(editBtn);
@@ -69,17 +91,14 @@ public class PanelView extends JPanel {
 
 		myTextArea = new JEditorPane();
 		// Dummy Text
-		myTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Nulla non urna congue, pellentesque lectus nec, ullamcorper tellus.\n Morbi scelerisque, magna eu porta vestibulum, enim nisi volutpat lectus, quis lacinia mauris leo et lorem. \nSuspendisse erat orci, sagittis vel eros lacinia, maximus pulvinar augue. \nEtiam pretium tortor id neque molestie luctus. \nDonec tincidunt, urna et interdum ornare, diam lectus rutrum enim, et mollis erat tortor et nisi. \nMauris congue lobortis mi, ac sollicitudin quam interdum vitae. \nPellentesque lorem augue, sagittis nec viverra at, imperdiet ac nibh. \nCras faucibus, magna in sodales condimentum, odio massa interdum lectus, molestie tincidunt justo lorem vel leo. \nDonec vestibulum egestas massa vitae feugiat. \nPhasellus tristique finibus pulvinar. \nMorbi molestie nibh sit amet nisi commodo, sit amet condimentum turpis ultrices. \nNullam ac justo ligula. \nPraesent lacinia nisi vel ex aliquam sollicitudin sit amet non leo. \nMaecenas varius feugiat rhoncus. \r\n" + 
-				"Nam vel varius sem.\n Nullam nisi augue, ornare eget aliquet eu, interdum eget nisl.\n Aenean sollicitudin arcu eget tortor molestie pulvinar. \nDonec euismod imperdiet rutrum. \nPraesent commodo metus id nisi congue, et condimentum est aliquam. \nPellentesque vitae sapien in ipsum interdum molestie non nec metus. \nVivamus lectus orci, vestibulum eget luctus eget, convallis non erat. \r\n" + 
-				"Vestibulum vitae placerat magna. \nVivamus tincidunt tellus vitae urna sagittis, quis mollis mauris consectetur. \nNunc vehicula tellus augue, sed sagittis dolor eleifend id. \nNullam vitae erat viverra, ornare ipsum eu, luctus nisi. \nNunc arcu justo, bibendum ut viverra et, ornare et nibh. \nDonec bibendum sed eros eu varius. \nPellentesque fringilla faucibus nulla ac gravida. \nFusce sit amet justo non sapien pulvinar ornare. \nQuisque neque enim, efficitur vitae rutrum eu, ullamcorper ut leo. \nNulla vel diam molestie mauris sagittis finibus eget sit amet nisi. \nUt sed nibh vitae erat sagittis viverra vel sit amet turpis. \nIn efficitur scelerisque congue. \nFusce eget rutrum sem, sit amet semper diam. \nUt porta ullamcorper eros vitae tempus. \nVivamus euismod auctor metus. \r\n" + 
-		   		"Maecenas diam ipsum, semper at pulvinar vel, vestibulum sit amet mi. \nAliquam sagittis, quam nec placerat aliquet, neque sapien feugiat urna, eu interdum velit dui tincidunt dolor. \nAliquam eget elementum ante. \nIn laoreet odio nec vehicula rhoncus. \nPellentesque ultrices molestie fermentum. \nDonec non vulputate felis. \nDonec sollicitudin erat at felis tristique accumsan. \nFusce at augue vitae mi laoreet aliquet at id massa. \nProin convallis est sapien, et imperdiet risus feugiat non. \nIn vitae sodales orci. \nDuis a nibh ut urna lacinia feugiat. \nAenean pellentesque sodales est ac ornare. \nNam commodo diam ac quam congue imperdiet. \nSed sit amet sem accumsan, tempor nibh eget, luctus ligula. \nDonec posuere id lorem ut auctor. \r\n" + 
-		   		"Duis ut augue erat. \nVestibulum porttitor, felis et pulvinar convallis, metus justo efficitur metus, rhoncus ultrices mauris nisi ac diam. \nDonec sollicitudin eros et neque ultricies posuere. \nSed rutrum tempor mollis. \nDonec aliquam mattis sodales. \nMaecenas arcu lorem, condimentum non nunc lacinia, pulvinar egestas dui. \nVivamus a velit placerat, auctor libero ut, porta leo. ");
+		myTextArea.setText("Click the Load Button.");
 		
-		// ºˆ¡§µ∆¿ª ∂ß 
+		// keyboard input
 		myTextArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				pc.setUpdated(true); 
+				pc.setUpdated(true);
+				viewDirtyStatus();
 			}
 		});
 		
@@ -109,7 +128,7 @@ public class PanelView extends JPanel {
 		  		System.out.println("Save button pressed.");
 
 		  		save();
-		  		
+		  		viewDirtyStatus();
 		  		System.out.println("Save Completed.");
 		  	}
 				
@@ -131,11 +150,40 @@ public class PanelView extends JPanel {
 						setMode(Mode.VIEW);	
 					}
 				}
+				viewDirtyStatus();
+				//myfname.setText(pc.getFile().getName());
 			}
 		});
 		
-		menuPanel.setLayout(new GridLayout(1, 3));
-		   
+		xbutton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("xbutton pressed.");
+				
+				int dirtyCheck = checkUpdated();
+				
+				if (dirtyCheck != 2) {
+					myfname.setText("");
+					myTextArea.setText("Click the Load Button.");
+				
+					// Set Mode
+					setMode(Mode.VIEW);
+				}
+				
+			}
+		});
+		
+		xPanel.setLayout(new BorderLayout());
+		xPanel.add(myfname, BorderLayout.CENTER);
+		xPanel.add(xbutton, BorderLayout.EAST);
+		
+		miniPanel.setLayout(new BorderLayout());
+		miniPanel.add(xPanel, BorderLayout.NORTH);
+		miniPanel.add(scrollPane, BorderLayout.CENTER);
+		miniPanel.add(statusBar, BorderLayout.SOUTH);
+		
+		menuPanel.setLayout(new GridLayout(1, 4));   
 		menuPanel.add(loadBtn);
 		menuPanel.add(editBtn);
 		menuPanel.add(saveBtn);
@@ -143,8 +191,7 @@ public class PanelView extends JPanel {
 		   
 		myPanel.setLayout(new BorderLayout());
 		myPanel.add(menuPanel, BorderLayout.NORTH);
-		myPanel.add(scrollPane, BorderLayout.CENTER);
-		myPanel.add(statusBar, BorderLayout.SOUTH);
+		myPanel.add(miniPanel, BorderLayout.CENTER);
 		   
 		this.setLayout(new BorderLayout());
 		this.add(myPanel);
@@ -159,8 +206,8 @@ public class PanelView extends JPanel {
 			myTextArea.setEditable(false);
 			loadBtn.setEnabled(true);
 			editBtn.setEnabled(true);
-			saveBtn.setEnabled(true);
-			saveAsBtn.setEnabled(true);
+			saveBtn.setEnabled(false);
+			saveAsBtn.setEnabled(false);
 			break;
 		case EDIT:
 			pc.setMode(Mode.EDIT);
@@ -198,4 +245,54 @@ public class PanelView extends JPanel {
   			setMode(Mode.VIEW);
   		}
 	}
+	
+	public void setPanelColor(int x, int y, int z){
+		panelColor=new Color(x,y,z);
+	}
+	
+	
+	public int checkUpdated() {
+		Object[] options = {"Save", "Don't Save", "Cancel"};
+				
+		if (pc.isUpdated()) {
+			int n = JOptionPane.showOptionDialog(this, "\"" + pc.getFile().getName() + "\" has been edited. Do you want to save the file and continue?", 
+					"Question", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			
+			if (n == 0 ) { // Save
+				System.out.println("0. Save button is Clicked");
+				save();
+				viewDirtyStatus();
+			}
+			else if (n == 1) {	// Don't Save
+				System.out.println("1. Don't Save is Clicked");
+				pc.setUpdated(false);
+				//pc.load(pc.getFile().getName());
+				viewDirtyStatus();
+				myTextArea.setText(pc.getFileContent());	// Load before edited file content
+				setMode(Mode.VIEW);		// Change to View Mode
+			}
+			else {	// Cancel and X 
+				System.out.println("Cancel or X is Clicked");
+				n = 2;
+			}
+			return n;
+		}
+		return -1;
+	}
+	
+	/**
+	 * View "*" in File name if dirty
+	 */
+	private void viewDirtyStatus() {
+		// TODO Ìï† Í±∞ ÌïòÎÇò Îçî ÏûàÏßÄ ÏïäÏïòÎÇò????
+		
+		if (pc.isUpdated()) {
+			myfname.setText(pc.getFile().getName() + "*");	// inform dirty flag is true
+		}
+		else {
+			myfname.setText(pc.getFile().getName());
+		}
+		
+	}
+	
 }

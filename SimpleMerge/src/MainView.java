@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import javax.swing.*;
+
 
 public class MainView extends JFrame{
 	private JPanel mainPanel;
@@ -86,6 +88,11 @@ public class MainView extends JFrame{
 		leftPV = new PanelView();
 		rightPV = new PanelView();
 		
+		// set color of panel
+		leftPV.setPanelColor(255,0,0);
+		rightPV.setPanelColor(0, 255, 0);
+		
+		
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				load(leftPV, rightPV);
@@ -104,19 +111,23 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("compare button pressed.");
 				
-				checkUpdated(leftPV);
-				checkUpdated(rightPV);
+				leftPV.checkUpdated();
+				rightPV.checkUpdated();
 				
 				comparePressed++;
 				if(comparePressed%2==1){
 					//compareBtn pressed once->do compare
 					compareBtn.setIcon(notCompare_icon);
-					setMode(Mode.VIEW);
+					setMode(Mode.COMPARE);
 				}
 				else{
 					//compareBtn pressed twice->escape compare mode
 					compareBtn.setIcon(compare_icon);
-					setMode(Mode.COMPARE);
+					
+					leftPV.checkUpdated();
+					rightPV.checkUpdated();
+					
+					setMode(Mode.VIEW);
 				}
 			}
 			
@@ -179,35 +190,66 @@ public class MainView extends JFrame{
 		this.setSize(1200, 900);
 		this.setVisible(true);
 	
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		// Check if dirty!!!!!!!!!!!!!!
-		checkUpdated(mine);
-		// Load file via fileDialog
-		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
-		fd.setVisible(true);
+		int dirtyCheck = mine.checkUpdated();
 		
-		if (fd.getFile() != null) {
-			String filePath = fd.getDirectory() + fd.getFile();
-        	if (yours.pc.getFile() == null) {
-        		if (mine.pc.load(filePath)) {
-        			mine.setMode(Mode.VIEW);
-        			mine.myTextArea.setText(mine.pc.getFileContent());
-        		}
-        	} else if (!filePath.equals(yours.pc.getFile().toString())) {
-        		if(mine.pc.load(filePath)) {
-        			mine.setMode(Mode.VIEW);
-        			mine.myTextArea.setText(mine.pc.getFileContent());
-        		}
-        	} else 
-        		System.out.println("File is already open in another panel.");
-        } else {
-            System.out.println("File load canceled.");
+		// Load file via fileDialog
+		if (dirtyCheck != 2) {
+			FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
+			fd.setVisible(true);
+
+			if (fd.getFile() != null) {
+				String filePath = fd.getDirectory() + fd.getFile();
+				if (yours.pc.getFile() == null) {
+					if (mine.pc.load(filePath)) {
+						if (accept(mine.pc.getFile())){
+							mine.setMode(Mode.VIEW);
+							mine.myTextArea.setText(mine.pc.getFileContent());
+							mine.myfname.setText(mine.pc.getFile().getName());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+							System.out.println("This file format is incorrect.");
+						}
+					}
+				} 
+				else if (!filePath.equals(yours.pc.getFile().toString())) {
+					if(mine.pc.load(filePath)) {
+						if (mine.pc.load(filePath)) {
+							mine.setMode(Mode.VIEW);
+							mine.myTextArea.setText(mine.pc.getFileContent());
+							mine.myfname.setText(mine.pc.getFile().getName());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+							System.out.println("This file format is incorrect.");
+						}
+					}
+				} 
+				else {
+					JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+					System.out.println("File is already open in another panel.");
+				}
+			} 
+			else 
+				System.out.println("File load canceled.");
 		}
         
+	}
+	
+	// Check file format
+	private boolean accept(File file) {
+		if(file.isFile()) {
+			String fileName = file.getName();
+			if(fileName.endsWith(".txt")) return true; // txt format
+		}
+		
+		return false;
 	}
 
 	private void setMode(Mode mode) {
@@ -226,6 +268,7 @@ public class MainView extends JFrame{
 		}
 	}
 	
+	/*
 	private void checkUpdated(PanelView pv) {
 		Object[] options = {"Save", "Don't Save", "Cancel"};
 				
@@ -240,6 +283,8 @@ public class MainView extends JFrame{
 			}
 		}
 	}
+	*/
+	
 	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub

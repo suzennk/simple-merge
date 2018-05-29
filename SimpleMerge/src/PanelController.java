@@ -256,16 +256,12 @@ public class PanelController {
 	 */
 	private void makeListToString() {
 		
-		StringBuilder fcBuilder = new StringBuilder();
+		this.fileContent = new String();
 		
 		for (int i = 0; i < this.fileContentList.size(); i++) {
-			fcBuilder.append(this.fileContentList.get(i));
-			fcBuilder.append("\r\n");
+			fileContent += this.fileContentList.get(i);
+			fileContent += "\r\n";
 		}
-		
-		this.fileContent = new String(fcBuilder.toString());
-		
-
 	}
 	
 	
@@ -279,6 +275,8 @@ public class PanelController {
 
 		String filePath = new String();
 
+		
+		
 		boolean iterate = true;
 		while (iterate) {
 			System.out.println("1. Load File");
@@ -343,7 +341,7 @@ public class PanelController {
 				break;
 			case 9:
 				ArrayList<String> edited = pc.getFileContentList();
-				edited.add("Is it added????");
+				edited.add("Is this added????");
 				pc.setFileContentList(edited);
 				System.out.println(pc.fileContent);
 				break;

@@ -341,7 +341,7 @@ public class PanelController {
 				break;
 			case 9:
 				ArrayList<String> edited = pc.getFileContentList();
-				edited.add("Is it added????");
+				edited.add("Is this added????");
 				pc.setFileContentList(edited);
 				System.out.println(pc.fileContent);
 				break;

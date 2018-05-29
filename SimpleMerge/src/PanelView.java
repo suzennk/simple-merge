@@ -97,7 +97,8 @@ public class PanelView extends JPanel {
 		myTextArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				pc.setUpdated(true); 
+				pc.setUpdated(true);
+				viewDirtyStatus();
 			}
 		});
 		
@@ -127,7 +128,7 @@ public class PanelView extends JPanel {
 		  		System.out.println("Save button pressed.");
 
 		  		save();
-		  		
+		  		viewDirtyStatus();
 		  		System.out.println("Save Completed.");
 		  	}
 				
@@ -149,8 +150,8 @@ public class PanelView extends JPanel {
 						setMode(Mode.VIEW);	
 					}
 				}
-				
-				myfname.setText(pc.getFile().getName());
+				viewDirtyStatus();
+				//myfname.setText(pc.getFile().getName());
 			}
 		});
 		
@@ -242,6 +243,20 @@ public class PanelView extends JPanel {
 	
 	public void setPanelColor(int x, int y, int z){
 		panelColor=new Color(x,y,z);
+	}
+	
+	/**
+	 * View "*" in File name if dirty
+	 */
+	private void viewDirtyStatus() {
+		// TODO 할 거 하나 더 있지 않았나????
+		if (pc.isUpdated()) {
+			myfname.setText(pc.getFile().getName() + "*");	// inform dirty flag is true
+		}
+		else {
+			myfname.setText(pc.getFile().getName());
+		}
+		
 	}
 	
 }

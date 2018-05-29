@@ -93,6 +93,7 @@ public class MainView extends JFrame{
 		leftPV.setPanelColor(255,0,0);
 		rightPV.setPanelColor(0, 255, 0);
 		
+		
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				load(leftPV, rightPV);
@@ -118,12 +119,16 @@ public class MainView extends JFrame{
 				if(comparePressed%2==1){
 					//compareBtn pressed once->do compare
 					compareBtn.setIcon(notCompare_icon);
-					setMode(Mode.VIEW);
+					setMode(Mode.COMPARE);
 				}
 				else{
 					//compareBtn pressed twice->escape compare mode
 					compareBtn.setIcon(compare_icon);
-					setMode(Mode.COMPARE);
+					
+					checkUpdated(leftPV);
+					checkUpdated(rightPV);
+					
+					setMode(Mode.VIEW);
 				}
 			}
 			

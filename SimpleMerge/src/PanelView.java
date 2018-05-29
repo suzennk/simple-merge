@@ -161,11 +161,16 @@ public class PanelView extends JPanel {
 				// TODO Auto-generated method stub
 				System.out.println("xbutton pressed.");
 				
-				myfname.setText("");
-				myTextArea.setText("Click the Load Button.");
+				int dirtyCheck = checkUpdated();
 				
-				// Set Mode
-				setMode(Mode.VIEW);
+				if (dirtyCheck != 2) {
+					myfname.setText("");
+					myTextArea.setText("Click the Load Button.");
+				
+					// Set Mode
+					setMode(Mode.VIEW);
+				}
+				
 			}
 		});
 		
@@ -245,11 +250,42 @@ public class PanelView extends JPanel {
 		panelColor=new Color(x,y,z);
 	}
 	
+	
+	public int checkUpdated() {
+		Object[] options = {"Save", "Don't Save", "Cancel"};
+				
+		if (pc.isUpdated()) {
+			int n = JOptionPane.showOptionDialog(this, "\"" + pc.getFile().getName() + "\" has been edited. Do you want to save the file and continue?", 
+					"Question", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			
+			if (n == 0 ) { // Save
+				System.out.println("0. Save button is Clicked");
+				save();
+				viewDirtyStatus();
+			}
+			else if (n == 1) {	// Don't Save
+				System.out.println("1. Don't Save is Clicked");
+				pc.setUpdated(false);
+				//pc.load(pc.getFile().getName());
+				viewDirtyStatus();
+				myTextArea.setText(pc.getFileContent());	// Load before edited file content
+				setMode(Mode.VIEW);		// Change to View Mode
+			}
+			else {	// Cancel and X 
+				System.out.println("Cancel or X is Clicked");
+				n = 2;
+			}
+			return n;
+		}
+		return -1;
+	}
+	
 	/**
 	 * View "*" in File name if dirty
 	 */
 	private void viewDirtyStatus() {
 		// TODO 할 거 하나 더 있지 않았나????
+		
 		if (pc.isUpdated()) {
 			myfname.setText(pc.getFile().getName() + "*");	// inform dirty flag is true
 		}

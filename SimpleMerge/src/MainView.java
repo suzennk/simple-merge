@@ -111,8 +111,8 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("compare button pressed.");
 				
-				checkUpdated(leftPV);
-				checkUpdated(rightPV);
+				leftPV.checkUpdated();
+				rightPV.checkUpdated();
 				
 				comparePressed++;
 				if(comparePressed%2==1){
@@ -124,8 +124,8 @@ public class MainView extends JFrame{
 					//compareBtn pressed twice->escape compare mode
 					compareBtn.setIcon(compare_icon);
 					
-					checkUpdated(leftPV);
-					checkUpdated(rightPV);
+					leftPV.checkUpdated();
+					rightPV.checkUpdated();
 					
 					setMode(Mode.VIEW);
 				}
@@ -196,43 +196,49 @@ public class MainView extends JFrame{
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		// Check if dirty!!!!!!!!!!!!!!
-		checkUpdated(mine);
-		// Load file via fileDialog
-		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
-		fd.setVisible(true);
+		int dirtyCheck = mine.checkUpdated();
 		
-		if (fd.getFile() != null) {
-			String filePath = fd.getDirectory() + fd.getFile();
-        	if (yours.pc.getFile() == null) {
-        		if (mine.pc.load(filePath)) {
-        			if (accept(mine.pc.getFile())){
-        				mine.setMode(Mode.VIEW);
-            			mine.myTextArea.setText(mine.pc.getFileContent());
-            			mine.myfname.setText(mine.pc.getFile().getName());
-        			}
-        			else {
-        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        				System.out.println("This file format is incorrect.");
-        			}
-        		}
-        	} else if (!filePath.equals(yours.pc.getFile().toString())) {
-        		if(mine.pc.load(filePath)) {
-        			if (mine.pc.load(filePath)) {
-        				mine.setMode(Mode.VIEW);
-            			mine.myTextArea.setText(mine.pc.getFileContent());
-            			mine.myfname.setText(mine.pc.getFile().getName());
-        			}
-        			else {
-        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        				System.out.println("This file format is incorrect.");
-        			}
-        		}
-        	} else {
-        		JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        		System.out.println("File is already open in another panel.");
-        	}
-        } else 
-            System.out.println("File load canceled.");
+		// Load file via fileDialog
+		if (dirtyCheck != 2) {
+			FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
+			fd.setVisible(true);
+
+			if (fd.getFile() != null) {
+				String filePath = fd.getDirectory() + fd.getFile();
+				if (yours.pc.getFile() == null) {
+					if (mine.pc.load(filePath)) {
+						if (accept(mine.pc.getFile())){
+							mine.setMode(Mode.VIEW);
+							mine.myTextArea.setText(mine.pc.getFileContent());
+							mine.myfname.setText(mine.pc.getFile().getName());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+							System.out.println("This file format is incorrect.");
+						}
+					}
+				} 
+				else if (!filePath.equals(yours.pc.getFile().toString())) {
+					if(mine.pc.load(filePath)) {
+						if (mine.pc.load(filePath)) {
+							mine.setMode(Mode.VIEW);
+							mine.myTextArea.setText(mine.pc.getFileContent());
+							mine.myfname.setText(mine.pc.getFile().getName());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+							System.out.println("This file format is incorrect.");
+						}
+					}
+				} 
+				else {
+					JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+					System.out.println("File is already open in another panel.");
+				}
+			} 
+			else 
+				System.out.println("File load canceled.");
+		}
         
 	}
 	
@@ -262,6 +268,7 @@ public class MainView extends JFrame{
 		}
 	}
 	
+	/*
 	private void checkUpdated(PanelView pv) {
 		Object[] options = {"Save", "Don't Save", "Cancel"};
 				
@@ -276,7 +283,7 @@ public class MainView extends JFrame{
 			}
 		}
 	}
-	
+	*/
 	
 	
 	public static void main(String[] args) throws Exception {

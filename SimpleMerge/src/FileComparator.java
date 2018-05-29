@@ -18,18 +18,14 @@ public class FileComparator {
 	 */
 	private ArrayList<Integer> leftDiffIndex;
 	private ArrayList<Integer> rightDiffIndex;
-	private final Integer diff = -1;
 
 	FileComparator(ArrayList<String> left, ArrayList<String> right) {
 		leftDiffIndex = new ArrayList<Integer>();
 		rightDiffIndex = new ArrayList<Integer>();
 		
-		this.LCSLength(left, right);
-<<<<<<< HEAD
-		this.compare();
-=======
-		this.computeDiff(this.C, left, right, left.size(), right.size());
->>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
+		LCSLength(left, right);
+		compare();
+		arrange();
 	}
 
 	/**
@@ -37,13 +33,8 @@ public class FileComparator {
 	 * n인 text2를 입력받아 모든 1 <= i <= m 와 1 <= j <= n에 대해 text1[1..i] 와 text2[1..j] 사이의
 	 * 값에 대해 LCS를 연산하고, C[i, j]에 저장한다. C[m, n]은 text1과 text2에 대한 LCS 값을 가지게 된다.
 	 */
-<<<<<<< HEAD
 	int LCSLength(ArrayList<String> left, ArrayList<String> right) {
 		int m = left.size();
-=======
-	public int LCSLength(ArrayList<String> left, ArrayList<String> right) {
-		int m = left.size(); 
->>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
 		int n = right.size();
 		C = new int[m + 1][n + 1];
 
@@ -71,88 +62,83 @@ public class FileComparator {
 	 * @param i: length(size) of text1
 	 * @param j: length(size) of text2
 	 */
-<<<<<<< HEAD
 	void compare() {
 		/* if two strings have same line, store mutual index */
 		int i = C.length-1;
 		int j = C[0].length-1;
-		
+
 		while(C[i][j] != 0){
-			
 			if(C[i][j] == C[i-1][j]){
-				
+				leftDiffIndex.add(0,-1);
 				i--;
 			}
 			
 			else if(C[i][j] == C[i][j-1]){
-				
+				rightDiffIndex.add(0,-1);
 				j--;
 			}
 			
 			else{
-				
-				leftDiffIndex.add(0,i-1);						//i가 아닌 i-1은 diffLeft index를 위함
-				rightDiffIndex.add(0,j-1);						//j가 아닌 j-1은 diffRight index를 위함
+				leftDiffIndex.add(0,i);						
+				rightDiffIndex.add(0,j);						
 				i--;
 				j--;
 				
 			}
-=======
-	public void computeDiff(int[][] C, ArrayList<String> left, ArrayList<String> right, int i, int j) {
-		this.leftDiffIndex.clear();
-		this.rightDiffIndex.clear();
-		/* if two strings have same line, store mutual index */
-		if (i > 0 && j > 0 && left.get(i - 1).equals(right.get(j - 1))) {
-			computeDiff(C, left, right, i - 1, j - 1);
-			this.leftDiffIndex.add(i - 1, j - 1);
-			this.rightDiffIndex.add(j - 1, i - 1);
 		}
 		
-		/* if two strings have different line, store diff(-1) */
-		else if (j > 0 && (i == 0 || C[i][j - 1] >= C[i - 1][j])) {
-			computeDiff(C, left, right, i, j - 1);
-			this.rightDiffIndex.add(j - 1, diff);
-		} 
-		else if (i > 0 && (j == 0 || C[i][j - 1] < C[i - 1][j])) {
-			computeDiff(C, left, right, i - 1, j);
-			this.leftDiffIndex.add(i - 1, diff);
->>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
+		while(i != 0){
+			
+			leftDiffIndex.add(0,-1);
+			i--;
 		}
+		
+		while(j != 0){
+			
+			rightDiffIndex.add(0,-1);
+			j--;
+		}
+		
+		leftDiffIndex.add(0,0);
+		rightDiffIndex.add(0,0);
 	}
 
-	void arrange() {
-		
-		this.leftView.clear();
-		this.rightView.clear();
-		int L = 0, R = 0;
-		int L_Max = this.leftDiffIndex.size();
-		int R_Max = this.rightDiffIndex.size();
-		
-		while (L < L_Max && R < R_Max) {
-			/* 같은 string인 경우 */
-			if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
-				this.leftView.add(L++);
-				this.rightView.add(R++);				
-			}
-			else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
-				this.leftView.add(-2); L++;
-				this.rightView.add(-2); R++;
-			}
-			else {
-				/* 오른쪽 패널에 다른 부분이 있는 경우 왼쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
-				while (this.rightDiffIndex.get(R) == -1) {
-					this.leftView.add(-1);
-					this.rightView.add(R++);
-				}
-				/* 왼쪽 패널에 다른 부분이 있는 경우 오른쪽 패널에 다른 line 수 만큼 공백줄을 넣어줌*/
-				while (this.leftDiffIndex.get(L) == -1) {
-					this.leftView.add(L++);
-					this.rightView.add(-1);
-				}
-			}
-		}
+   void arrange() {
+	  
+	   ArrayList<Integer> leftViewIndex = new ArrayList<Integer>();
+	   ArrayList<Integer> rightViewIndex = new ArrayList<Integer>();
 
-	}
+      int L = 0, R = 0;
+      int L_Max = leftDiffIndex.size();
+      int R_Max = rightDiffIndex.size();
+      
+      while (L < L_Max && R < R_Max) {
+         /* 같은 string인 경우 해당 string의 index를 저장*/
+         if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
+            leftViewIndex.add(L++);
+            rightViewIndex.add(R++);            
+         }
+         /* 다른 string이지만 같은 line에 있는 경우 해당 string의 index*(-1)을 저장 */
+         else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
+            leftViewIndex.add(L * (-1)); L++;
+            rightViewIndex.add(R * (-1)); R++;
+         }
+         /* 한쪽 패널에만 내용이 존재하는 경우 내용을 해당 패널에 저장하고 다른 패널에는 공백(0)을 저장 */
+         else {
+            while (this.rightDiffIndex.get(R) == -1) {
+               leftViewIndex.add(0);
+               rightViewIndex.add(R++);
+            }
+            while (this.leftDiffIndex.get(L) == -1) {
+               leftViewIndex.add(L++);
+               rightViewIndex.add(0);
+            }
+         }
+      }
+      
+      leftDiffIndex = leftViewIndex;
+      rightDiffIndex = rightViewIndex;    
+   }
 	
 	/**
 	 * @return diffLeft
@@ -164,7 +150,7 @@ public class FileComparator {
 	/**
 	 * @return diffRight
 	 */
-	ArrayList<Integer> getDIffRight(){
+	ArrayList<Integer> getDiffRight(){
 		return this.rightDiffIndex;
 	}
 
@@ -187,7 +173,6 @@ public class FileComparator {
 		s1.add("different part-a");
 		s1.add("same part7");
 		s1.add("same part8");
-		s1.add(0, "");
 
 		s2.add("same part1");
 		s2.add("same part2");
@@ -203,33 +188,18 @@ public class FileComparator {
 		s2.add("same part6");
 		s2.add("same part7");
 		s2.add("same part8");
-		s2.add(0, "");
 
 		FileComparator fc = new FileComparator(s1, s2);
-<<<<<<< HEAD
 
-		System.out.println("Left Panel=========");
-		for (int i = 0; i < fc.leftDiffIndex.size(); i++) {
-			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")");
-		}
-
-		System.out.println("\nRight Panel=========");
-		for (int i = 0; i < fc.rightDiffIndex.size(); i++) {
-			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")");
-=======
-		fc.LCSLength(s1, s2);
-		fc.computeDiff(fc.getC(), s1, s2, s1.size(), s2.size());
-
-		System.out.println("Left Panel=========");
-		for (int i = 1; i < s1.size(); i++) {
-			System.out.println("["+i+"](="+fc.leftDiffIndex.get(i)+")\t"+s1.get(i));
-		}
-
-		System.out.println("\nRight Panel=========");
-		for (int i = 1; i < s2.size(); i++) {
-			System.out.println("["+i+"](="+fc.rightDiffIndex.get(i)+")\t"+s2.get(i));
->>>>>>> 5ce63b2dccce9bba2e905a68cab19c063e42b7fb
-		}
+	      System.out.println("Left Panel=========");
+	      for (int i = 1; i < fc.getDiffLeft().size(); i++) {
+	         System.out.println("["+i+"](="+fc.getDiffLeft().get(i)+")\t");
+	      }
+	
+	      System.out.println("\nRight Panel=========");
+	      for (int i = 1; i < fc.getDiffRight().size(); i++) {
+	         System.out.println("["+i+"](="+fc.getDiffRight().get(i)+")\t");
+	      }
 
 	}
 }

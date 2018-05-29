@@ -17,6 +17,8 @@ local.properties
 
 # Test files
 SimpleMerge/*.txt
+!SimpleMerge/test.txt
+!SimpleMerge/number.txt
 
 # External tool builders
 .externalToolBuilders/

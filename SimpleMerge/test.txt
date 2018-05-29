@@ -13,7 +13,12 @@ edit
 edit
 edit
 dfsdf
+<<<<<<< HEAD
 sdsadg
 asdgasdg
 hello
 changed?
+=======
+xczxc
+gyagyagyagya
+>>>>>>> update0530_1/master

@@ -19,6 +19,7 @@ public class PanelView extends JPanel {
 	private ImageIcon edit_icon;
 	private ImageIcon save_icon;
 	private ImageIcon saveAs_icon;
+	private ImageIcon x_icon;
 	   
 	protected JEditorPane myTextArea;
 	private JScrollPane scrollPane;
@@ -26,6 +27,8 @@ public class PanelView extends JPanel {
 	
 	public JLabel myfname;
 	private JButton xbutton;
+	
+	private Color panelColor;
 	   
 	public PanelView() throws Exception{
 		pc = new PanelController();        
@@ -39,28 +42,34 @@ public class PanelView extends JPanel {
 		xbutton = new JButton("X");
 		xbutton.setBorderPainted(false);
 		
+		panelColor=new Color(0,0,0); //set color default as WHITE 
+		
 		// set image icon
 		load_icon=new ImageIcon("res/load.png");
 		edit_icon=new ImageIcon("res/edit.png");
 		save_icon=new ImageIcon("res/save.png");
 		saveAs_icon=new ImageIcon("res/save_as.png");
+		x_icon=new ImageIcon("res/reject.png");
 			
 		// set size of image button
 		Image load_img=load_icon.getImage(); load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image edit_img=edit_icon.getImage(); edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image save_img=save_icon.getImage(); save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		Image saveAs_img=saveAs_icon.getImage(); saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image x_img=x_icon.getImage(); x_img=x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		
 		load_icon=new ImageIcon(load_img);
 		edit_icon=new ImageIcon(edit_img);
 		save_icon=new ImageIcon(save_img);
 		saveAs_icon=new ImageIcon(saveAs_img);
+		x_icon=new ImageIcon(x_img);
 			
 		// set image button
 		loadBtn = new JButton(load_icon);
 		editBtn = new JButton(edit_icon);
 		saveBtn = new JButton(save_icon);
 		saveAsBtn = new JButton(saveAs_icon);
+		xbutton=new JButton(x_icon); xbutton.setContentAreaFilled(false); 
 		
 		// set Button Status
 		loadBtn.setEnabled(true);
@@ -73,6 +82,7 @@ public class PanelView extends JPanel {
 		editBtn.setBorderPainted(false); editBtn.setFocusPainted(false);
 		saveBtn.setBorderPainted(false); saveBtn.setFocusPainted(false);
 		saveAsBtn.setBorderPainted(false); saveAsBtn.setFocusPainted(false);
+		xbutton.setFocusPainted(false); xbutton.setBorderPainted(false);
 			
 		this.add(loadBtn);
 		this.add(editBtn);
@@ -87,7 +97,8 @@ public class PanelView extends JPanel {
 		myTextArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				pc.setUpdated(true); 
+				pc.setUpdated(true);
+				viewDirtyStatus();
 			}
 		});
 		
@@ -117,7 +128,7 @@ public class PanelView extends JPanel {
 		  		System.out.println("Save button pressed.");
 
 		  		save();
-		  		
+		  		viewDirtyStatus();
 		  		System.out.println("Save Completed.");
 		  	}
 				
@@ -139,8 +150,8 @@ public class PanelView extends JPanel {
 						setMode(Mode.VIEW);	
 					}
 				}
-				
-				myfname.setText(pc.getFile().getName());
+				viewDirtyStatus();
+				//myfname.setText(pc.getFile().getName());
 			}
 		});
 		
@@ -150,11 +161,16 @@ public class PanelView extends JPanel {
 				// TODO Auto-generated method stub
 				System.out.println("xbutton pressed.");
 				
-				myfname.setText("");
-				myTextArea.setText("Click the Load Button.");
+				int dirtyCheck = checkUpdated();
 				
-				// Set Mode
-				setMode(Mode.VIEW);
+				if (dirtyCheck != 2) {
+					myfname.setText("");
+					myTextArea.setText("Click the Load Button.");
+				
+					// Set Mode
+					setMode(Mode.VIEW);
+				}
+				
 			}
 		});
 		
@@ -229,4 +245,54 @@ public class PanelView extends JPanel {
   			setMode(Mode.VIEW);
   		}
 	}
+	
+	public void setPanelColor(int x, int y, int z){
+		panelColor=new Color(x,y,z);
+	}
+	
+	
+	public int checkUpdated() {
+		Object[] options = {"Save", "Don't Save", "Cancel"};
+				
+		if (pc.isUpdated()) {
+			int n = JOptionPane.showOptionDialog(this, "\"" + pc.getFile().getName() + "\" has been edited. Do you want to save the file and continue?", 
+					"Question", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			
+			if (n == 0 ) { // Save
+				System.out.println("0. Save button is Clicked");
+				save();
+				viewDirtyStatus();
+			}
+			else if (n == 1) {	// Don't Save
+				System.out.println("1. Don't Save is Clicked");
+				pc.setUpdated(false);
+				//pc.load(pc.getFile().getName());
+				viewDirtyStatus();
+				myTextArea.setText(pc.getFileContent());	// Load before edited file content
+				setMode(Mode.VIEW);		// Change to View Mode
+			}
+			else {	// Cancel and X 
+				System.out.println("Cancel or X is Clicked");
+				n = 2;
+			}
+			return n;
+		}
+		return -1;
+	}
+	
+	/**
+	 * View "*" in File name if dirty
+	 */
+	private void viewDirtyStatus() {
+		// TODO 할 거 하나 더 있지 않았나????
+		
+		if (pc.isUpdated()) {
+			myfname.setText(pc.getFile().getName() + "*");	// inform dirty flag is true
+		}
+		else {
+			myfname.setText(pc.getFile().getName());
+		}
+		
+	}
+	
 }

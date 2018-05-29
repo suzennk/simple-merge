@@ -55,7 +55,7 @@ Fourth meeting
 >- (controller: 김수진,남유선,손승표,윤신영)
 >- (view      : 김소연,김은경)
 >4. Made interface
->- MainView.java : 김수진
+>- MainView.java : 김은경
 >- MergeController.java : 손승표, 윤신영
 >- PanelController.java : 김수진, 남유선
 >- PanelView.java : 김소연

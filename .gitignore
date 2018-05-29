@@ -15,6 +15,9 @@ local.properties
 .loadpath
 .recommenders
 
+# Test files
+*.txt
+
 # External tool builders
 .externalToolBuilders/
 
@@ -89,5 +92,3 @@ hs_err_pid*
 
 
 # End of https://www.gitignore.io/api/java,eclipse
-
-*.txt

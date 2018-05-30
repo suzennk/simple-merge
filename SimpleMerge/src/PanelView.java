@@ -19,8 +19,7 @@ public class PanelView extends JPanel {
 	
 	private 	JPanel titlePanel; // filename, xbutton
 	public 		JLabel fileNameLabel;
-	private 	JButton xBtn;
-	private 	boolean xPressed;
+	protected 	JButton xBtn;
 	
 	private		JScrollPane scrollPane;
 	protected	JEditorPane textArea;
@@ -38,8 +37,6 @@ public class PanelView extends JPanel {
 	   
 	
 	public PanelView() throws Exception{
-		xPressed 		= false;
-		
 		pc 				= new PanelController();
 		
 		menuPanel 		= new JPanel();
@@ -84,7 +81,7 @@ public class PanelView extends JPanel {
 	
 		
 		fileNameLabel 	= new JLabel("");
-		
+		fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));		
 
 		// Text Area
 		textArea	 	= new JEditorPane();
@@ -172,36 +169,6 @@ public class PanelView extends JPanel {
 				fileNameLabel.setText(pc.getFile().getName());
 			}
 		});
-		
-		xBtn.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// can't press x button while compare mode
-				if(pc.getMode()==Mode.COMPARE){
-					setXpressed(false);
-					return;
-				}
-				// TODO Auto-generated method stub
-				System.out.println("xbutton pressed.");
-				setXpressed(true);
-				
-				fileNameLabel.setText("");
-				textArea.setText("Click the Load Button.");
-				
-				// Set Mode
-				setMode(Mode.VIEW);
-			}
-		});
-	}
-	
-	
-	// xbutton control
-	public boolean getXpressed(){
-		return xPressed;
-	}
-	
-	public void setXpressed(boolean tf){
-		this.xPressed = tf;
 	}
 	
 	public void setXEnabled(boolean tf){
@@ -264,11 +231,15 @@ public class PanelView extends JPanel {
 		return n;
 	}
 	
-	private void updateView() {
+	public void updateView() {
+		if (pc.getFile() == null) {
+			textArea.setText("Click the Load Button.");
+		}
+		
 		if (pc.isUpdated()) {
-			fileNameLabel.setText("*" + pc.getFile().getName());
+			fileNameLabel.setText("*" + pc.getFileName());
 		} else {
-			fileNameLabel.setText(pc.getFile().getName());
+			fileNameLabel.setText(pc.getFileName());
 		}
 	}
 

@@ -113,14 +113,26 @@ public class MainView extends JFrame{
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				load(leftPV, rightPV);
-				leftPV.setXpressed(false);
 			}
 		});
 		
 		rightPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				load(rightPV, leftPV);
-				rightPV.setXpressed(false);
+			}
+		});
+		
+		leftPV.xBtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				closeFile(leftPV);
+			}
+		});
+		
+		rightPV.xBtn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				closeFile(rightPV);
 			}
 		});
 		
@@ -130,15 +142,6 @@ public class MainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("compare button pressed.");
-				
-				if(leftPV.getXpressed() || rightPV.getXpressed()){
-					//if at least xbutton pressed, can't be compare mode
-					setMVbutton(false);
-					leftPV.setXpressed(false);
-					rightPV.setXpressed(false);
-
-					return;
-				}
 				
 				comparePressed++;
 				
@@ -173,15 +176,7 @@ public class MainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("up button pressed.");
-				
-				if(leftPV.getXpressed() || rightPV.getXpressed()){
-					//if at least xbutton pressed, can't be compare mode
-					setMVbutton(false);
-					leftPV.setXpressed(false);
-					rightPV.setXpressed(false);
-
-					return;
-				}
+			
 				
 			
 			}
@@ -193,16 +188,7 @@ public class MainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("down button pressed.");
-				
-				if(leftPV.getXpressed() || rightPV.getXpressed()){
-					//if at least xbutton pressed, can't be compare mode
-					setMVbutton(false);
-					leftPV.setXpressed(false);
-					rightPV.setXpressed(false);
 
-					return;
-				}
-				
 			}
 			
 		});
@@ -213,15 +199,7 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("copy to left button pressed.");
 				
-				if(leftPV.getXpressed() || rightPV.getXpressed()){
-					//if at least xbutton pressed, can't be compare mode
-					setMVbutton(false);
-					leftPV.setXpressed(false);
-					rightPV.setXpressed(false);
 
-					return;
-				}
-				
 			}
 			
 		});
@@ -232,68 +210,71 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("copy to right button pressed.");
 				
-				if(leftPV.getXpressed() || rightPV.getXpressed()){
-					//if at least xbutton pressed, can't be compare mode
-					setMVbutton(false);
-					leftPV.setXpressed(false);
-					rightPV.setXpressed(false);
-
-					return;
-				}
-				
 			}
 			
 		});
+		
 	}
 	
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
-		// Check if dirty!!!!!!!!!!!!!!
-		mine.checkUpdated();
+		
+		int dirtyCheck = mine.checkUpdated();
+	
+		if (dirtyCheck == 2) {
+			System.out.println("File load canceled.");
+			return;
+		}
+		
 		// Load file via fileDialog
 		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
 		fd.setVisible(true);
-		
-		if (fd.getFile() != null) {
+	
+		if (fd.getFile() != null) {		// Pressed "Open" in FileDialog
 			String filePath = fd.getDirectory() + fd.getFile();
-        	if (yours.pc.getFile() == null) {
-        		if (mine.pc.load(filePath)) {
-        			if (accept(mine.pc.getFile())){
+			
+        	if (yours.pc.getFile() == null) {		// if the other panel does not have a file open, LOAD
+        		if (mine.pc.load(filePath)) {		// if load succeeds, set to View mode and update View
         				mine.setMode(Mode.VIEW);
             			mine.textArea.setText(mine.pc.getFileContent());
-            			mine.fileNameLabel.setText(mine.pc.getFile().getName());
-            			mine.fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));
-        			}
-        			else {
-        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        				System.out.println("This file format is incorrect.");
-        			}
         		}
-        	} else if (!filePath.equals(yours.pc.getFile().toString())) {
+        		else {
+        			JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+            		System.out.println("Failed to open file.");
+        		}
+        	} 
+        	else if (!filePath.equals(yours.pc.getFile().toString())) {	// check if files in both panels are equal
         		if(mine.pc.load(filePath)) {
-        			if (mine.pc.load(filePath)) {
         				mine.setMode(Mode.VIEW);
             			mine.textArea.setText(mine.pc.getFileContent());
-            			mine.fileNameLabel.setText(mine.pc.getFile().getName());
-            			mine.fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));
-        			}
-        			else {
-        				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        				System.out.println("This file format is incorrect.");
-        			}
         		}
-        	} else {
+    			else {
+    				JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
+            		System.out.println("Failed to open file.");
+    			}	
+        	} 
+        	else {	// if the files are equal, cancel everything
         		JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
         		System.out.println("File is already open in another panel.");
         	}
-        } else 
-            System.out.println("File load canceled.");
+        }
 		
-		// set enable [compare/merge/traverse] button only when two panel loaded
-		if(mine.pc.fileIsOpen() && yours.pc.fileIsOpen()){
-			setMVbutton(true);
-		}
-        
+		else {	// Pressed "Cancel" in FileDialog
+            System.out.println("File load canceled.");
+        }
+		
+		updateView();
+	}
+	
+	private void closeFile(PanelView pv) {
+		
+		// TODO Auto-generated method stub
+		System.out.println("xbutton pressed.");
+		
+		pv.pc.closeFile();
+		
+		// Set Mode
+		setMode(Mode.VIEW);
 	}
 	
 	public void setMVbutton(boolean tf){
@@ -313,6 +294,18 @@ public class MainView extends JFrame{
 		}
 		
 		return false;
+	}
+	
+	private void updateView() {
+		// set enable [compare/merge/traverse] button only when two panel loaded
+		if(leftPV.pc.fileIsOpen() && rightPV.pc.fileIsOpen()){
+			setMVbutton(true);
+		} else {
+			setMVbutton(false);
+		}
+		
+		leftPV.updateView();
+		rightPV.updateView();
 	}
 
 	private void setMode(Mode mode) {
@@ -340,6 +333,8 @@ public class MainView extends JFrame{
 		default:
 			break;
 		}
+		
+		updateView();
 	}
 	
 	public static void main(String[] args) throws Exception {

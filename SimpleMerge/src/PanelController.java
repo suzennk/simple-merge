@@ -113,6 +113,11 @@ public class PanelController {
 		return true;
 	}
 	
+
+	public void closeFile() {
+		panelInfo.setFile(null);
+		panelInfo.setOriginalFileContent("");
+	}
 	
 	// PanelView에서 find할 때 setCurrent index 해줘야 함.
 	/**
@@ -166,6 +171,7 @@ public class PanelController {
 		
 		return;
 	}
+	
 	
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
@@ -245,6 +251,13 @@ public class PanelController {
 
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
+	}
+	
+	public String getFileName() {
+		if (this.getFile() == null)
+			return "";
+		else 
+			return this.getFile().getName();
 	}
 
 	/* Private Functions */

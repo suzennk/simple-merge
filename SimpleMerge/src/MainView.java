@@ -151,8 +151,8 @@ public class MainView extends JFrame{
 				else{
 					// compareBtn pressed twice->try to escape compare mode
 					if(comparePressed >= 0) {
-						int a = checkUpdated(leftPV);
-						int b = checkUpdated(rightPV);
+						int a = leftPV.checkUpdated();
+						int b = rightPV.checkUpdated();
 						
 						if(a == 2 || b == 2) {
 							// keep compare mode
@@ -249,7 +249,7 @@ public class MainView extends JFrame{
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		// Check if dirty!!!!!!!!!!!!!!
-		checkUpdated(mine);
+		mine.checkUpdated();
 		// Load file via fileDialog
 		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
 		fd.setVisible(true);
@@ -340,30 +340,6 @@ public class MainView extends JFrame{
 		default:
 			break;
 		}
-	}
-	
-	
-	private int checkUpdated(PanelView pv) {
-		Object[] options = {"Save", "Don't Save", "Cancel"};
-		int n=0;
-		
-		if (pv.pc.isUpdated()) {
-			n = JOptionPane.showOptionDialog(this, "The file has been edited. Do you want to save the file and continue?", "Question", 
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-			if (n == 0) { //YES: save and convert to view mode
-				pv.save();
-				
-			} else if(n == 1) { //NO: not save, convert to view mode
-				pv.pc.setUpdated(false);
-				pv.pc.load(pv.pc.getFile().toString()); //show panel state before escapeBtn pressed
-				
-				
-			} else if(n == 2){ //CANCLE: save, keep compare mode
-				pv.pc.setUpdated(true);
-				
-			}
-		}
-		return n;
 	}
 	
 	public static void main(String[] args) throws Exception {

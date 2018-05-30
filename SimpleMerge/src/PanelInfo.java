@@ -2,7 +2,7 @@ import java.io.*;
 
 public class PanelInfo {
 	private File file;
-//	private String fileContent;
+	private String originalFileContent;
 	private Mode mode;
 	
 	public PanelInfo() {
@@ -17,13 +17,13 @@ public class PanelInfo {
 		this.file = file;
 	}
 	
-//	public String getFileContents() {
-//		return this.fileContent;
-//	}
-//	
-//	public void setFileContent(String fileContent) {
-//		this.fileContent = fileContent;
-//	}
+	public String getOriginalFileContent() {
+		return this.originalFileContent;
+	}
+	
+	public void setOriginalFileContent(String fileContent) {
+		this.originalFileContent = fileContent;
+	}
 	
 	public Mode getMode() {
 		return this.mode;

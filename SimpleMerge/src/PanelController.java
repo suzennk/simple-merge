@@ -11,7 +11,7 @@ public class PanelController {
 	private BufferedReader br = null;
 	private BufferedWriter bw = null;
 
-	private String fileContent;
+	private String fileContentBuffer;
 	private ArrayList <String> fileContentList;
 	private int currentIndex;		// start index for find() function
 	private boolean dirty;
@@ -44,14 +44,15 @@ public class PanelController {
 			fr = new FileReader(filePath);
 			br = new BufferedReader(fr);
 
-			fileContent = new String();
+			fileContentBuffer = new String();
 			String s = null;
 
 			while ((s = br.readLine()) != null) {
-				fileContent += s;
-				fileContent += "\r\n";
+				fileContentBuffer += s;
+				fileContentBuffer += "\r\n";
 			}
 
+			panelInfo.setOriginalFileContent(fileContentBuffer);
 			this.setFile(new File(filePath));
 			System.out.println(panelInfo.getFilePath());
 
@@ -66,7 +67,7 @@ public class PanelController {
 			if (fr != null)	try { fr.close(); } catch (IOException e) {}
 		}
 
-		System.out.println(this.fileContent);
+		System.out.println(this.fileContentBuffer);
 		this.setUpdated(false);
 		return true;
 	}
@@ -96,7 +97,7 @@ public class PanelController {
 			fw = new FileWriter(newFilePath);
 			bw = new BufferedWriter(fw);
 
-			bw.write(fileContent);
+			bw.write(fileContentBuffer);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Failed to save file.");
@@ -107,6 +108,7 @@ public class PanelController {
 			if (fw != null)
 				try { fw.close(); } catch (IOException e) {}
 		}
+		panelInfo.setOriginalFileContent(fileContentBuffer);
 		this.setUpdated(false);
 		return true;
 	}
@@ -119,16 +121,16 @@ public class PanelController {
 	 * @return start index of found location
 	 */
 	public int find(String findPattern) {
-		int startIndex = this.fileContent.toLowerCase().indexOf(findPattern.toLowerCase(), this.currentIndex);
+		int startIndex = this.fileContentBuffer.toLowerCase().indexOf(findPattern.toLowerCase(), this.currentIndex);
 		
 		if (startIndex == -1 && this.currentIndex != 0)
-			startIndex = this.fileContent.toLowerCase().indexOf(findPattern.toLowerCase(), 0);
+			startIndex = this.fileContentBuffer.toLowerCase().indexOf(findPattern.toLowerCase(), 0);
 		
 		this.currentIndex = startIndex + 1;
 				
 		if (startIndex == -1)
 			System.out.println("No match found");
-		else if (startIndex == this.fileContent.toLowerCase().lastIndexOf(findPattern.toLowerCase())) {
+		else if (startIndex == this.fileContentBuffer.toLowerCase().lastIndexOf(findPattern.toLowerCase())) {
 			System.out.println("Found Index : " + startIndex);
 			System.out.println("This is the last match.");
 			this.currentIndex = 0;
@@ -145,11 +147,11 @@ public class PanelController {
 	 * @param replacePattern
 	 */
 	public void replace(int startIndex, int length, String replacePattern) {
-		StringBuilder replacedFC = new StringBuilder(this.fileContent);
+		StringBuilder replacedFC = new StringBuilder(this.fileContentBuffer);
 		
 		replacedFC.delete(startIndex, startIndex+length);
 		replacedFC.insert(startIndex, replacePattern);
-		fileContent = replacedFC.toString();
+		fileContentBuffer = replacedFC.toString();
 		
 		return;
 	}
@@ -160,7 +162,7 @@ public class PanelController {
 	 * @param replacePattern
 	 */
 	public void replaceAll(String findPattern, String replacePattern) {
-		this.fileContent = this.fileContent.replaceAll(findPattern, replacePattern);
+		this.fileContentBuffer = this.fileContentBuffer.replaceAll(findPattern, replacePattern);
 		
 		return;
 	}
@@ -193,11 +195,15 @@ public class PanelController {
 	}
 
 	public String getFileContent() {
-		return this.fileContent;
+		return this.fileContentBuffer;
 	}
 	
 	public void setFileContent(String fileContent) {
-		this.fileContent = fileContent;
+		this.fileContentBuffer = fileContent;
+	}
+	
+	public String getOriginalFileContent() {
+		return panelInfo.getOriginalFileContent();
 	}
 	
 	public ArrayList<String> getFileContentList() {
@@ -246,7 +252,7 @@ public class PanelController {
 	 * Make String(fileContent) to ArrayList<String>(fileContentList)
 	 */
 	private void toArrayList() {
-		String[] fcArray = fileContent.split("\r\n");
+		String[] fcArray = fileContentBuffer.split("\r\n");
 		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
 
 	}
@@ -256,11 +262,11 @@ public class PanelController {
 	 */
 	private void makeListToString() {
 		
-		this.fileContent = new String();
+		this.fileContentBuffer = new String();
 		
 		for (int i = 0; i < this.fileContentList.size(); i++) {
-			fileContent += this.fileContentList.get(i);
-			fileContent += "\r\n";
+			fileContentBuffer += this.fileContentList.get(i);
+			fileContentBuffer += "\r\n";
 		}
 	}
 	
@@ -314,7 +320,7 @@ public class PanelController {
 			case 4:
 				System.out.println("Enter String to append : ");
 				String modifiedString = s2.nextLine();
-				pc.fileContent += modifiedString;
+				pc.fileContentBuffer += modifiedString;
 				pc.setUpdated(true);
 				break;
 			case 5:
@@ -343,7 +349,7 @@ public class PanelController {
 				ArrayList<String> edited = pc.getFileContentList();
 				edited.add("Is this added????");
 				pc.setFileContentList(edited);
-				System.out.println(pc.fileContent);
+				System.out.println(pc.fileContentBuffer);
 				break;
 			case 10:
 				iterate = false;

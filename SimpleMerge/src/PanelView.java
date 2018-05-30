@@ -243,9 +243,35 @@ public class PanelView extends JPanel {
 	}
 	
 
-	public PanelController getPC() {
-		return pc;
+	public int checkUpdated() {
+		Object[] options = {"Save", "Don't Save", "Cancel"};
+		int n=0;
+		
+		if (pc.isUpdated()) {
+			n = JOptionPane.showOptionDialog(this, "The file has been edited. Do you want to save the file and continue?", "Question", 
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			if (n == 0) {				 //YES: save and convert to view mode
+				this.save();	
+			} 
+			else if(n == 1) { 			//NO: not save, convert to view mode
+				pc.setUpdated(false);
+				textArea.setText(pc.getOriginalFileContent()); //show panel state before escapeBtn pressed	
+			} 
+			else {
+				// Do nothing
+			}
+		}
+		return n;
 	}
+	
+	private void updateView() {
+		if (pc.isUpdated()) {
+			fileNameLabel.setText("*" + pc.getFile().getName());
+		} else {
+			fileNameLabel.setText(pc.getFile().getName());
+		}
+	}
+
 	
 	public void save() {
 		String editedContent = textArea.getText();
@@ -254,6 +280,10 @@ public class PanelView extends JPanel {
   		if (pc.save()) {
   			setMode(Mode.VIEW);
   		}
+	}
+	
+	public PanelController getPC() {
+		return pc;
 	}
 	
 	public void setPanelColor(int x, int y, int z){

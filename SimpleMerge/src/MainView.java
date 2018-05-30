@@ -8,16 +8,16 @@ import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame{
-	private JPanel mainPanel;
-	private int comparePressed;
-
-	// tool panel
-	private JPanel toolPanel;
+	private JPanel toolPanel;	// tool panel
 	private JButton compareBtn;
 	private JButton upBtn;
 	private JButton downBtn;
 	private JButton copyToLeftBtn;
 	private JButton copyToRightBtn;
+
+	private JPanel holderPanel;
+	private PanelView leftPV;	// specific panel (left)
+	private PanelView rightPV;	// specific panel (right)
 	
 	// image icon for ImageBtn
 	private ImageIcon compare_icon;
@@ -27,76 +27,88 @@ public class MainView extends JFrame{
 	private ImageIcon right_icon;
 	private ImageIcon view_icon;
 	
-	
-	// specific panel (right, left)
-	private JPanel holderPanel;
-	private PanelView leftPV;
-	private PanelView rightPV;
+	private int comparePressed;
+
 	
 	public MainView() throws Exception {
 		super("Simple Merge");
 		
-		mainPanel = new JPanel();
-		toolPanel = new JPanel();
-		toolPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
+		toolPanel		= new JPanel();
+		holderPanel 	= new JPanel();
+		leftPV			= new PanelView();
+		rightPV			= new PanelView();
 		
-		comparePressed = 0; // comparePressed: even=NOT pressed, odd= pressed
+		comparePressed 	= 0; // comparePressed: even=NOT pressed, odd= pressed
 		
 		// set image icon
-		compare_icon = new ImageIcon("res/compare.png");
-		up_icon = new ImageIcon("res/up.png");
-		down_icon = new ImageIcon("res/down.png");
-		left_icon = new ImageIcon("res/left.png");
-		right_icon = new ImageIcon("res/right.png");
-		view_icon = new ImageIcon("res/not_compare.png");
+		compare_icon 	= new ImageIcon("res/compare.png");
+		up_icon 		= new ImageIcon("res/up.png");
+		down_icon		= new ImageIcon("res/down.png");
+		left_icon		= new ImageIcon("res/left.png");
+		right_icon		= new ImageIcon("res/right.png");
+		view_icon		= new ImageIcon("res/not_compare.png");
 		
 		// set size of image button
-		Image compare_img = compare_icon.getImage();compare_img = compare_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		Image up_img = up_icon.getImage();			up_img = up_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image down_img = down_icon.getImage();		down_img = down_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image left_img = left_icon.getImage();		left_img = left_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image right_img = right_icon.getImage();	right_img = right_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image view_img = view_icon.getImage();		view_img = view_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		Image compare_img 	= compare_icon.getImage();	compare_img	= compare_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		Image up_img		= up_icon.getImage();		up_img		= up_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image down_img		= down_icon.getImage();		down_img	= down_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image left_img		= left_icon.getImage();		left_img	= left_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image right_img		= right_icon.getImage();	right_img	= right_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image view_img		= view_icon.getImage();		view_img	= view_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		
-		compare_icon = new ImageIcon(compare_img);
-		up_icon = new ImageIcon(up_img);
-		down_icon = new ImageIcon(down_img);
-		left_icon = new ImageIcon(left_img);
-		right_icon = new ImageIcon(right_img);
-		view_icon = new ImageIcon(view_img);
-		
+		compare_icon	= new ImageIcon(compare_img);
+		up_icon			= new ImageIcon(up_img);
+		down_icon		= new ImageIcon(down_img);
+		left_icon 		= new ImageIcon(left_img);
+		right_icon 		= new ImageIcon(right_img);
+		view_icon 		= new ImageIcon(view_img);
 		
 		// set image button
-		compareBtn = new JButton(compare_icon); 	compareBtn.setContentAreaFilled(false);
-		upBtn = new JButton(up_icon);				upBtn.setContentAreaFilled(false);
-		downBtn = new JButton(down_icon);			downBtn.setContentAreaFilled(false);
-		copyToLeftBtn = new JButton(left_icon);		copyToLeftBtn.setContentAreaFilled(false);
-		copyToRightBtn = new JButton(right_icon);	copyToRightBtn.setContentAreaFilled(false);
-		
+		compareBtn		= new JButton(compare_icon); 	compareBtn.setContentAreaFilled(false);
+		upBtn 			= new JButton(up_icon);			upBtn.setContentAreaFilled(false);
+		downBtn 		= new JButton(down_icon);		downBtn.setContentAreaFilled(false);
+		copyToLeftBtn 	= new JButton(left_icon);		copyToLeftBtn.setContentAreaFilled(false);
+		copyToRightBtn 	= new JButton(right_icon);		copyToRightBtn.setContentAreaFilled(false);
 		
 		// make Image Button's border invisible
-		compareBtn.setBorderPainted(false);			compareBtn.setFocusPainted(false);
-		upBtn.setBorderPainted(false);				upBtn.setFocusPainted(false);
-		downBtn.setBorderPainted(false);			downBtn.setFocusPainted(false);
-		copyToLeftBtn.setBorderPainted(false);		copyToLeftBtn.setFocusPainted(false);
-		copyToRightBtn.setBorderPainted(false);		copyToRightBtn.setFocusPainted(false);
-		
-		// set button's initial state
-		compareBtn.setEnabled(false);
-		upBtn.setEnabled(false);
-		downBtn.setEnabled(false);
-		copyToLeftBtn.setEnabled(false);
-		copyToRightBtn.setEnabled(false);
-		
-		holderPanel = new JPanel();
-		leftPV = new PanelView();
-		rightPV = new PanelView();
-		
+		compareBtn.setBorderPainted(false);				compareBtn.setFocusPainted(false);
+		upBtn.setBorderPainted(false);					upBtn.setFocusPainted(false);
+		downBtn.setBorderPainted(false);				downBtn.setFocusPainted(false);
+		copyToLeftBtn.setBorderPainted(false);			copyToLeftBtn.setFocusPainted(false);
+		copyToRightBtn.setBorderPainted(false);			copyToRightBtn.setFocusPainted(false);	
+
 		// set color of panel
 		leftPV.setPanelColor(255,0,0);
 		leftPV.setBorder(new MatteBorder(0,0,0,1, Color.GRAY));
 		rightPV.setPanelColor(0, 255, 0);
 		
+		
+		// set tool panel
+		toolPanel.setLayout(new GridLayout(1, 5));
+		toolPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
+		toolPanel.add(compareBtn);
+		toolPanel.add(upBtn);
+		toolPanel.add(downBtn);
+		toolPanel.add(copyToLeftBtn);
+		toolPanel.add(copyToRightBtn);
+		
+		// set holder panel
+		holderPanel.setLayout(new GridLayout(1, 2, 0, 0));
+		holderPanel.add(leftPV);
+		holderPanel.add(rightPV);
+		
+
+		// add all panels
+		this.setLayout(new BorderLayout());
+		this.add(toolPanel, BorderLayout.NORTH);
+		this.add(holderPanel, BorderLayout.CENTER);
+		
+		this.pack();
+		this.setSize(1200, 900);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setMVbutton(false);
 		
 		leftPV.loadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -232,29 +244,6 @@ public class MainView extends JFrame{
 			}
 			
 		});
-		
-		toolPanel.setLayout(new GridLayout(1, 5));
-		
-		toolPanel.add(compareBtn);
-		toolPanel.add(upBtn);
-		toolPanel.add(downBtn);
-		toolPanel.add(copyToLeftBtn);
-		toolPanel.add(copyToRightBtn);
-		
-		holderPanel.setLayout(new GridLayout(1, 2, 0, 0));
-		holderPanel.add(leftPV);
-		holderPanel.add(rightPV);
-		
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(toolPanel, BorderLayout.NORTH);
-		mainPanel.add(holderPanel, BorderLayout.CENTER);
-		
-		this.add(mainPanel);
-		this.pack();
-		this.setSize(1200, 900);
-		this.setVisible(true);
-	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void load(PanelView mine, PanelView yours) {
@@ -271,9 +260,9 @@ public class MainView extends JFrame{
         		if (mine.pc.load(filePath)) {
         			if (accept(mine.pc.getFile())){
         				mine.setMode(Mode.VIEW);
-            			mine.myTextArea.setText(mine.pc.getFileContent());
-            			mine.myfname.setText(mine.pc.getFile().getName());
-            			mine.myfname.setFont(new Font("Arial",Font.BOLD,20));
+            			mine.textArea.setText(mine.pc.getFileContent());
+            			mine.fileNameLabel.setText(mine.pc.getFile().getName());
+            			mine.fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));
         			}
         			else {
         				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -284,9 +273,9 @@ public class MainView extends JFrame{
         		if(mine.pc.load(filePath)) {
         			if (mine.pc.load(filePath)) {
         				mine.setMode(Mode.VIEW);
-            			mine.myTextArea.setText(mine.pc.getFileContent());
-            			mine.myfname.setText(mine.pc.getFile().getName());
-            			mine.myfname.setFont(new Font("Arial",Font.BOLD,20));
+            			mine.textArea.setText(mine.pc.getFileContent());
+            			mine.fileNameLabel.setText(mine.pc.getFile().getName());
+            			mine.fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));
         			}
         			else {
         				JOptionPane.showMessageDialog(null, "This file format is incorrect.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -330,12 +319,23 @@ public class MainView extends JFrame{
 		switch(mode) {
 		case VIEW:
 			leftPV.setMode(Mode.VIEW);
-			rightPV.setMode(Mode.VIEW);
+			rightPV.setMode(Mode.VIEW);		
+			compareBtn.setEnabled(true);
+			upBtn.setEnabled(false);
+			downBtn.setEnabled(false);
+			copyToLeftBtn.setEnabled(false);
+			copyToRightBtn.setEnabled(false);
 			break;
 			
 		case COMPARE:
 			leftPV.setMode(Mode.COMPARE);
 			rightPV.setMode(Mode.COMPARE);
+			compareBtn.setEnabled(true);
+			upBtn.setEnabled(true);
+			downBtn.setEnabled(true);
+			copyToLeftBtn.setEnabled(true);
+			copyToRightBtn.setEnabled(true);
+
 			break;
 		default:
 			break;

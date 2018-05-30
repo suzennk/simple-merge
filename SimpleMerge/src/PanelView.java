@@ -6,111 +6,128 @@ import javax.swing.border.MatteBorder;
 import java.io.*;
 
 public class PanelView extends JPanel {
-	protected PanelController pc;
-	private JPanel myPanel;
-	private JPanel xPanel; // filename, xbutton
-	private JPanel miniPanel; // xPanel + text field
+	protected	PanelController pc;
+
+	private 	JPanel menuPanel;	
+	protected 	JButton loadBtn;
+	private 	JButton editBtn;
+	private 	JButton saveBtn;
+	protected 	JButton saveAsBtn;
 	
-	public JPanel menuPanel;	// no private???
-	protected JButton loadBtn;
-	private JButton editBtn;
-	private JButton saveBtn;
-	protected JButton saveAsBtn;
-	   
-	private ImageIcon load_icon;
-	private ImageIcon edit_icon;
-	private ImageIcon save_icon;
-	private ImageIcon saveAs_icon;
-	private ImageIcon x_icon;
-	   
-	protected JEditorPane myTextArea;
-	private JScrollPane scrollPane;
-	private JLabel statusBar;
+
+	private 	JPanel editorPanel; // xPanel + text field
 	
-	public JLabel myfname;
-	private JButton xbutton;
-	private boolean xPressed;
+	private 	JPanel titlePanel; // filename, xbutton
+	public 		JLabel fileNameLabel;
+	private 	JButton xBtn;
+	private 	boolean xPressed;
+	
+	private		JScrollPane scrollPane;
+	protected	JEditorPane textArea;
+	
+	private 	JLabel statusLabel;
+	
+	private 	ImageIcon load_icon;
+	private 	ImageIcon edit_icon;
+	private 	ImageIcon save_icon;
+	private 	ImageIcon saveAs_icon;
+	private 	ImageIcon x_icon;
+
 	
 	private Color panelColor;
 	   
+	
 	public PanelView() throws Exception{
-		pc = new PanelController();
+		xPressed 		= false;
 		
-		xPanel = new JPanel();
-		myPanel = new JPanel();
-		menuPanel = new JPanel();
-		miniPanel = new JPanel();
+		pc 				= new PanelController();
 		
-		myfname = new JLabel("");
-		xbutton = new JButton("X");
-		xPressed = false;
+		menuPanel 		= new JPanel();
+		editorPanel 	= new JPanel();
+		titlePanel 		= new JPanel();
 		
-		panelColor=new Color(0,0,0); //set color default as WHITE 
+		panelColor 		= new Color(0,0,0); //set color default as WHITE 
 		
 		// set image icon
-		load_icon=new ImageIcon("res/load.png");
-		edit_icon=new ImageIcon("res/edit.png");
-		save_icon=new ImageIcon("res/save.png");
-		saveAs_icon=new ImageIcon("res/save_as.png");
-		x_icon=new ImageIcon("res/reject.png");
+		load_icon 		= new ImageIcon("res/load.png");
+		edit_icon 		= new ImageIcon("res/edit.png");
+		save_icon 		= new ImageIcon("res/save.png");
+		saveAs_icon		= new ImageIcon("res/save_as.png");
+		x_icon 			= new ImageIcon("res/reject.png");
 			
 		// set size of image button
-		Image load_img=load_icon.getImage();		load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image edit_img=edit_icon.getImage();		edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image save_img=save_icon.getImage(); 		save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image saveAs_img=saveAs_icon.getImage();	saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image x_img=x_icon.getImage();				x_img=x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image load_img 		= load_icon.getImage();		load_img = load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image edit_img 		= edit_icon.getImage();		edit_img = edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image save_img 		= save_icon.getImage();		save_img = save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image saveAs_img	= saveAs_icon.getImage();	saveAs_img = saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image x_img 		= x_icon.getImage();		x_img = x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		
-		load_icon=new ImageIcon(load_img);
-		edit_icon=new ImageIcon(edit_img);
-		save_icon=new ImageIcon(save_img);
-		saveAs_icon=new ImageIcon(saveAs_img);
-		x_icon=new ImageIcon(x_img);
+		load_icon 		= new ImageIcon(load_img);
+		edit_icon 		= new ImageIcon(edit_img);
+		save_icon 		= new ImageIcon(save_img);
+		saveAs_icon 	= new ImageIcon(saveAs_img);
+		x_icon 			= new ImageIcon(x_img);
 			
 		// set image button
-		loadBtn = new JButton(load_icon);			loadBtn.setContentAreaFilled(false);
-		editBtn = new JButton(edit_icon); 			editBtn.setContentAreaFilled(false);
-		saveBtn = new JButton(save_icon);			saveBtn.setContentAreaFilled(false);
-		saveAsBtn = new JButton(saveAs_icon); 		saveAsBtn.setContentAreaFilled(false);
-		xbutton=new JButton(x_icon); 				xbutton.setContentAreaFilled(false); 
-		
-		// set Button Status
-		loadBtn.setEnabled(true);
-		editBtn.setEnabled(false);
-		saveBtn.setEnabled(false);
-		saveAsBtn.setEnabled(false);
+		loadBtn			= new JButton(load_icon);		loadBtn.setContentAreaFilled(false);
+		editBtn 		= new JButton(edit_icon); 		editBtn.setContentAreaFilled(false);
+		saveBtn 		= new JButton(save_icon);		saveBtn.setContentAreaFilled(false);
+		saveAsBtn 		= new JButton(saveAs_icon); 	saveAsBtn.setContentAreaFilled(false);
+		xBtn 			= new JButton(x_icon);			xBtn.setContentAreaFilled(false); 
 			
 		// make Image Button's border invisible
-		loadBtn.setBorderPainted(false); 			loadBtn.setFocusPainted(false);
-		editBtn.setBorderPainted(false); 			editBtn.setFocusPainted(false);
-		saveBtn.setBorderPainted(false); 			saveBtn.setFocusPainted(false);
-		saveAsBtn.setBorderPainted(false); 			saveAsBtn.setFocusPainted(false);
-		xbutton.setFocusPainted(false); 			xbutton.setBorderPainted(false);
+		loadBtn.setBorderPainted(false); 				loadBtn.setFocusPainted(false);
+		editBtn.setBorderPainted(false); 				editBtn.setFocusPainted(false);
+		saveBtn.setBorderPainted(false); 				saveBtn.setFocusPainted(false);
+		saveAsBtn.setBorderPainted(false); 				saveAsBtn.setFocusPainted(false);
+		xBtn.setFocusPainted(false); 					xBtn.setBorderPainted(false);
 	
-		myTextArea = new JEditorPane();
-		// Dummy Text
-		myTextArea.setText("Click the Load Button.");
-		myTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
+		fileNameLabel 	= new JLabel("");
+		
+
+		// Text Area
+		textArea	 	= new JEditorPane();
+		textArea.setText("Click the Load Button.");
+		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+		scrollPane = new JScrollPane(textArea);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		 
+		statusLabel = new JLabel("");
+		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
+		
+		
+		menuPanel.setLayout(new GridLayout(1, 4));   
+		menuPanel.add(loadBtn);
+		menuPanel.add(editBtn);
+		menuPanel.add(saveBtn);
+		menuPanel.add(saveAsBtn);
+		menuPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
+		
+		titlePanel.setLayout(new BorderLayout());
+		titlePanel.add(fileNameLabel, BorderLayout.CENTER);
+		titlePanel.add(xBtn, BorderLayout.EAST);
+		
+		editorPanel.setLayout(new BorderLayout());
+		editorPanel.add(titlePanel, BorderLayout.NORTH);
+		editorPanel.add(scrollPane, BorderLayout.CENTER);
+		editorPanel.add(statusLabel, BorderLayout.SOUTH);
+		
+		this.setLayout(new BorderLayout());
+		this.add(menuPanel, BorderLayout.NORTH);
+		this.add(editorPanel, BorderLayout.CENTER);
+		this.setVisible(true);
+		
+		this.setMode(Mode.VIEW);
 		
 		// keyboard input
-		myTextArea.addKeyListener(new KeyAdapter() {
+		textArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
 				pc.setUpdated(true); 
 			}
 		});
-		
-		scrollPane = new JScrollPane(myTextArea);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		 
-		// default
-		pc.setMode(Mode.VIEW);
-		statusBar = new JLabel("View Mode");
-		statusBar.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
-		
-		
-		setMode(Mode.VIEW);
 		   
 		editBtn.addActionListener(new ActionListener() {
 
@@ -142,7 +159,7 @@ public class PanelView extends JPanel {
 				FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
 				fd.setVisible(true);
 				
-				String editedContent = myTextArea.getText();
+				String editedContent = textArea.getText();
 				pc.setFileContent(editedContent);
 				
 				if (fd.getFile() != null) {
@@ -152,11 +169,11 @@ public class PanelView extends JPanel {
 					}
 				}
 				
-				myfname.setText(pc.getFile().getName());
+				fileNameLabel.setText(pc.getFile().getName());
 			}
 		});
 		
-		xbutton.addActionListener(new ActionListener() {
+		xBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// can't press x button while compare mode
@@ -168,38 +185,15 @@ public class PanelView extends JPanel {
 				System.out.println("xbutton pressed.");
 				setXpressed(true);
 				
-				myfname.setText("");
-				myTextArea.setText("Click the Load Button.");
+				fileNameLabel.setText("");
+				textArea.setText("Click the Load Button.");
 				
 				// Set Mode
 				setMode(Mode.VIEW);
 			}
 		});
-		
-		xPanel.setLayout(new BorderLayout());
-		xPanel.add(myfname, BorderLayout.CENTER);
-		xPanel.add(xbutton, BorderLayout.EAST);
-		
-		miniPanel.setLayout(new BorderLayout());
-		miniPanel.add(xPanel, BorderLayout.NORTH);
-		miniPanel.add(scrollPane, BorderLayout.CENTER);
-		miniPanel.add(statusBar, BorderLayout.SOUTH);
-		
-		menuPanel.setLayout(new GridLayout(1, 4));   
-		menuPanel.add(loadBtn);
-		menuPanel.add(editBtn);
-		menuPanel.add(saveBtn);
-		menuPanel.add(saveAsBtn);
-		menuPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
-		
-		myPanel.setLayout(new BorderLayout());
-		myPanel.add(menuPanel, BorderLayout.NORTH);
-		myPanel.add(miniPanel, BorderLayout.CENTER);
-		   
-		this.setLayout(new BorderLayout());
-		this.add(myPanel);
-		this.setVisible(true);
 	}
+	
 	
 	// xbutton control
 	public boolean getXpressed(){
@@ -211,15 +205,15 @@ public class PanelView extends JPanel {
 	}
 	
 	public void setXEnabled(boolean tf){
-		xbutton.setEnabled(tf);
+		xBtn.setEnabled(tf);
 	}
 
 	public void setMode(Mode mode) {
 		switch(mode) {
 		case VIEW:
 			pc.setMode(Mode.VIEW);
-			statusBar.setText("View Mode");
-			myTextArea.setEditable(false);
+			statusLabel.setText("View Mode");
+			textArea.setEditable(false);
 			loadBtn.setEnabled(true);
 			editBtn.setEnabled(true);
 			saveBtn.setEnabled(false);
@@ -227,8 +221,8 @@ public class PanelView extends JPanel {
 			break;
 		case EDIT:
 			pc.setMode(Mode.EDIT);
-			statusBar.setText("Edit Mode");
-			myTextArea.setEditable(true);
+			statusLabel.setText("Edit Mode");
+			textArea.setEditable(true);
 			loadBtn.setEnabled(true);
 			editBtn.setEnabled(false);
 			saveBtn.setEnabled(true);
@@ -236,8 +230,8 @@ public class PanelView extends JPanel {
 			break;
 		case COMPARE:
 			pc.setMode(Mode.COMPARE);
-			statusBar.setText("Compare Mode");
-			myTextArea.setEditable(false);
+			statusLabel.setText("Compare Mode");
+			textArea.setEditable(false);
 			loadBtn.setEnabled(false);
 			editBtn.setEnabled(false);
 			saveBtn.setEnabled(true);
@@ -254,7 +248,7 @@ public class PanelView extends JPanel {
 	}
 	
 	public void save() {
-		String editedContent = myTextArea.getText();
+		String editedContent = textArea.getText();
 		pc.setFileContent(editedContent);
 		
   		if (pc.save()) {

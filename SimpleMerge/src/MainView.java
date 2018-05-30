@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
 

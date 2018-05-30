@@ -3,8 +3,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-import java.io.*;
-
 public class PanelView extends JPanel {
 	protected	PanelController pc;
 

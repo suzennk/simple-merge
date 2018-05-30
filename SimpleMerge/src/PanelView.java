@@ -112,6 +112,7 @@ public class PanelView extends JPanel {
 		// default
 		pc.setMode(Mode.VIEW);
 		statusBar = new JLabel("View Mode");
+		statusBar.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
 		
 		
 		setMode(Mode.VIEW);

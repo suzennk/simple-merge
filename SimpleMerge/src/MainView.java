@@ -51,12 +51,12 @@ public class MainView extends JFrame{
 		view_icon = new ImageIcon("res/not_compare.png");
 		
 		// set size of image button
-		Image compare_img = compare_icon.getImage(); compare_img = compare_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		Image up_img = up_icon.getImage(); up_img = up_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image down_img = down_icon.getImage(); down_img = down_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image left_img = left_icon.getImage(); left_img = left_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image right_img = right_icon.getImage(); right_img = right_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
-		Image view_img = view_icon.getImage(); view_img = view_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		Image compare_img = compare_icon.getImage();compare_img = compare_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		Image up_img = up_icon.getImage();			up_img = up_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image down_img = down_icon.getImage();		down_img = down_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image left_img = left_icon.getImage();		left_img = left_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image right_img = right_icon.getImage();	right_img = right_img.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		Image view_img = view_icon.getImage();		view_img = view_img.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		
 		compare_icon = new ImageIcon(compare_img);
 		up_icon = new ImageIcon(up_img);
@@ -67,30 +67,19 @@ public class MainView extends JFrame{
 		
 		
 		// set image button
-		compareBtn = new JButton(compare_icon); compareBtn.setContentAreaFilled(false);
-		upBtn = new JButton(up_icon); upBtn.setContentAreaFilled(false);
-		downBtn = new JButton(down_icon); downBtn.setContentAreaFilled(false);
-		copyToLeftBtn = new JButton(left_icon); copyToLeftBtn.setContentAreaFilled(false);
-		copyToRightBtn = new JButton(right_icon); copyToRightBtn.setContentAreaFilled(false);
+		compareBtn = new JButton(compare_icon); 	compareBtn.setContentAreaFilled(false);
+		upBtn = new JButton(up_icon);				upBtn.setContentAreaFilled(false);
+		downBtn = new JButton(down_icon);			downBtn.setContentAreaFilled(false);
+		copyToLeftBtn = new JButton(left_icon);		copyToLeftBtn.setContentAreaFilled(false);
+		copyToRightBtn = new JButton(right_icon);	copyToRightBtn.setContentAreaFilled(false);
 		
 		
 		// make Image Button's border invisible
-		compareBtn.setBorderPainted(false);
-//		compareBtn.setFocusPainted(false);
-		upBtn.setBorderPainted(false);
-//		upBtn.setFocusPainted(false);
-		downBtn.setBorderPainted(false);
-//		downBtn.setFocusPainted(false);
-		copyToLeftBtn.setBorderPainted(false);
-//		copyToLeftBtn.setFocusPainted(false);
-		copyToRightBtn.setBorderPainted(false);
-//		copyToRightBtn.setFocusPainted(false);
-		
-		add(compareBtn);
-		add(upBtn);
-		add(downBtn);
-		add(copyToLeftBtn);
-		add(copyToRightBtn);
+		compareBtn.setBorderPainted(false);			compareBtn.setFocusPainted(false);
+		upBtn.setBorderPainted(false);				upBtn.setFocusPainted(false);
+		downBtn.setBorderPainted(false);			downBtn.setFocusPainted(false);
+		copyToLeftBtn.setBorderPainted(false);		copyToLeftBtn.setFocusPainted(false);
+		copyToRightBtn.setBorderPainted(false);		copyToRightBtn.setFocusPainted(false);
 		
 		// set button's initial state
 		compareBtn.setEnabled(false);
@@ -98,7 +87,6 @@ public class MainView extends JFrame{
 		downBtn.setEnabled(false);
 		copyToLeftBtn.setEnabled(false);
 		copyToRightBtn.setEnabled(false);
-		
 		
 		holderPanel = new JPanel();
 		leftPV = new PanelView();

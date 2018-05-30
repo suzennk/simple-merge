@@ -55,11 +55,11 @@ public class PanelView extends JPanel {
 		x_icon=new ImageIcon("res/reject.png");
 			
 		// set size of image button
-		Image load_img=load_icon.getImage(); load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image edit_img=edit_icon.getImage(); edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image save_img=save_icon.getImage(); save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image saveAs_img=saveAs_icon.getImage(); saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
-		Image x_img=x_icon.getImage(); x_img=x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image load_img=load_icon.getImage();		load_img=load_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image edit_img=edit_icon.getImage();		edit_img=edit_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image save_img=save_icon.getImage(); 		save_img=save_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image saveAs_img=saveAs_icon.getImage();	saveAs_img=saveAs_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+		Image x_img=x_icon.getImage();				x_img=x_img.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 		
 		load_icon=new ImageIcon(load_img);
 		edit_icon=new ImageIcon(edit_img);
@@ -68,11 +68,11 @@ public class PanelView extends JPanel {
 		x_icon=new ImageIcon(x_img);
 			
 		// set image button
-		loadBtn = new JButton(load_icon); loadBtn.setContentAreaFilled(false);
-		editBtn = new JButton(edit_icon); editBtn.setContentAreaFilled(false);
-		saveBtn = new JButton(save_icon); saveBtn.setContentAreaFilled(false);
-		saveAsBtn = new JButton(saveAs_icon); saveAsBtn.setContentAreaFilled(false);
-		xbutton=new JButton(x_icon); xbutton.setContentAreaFilled(false); 
+		loadBtn = new JButton(load_icon);			loadBtn.setContentAreaFilled(false);
+		editBtn = new JButton(edit_icon); 			editBtn.setContentAreaFilled(false);
+		saveBtn = new JButton(save_icon);			saveBtn.setContentAreaFilled(false);
+		saveAsBtn = new JButton(saveAs_icon); 		saveAsBtn.setContentAreaFilled(false);
+		xbutton=new JButton(x_icon); 				xbutton.setContentAreaFilled(false); 
 		
 		// set Button Status
 		loadBtn.setEnabled(true);
@@ -81,16 +81,11 @@ public class PanelView extends JPanel {
 		saveAsBtn.setEnabled(false);
 			
 		// make Image Button's border invisible
-		loadBtn.setBorderPainted(false);
-//		loadBtn.setFocusPainted(false);
-		editBtn.setBorderPainted(false);
-//		editBtn.setFocusPainted(false);
-		saveBtn.setBorderPainted(false);
-//		saveBtn.setFocusPainted(false);
-		saveAsBtn.setBorderPainted(false);
-//		saveAsBtn.setFocusPainted(false);
-		xbutton.setFocusPainted(false);
-		xbutton.setBorderPainted(false);
+		loadBtn.setBorderPainted(false); 			loadBtn.setFocusPainted(false);
+		editBtn.setBorderPainted(false); 			editBtn.setFocusPainted(false);
+		saveBtn.setBorderPainted(false); 			saveBtn.setFocusPainted(false);
+		saveAsBtn.setBorderPainted(false); 			saveAsBtn.setFocusPainted(false);
+		xbutton.setFocusPainted(false); 			xbutton.setBorderPainted(false);
 	
 		myTextArea = new JEditorPane();
 		// Dummy Text
@@ -197,7 +192,6 @@ public class PanelView extends JPanel {
 		menuPanel.add(saveAsBtn);
 		menuPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
 		
-		   
 		myPanel.setLayout(new BorderLayout());
 		myPanel.add(menuPanel, BorderLayout.NORTH);
 		myPanel.add(miniPanel, BorderLayout.CENTER);

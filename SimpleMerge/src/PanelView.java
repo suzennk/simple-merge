@@ -81,6 +81,7 @@ public class PanelView extends JPanel {
 	
 		
 		fileNameLabel 	= new JLabel("");
+		fileNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));		
 
 		// Text Area
@@ -123,6 +124,7 @@ public class PanelView extends JPanel {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
 				pc.setUpdated(true); 
+				updateView();
 			}
 		});
 		   

@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
 import java.io.*;
 
 public class PanelView extends JPanel {
@@ -79,20 +81,22 @@ public class PanelView extends JPanel {
 		saveAsBtn.setEnabled(false);
 			
 		// make Image Button's border invisible
-		loadBtn.setBorderPainted(false); loadBtn.setFocusPainted(false);
-		editBtn.setBorderPainted(false); editBtn.setFocusPainted(false);
-		saveBtn.setBorderPainted(false); saveBtn.setFocusPainted(false);
-		saveAsBtn.setBorderPainted(false); saveAsBtn.setFocusPainted(false);
-		xbutton.setFocusPainted(false); xbutton.setBorderPainted(false);
-			
-		this.add(loadBtn);
-		this.add(editBtn);
-		this.add(saveBtn);
-		this.add(saveAsBtn);		   
-
+		loadBtn.setBorderPainted(false);
+//		loadBtn.setFocusPainted(false);
+		editBtn.setBorderPainted(false);
+//		editBtn.setFocusPainted(false);
+		saveBtn.setBorderPainted(false);
+//		saveBtn.setFocusPainted(false);
+		saveAsBtn.setBorderPainted(false);
+//		saveAsBtn.setFocusPainted(false);
+		xbutton.setFocusPainted(false);
+		xbutton.setBorderPainted(false);
+	
 		myTextArea = new JEditorPane();
 		// Dummy Text
 		myTextArea.setText("Click the Load Button.");
+		myTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
 		
 		// keyboard input
 		myTextArea.addKeyListener(new KeyAdapter() {
@@ -103,6 +107,7 @@ public class PanelView extends JPanel {
 		});
 		
 		scrollPane = new JScrollPane(myTextArea);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		 
 		// default
 		pc.setMode(Mode.VIEW);
@@ -189,6 +194,8 @@ public class PanelView extends JPanel {
 		menuPanel.add(editBtn);
 		menuPanel.add(saveBtn);
 		menuPanel.add(saveAsBtn);
+		menuPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
+		
 		   
 		myPanel.setLayout(new BorderLayout());
 		myPanel.add(menuPanel, BorderLayout.NORTH);

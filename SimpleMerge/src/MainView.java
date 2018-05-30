@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.io.File;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame{
@@ -36,6 +38,7 @@ public class MainView extends JFrame{
 		
 		mainPanel = new JPanel();
 		toolPanel = new JPanel();
+		toolPanel.setBorder(new MatteBorder(0,0,1,0, Color.GRAY));
 		
 		comparePressed = 0; // comparePressed: even=NOT pressed, odd= pressed
 		
@@ -72,11 +75,16 @@ public class MainView extends JFrame{
 		
 		
 		// make Image Button's border invisible
-		compareBtn.setBorderPainted(false); compareBtn.setFocusPainted(false);
-		upBtn.setBorderPainted(false); upBtn.setFocusPainted(false);
-		downBtn.setBorderPainted(false); downBtn.setFocusPainted(false);
-		copyToLeftBtn.setBorderPainted(false); copyToLeftBtn.setFocusPainted(false);
-		copyToRightBtn.setBorderPainted(false); copyToRightBtn.setFocusPainted(false);
+		compareBtn.setBorderPainted(false);
+//		compareBtn.setFocusPainted(false);
+		upBtn.setBorderPainted(false);
+//		upBtn.setFocusPainted(false);
+		downBtn.setBorderPainted(false);
+//		downBtn.setFocusPainted(false);
+		copyToLeftBtn.setBorderPainted(false);
+//		copyToLeftBtn.setFocusPainted(false);
+		copyToRightBtn.setBorderPainted(false);
+//		copyToRightBtn.setFocusPainted(false);
 		
 		add(compareBtn);
 		add(upBtn);
@@ -98,6 +106,7 @@ public class MainView extends JFrame{
 		
 		// set color of panel
 		leftPV.setPanelColor(255,0,0);
+		leftPV.setBorder(new MatteBorder(0,0,0,1, Color.GRAY));
 		rightPV.setPanelColor(0, 255, 0);
 		
 		
@@ -244,7 +253,7 @@ public class MainView extends JFrame{
 		toolPanel.add(copyToLeftBtn);
 		toolPanel.add(copyToRightBtn);
 		
-		holderPanel.setLayout(new GridLayout(1, 2, 10, 0));
+		holderPanel.setLayout(new GridLayout(1, 2, 0, 0));
 		holderPanel.add(leftPV);
 		holderPanel.add(rightPV);
 		

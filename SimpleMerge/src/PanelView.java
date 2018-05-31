@@ -129,7 +129,6 @@ public class PanelView extends JPanel {
 		editBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				System.out.println("Edit button pressed.");
 				
 				// Set Mode
@@ -139,7 +138,6 @@ public class PanelView extends JPanel {
 		
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		  		// TODO Auto-generated method stub
 		  		System.out.println("Save button pressed.");
 
 		  		save();
@@ -165,8 +163,6 @@ public class PanelView extends JPanel {
 						setMode(Mode.VIEW);	
 					}
 				}
-				
-				fileNameLabel.setText(pc.getFile().getName());
 			}
 		});
 	}
@@ -210,6 +206,7 @@ public class PanelView extends JPanel {
 		default:
 			break;
 		}
+		updateView();
 	}
 	
 

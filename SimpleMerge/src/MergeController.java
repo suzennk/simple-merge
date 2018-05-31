@@ -19,6 +19,7 @@ public class MergeController {
     */
    private ArrayList<Integer> leftDiffIndex;
    private ArrayList<Integer> rightDiffIndex;
+   private ArrayList<int[]> blocks;
    
    /*
     * 현재 커서의 위치 int[2] => [begin index, end index]
@@ -58,6 +59,7 @@ public class MergeController {
       FileComparator fc = new FileComparator(leftFileContents, rightFileContents);
       this.leftDiffIndex = fc.getDiffLeft();
       this.rightDiffIndex = fc.getDiffRight();
+      this.blocks = fc.getBlocks();
 
       setDiffFirstIndex();
       setDiffLastIndex();
@@ -69,46 +71,46 @@ public class MergeController {
  * diffFirstIndex를 계산해준다.
  */
    private void setDiffFirstIndex(){
-	   for(int i = 1; i < leftDiffIndex.size(); i++){
-		   if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
-			   diffFirstIndex = i;
-			   break;
-		   }
-	   }
+      for(int i = 1; i < leftDiffIndex.size(); i++){
+         if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
+            diffFirstIndex = i;
+            break;
+         }
+      }
    }
    
    /*
     * diffLastIndex를 계산해준다.
     */
    private void setDiffLastIndex(){
-	   for(int i = leftDiffIndex.size()-1; i > 0; i--){
-		   if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
-			   diffLastIndex = i;
-			   break;
-		   }
-	   }
+      for(int i = leftDiffIndex.size()-1; i > 0; i--){
+         if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
+            diffLastIndex = i;
+            break;
+         }
+      }
    }
    
    /*
     * flagPrevious 설정. 
     */
    private boolean setFlagPrevious(){
-	   if(traverseCursor[0] != diffFirstIndex)
-		   return true;
-	   
-	   else
-		   return false;
+      if(traverseCursor[0] != diffFirstIndex)
+         return true;
+      
+      else
+         return false;
    }
    
    /*
     * flagNext 설정
     */
    private boolean setFlagNext(){
-	   if(traverseCursor[1] != diffLastIndex)
-		   return true;
-	   
-	   else
-		   return false;
+      if(traverseCursor[1] != diffLastIndex)
+         return true;
+      
+      else
+         return false;
    }
    
    /*
@@ -117,21 +119,21 @@ public class MergeController {
     * 알고리즘은 바로 아래의 메소드를 참고 바람.
     */
    void traversePrevious() {
-	  int i = traverseCursor[0] - 1;
-	  
-	  while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
-		  i--;
-	  
+     int i = traverseCursor[0] - 1;
+     
+     while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
+        i--;
+     
       traverseCursor[1] = i;
 
       if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-    	  while(i >= diffFirstIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-    		  i--;
+         while(i >= diffFirstIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
+            i--;
       }
       
       else{
-    	  while(i >= diffFirstIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-    		  i--;
+         while(i >= diffFirstIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
+            i--;
       }
       
       traverseCursor[0] = ++i;
@@ -149,24 +151,24 @@ public class MergeController {
     * # 위의 previous는 이와 반대로 이루어져있다.
     */
    void traverseNext() {
-	  int i = traverseCursor[1] + 1;
-	  
-	  while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
-		  i++;
-	  
-	  traverseCursor[0] = i;
-	
-	  if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-		  while(i <= diffLastIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-			  i++;
-	  }
-	  
-	  else{
-		  while(i <= diffLastIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-			  i++;
-	  }
-	  
-	  traverseCursor[1] = --i;
+     int i = traverseCursor[1] + 1;
+     
+     while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
+        i++;
+     
+     traverseCursor[0] = i;
+   
+     if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
+        while(i <= diffLastIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
+           i++;
+     }
+     
+     else{
+        while(i <= diffLastIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
+           i++;
+     }
+     
+     traverseCursor[1] = --i;
    }
 
    ////////////////////////merge의 함수 CTL, CTR 미완성 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
@@ -176,25 +178,25 @@ public class MergeController {
     *  
     */
    void copyToLeft() {
-	   for(int i = traverseCursor[0]; i< traverseCursor[1]; i++){
-		   
-	   }
+      for(int i = traverseCursor[0]; i< traverseCursor[1]; i++){
+         
+      }
    }
 
    /**
     * clear all the string and copy from left to right
     */
    void copyToRight() {
-	   int i = traverseCursor[0];
-		  if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-			  while(i <=traverseCursor[1] && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-				  i++;
-		  }
-		  
-		  else{
-			  while(i <= traverseCursor[1] && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-				  i++;
-		  }
+      int i = traverseCursor[0];
+        if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
+           while(i <=traverseCursor[1] && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
+              i++;
+        }
+        
+        else{
+           while(i <= traverseCursor[1] && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
+              i++;
+        }
    }
    /////////////////////////////////////
 
@@ -215,15 +217,15 @@ public class MergeController {
    }
    
    public boolean getFlagPrevious(){
-	   return this.flagPrevious;
+      return this.flagPrevious;
    }
    
    public boolean getFlagNext(){
-	   return this.flagNext;
+      return this.flagNext;
    }
    
    public int[] getTraverseCursor(){
-	   return this.traverseCursor;
+      return this.traverseCursor;
    }
    
    /**

@@ -3,8 +3,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-import java.io.*;
-
 public class PanelView extends JPanel {
 	protected	PanelController pc;
 
@@ -187,6 +185,7 @@ public class PanelView extends JPanel {
 			editBtn.setEnabled(true);
 			saveBtn.setEnabled(false);
 			saveAsBtn.setEnabled(false);
+			xBtn.setEnabled(true);
 			break;
 		case EDIT:
 			pc.setMode(Mode.EDIT);
@@ -196,6 +195,7 @@ public class PanelView extends JPanel {
 			editBtn.setEnabled(false);
 			saveBtn.setEnabled(true);
 			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(true);
 			break;
 		case COMPARE:
 			pc.setMode(Mode.COMPARE);
@@ -205,6 +205,7 @@ public class PanelView extends JPanel {
 			editBtn.setEnabled(false);
 			saveBtn.setEnabled(true);
 			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(false);
 			break;
 		default:
 			break;

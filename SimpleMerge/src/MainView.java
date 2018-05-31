@@ -154,8 +154,8 @@ public class MainView extends JFrame{
 				else{
 					// compareBtn pressed twice->try to escape compare mode
 					if(comparePressed >= 0) {
-						int a = leftPV.checkUpdated();
-						int b = rightPV.checkUpdated();
+						int a = leftPV.showSaveDialog();
+						int b = rightPV.showSaveDialog();
 						
 						if(a == 2 || b == 2) {
 							// keep compare mode
@@ -219,7 +219,7 @@ public class MainView extends JFrame{
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		
-		int dirtyCheck = mine.checkUpdated();
+		int dirtyCheck = mine.showSaveDialog();
 	
 		if (dirtyCheck == 2) {
 			System.out.println("File load canceled.");

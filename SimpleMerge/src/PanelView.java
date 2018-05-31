@@ -140,9 +140,8 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 		  		System.out.println("Save button pressed.");
 
+		  		// Save
 		  		save();
-		  		
-		  		System.out.println("Save Completed.");
 		  	}
 				
 		});
@@ -151,24 +150,10 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Save As button pressed.");
 				
-				FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
-				fd.setVisible(true);
-				
-				String editedContent = textArea.getText();
-				pc.setFileContent(editedContent);
-				
-				if (fd.getFile() != null) {
-					String filePath = fd.getDirectory() + fd.getFile();
-					if (pc.saveAs(filePath)) {
-						setMode(Mode.VIEW);	
-					}
-				}
+				// SaveAs
+				saveAs();
 			}
 		});
-	}
-	
-	public void setXEnabled(boolean tf){
-		xBtn.setEnabled(tf);
 	}
 
 	public void setMode(Mode mode) {
@@ -210,19 +195,24 @@ public class PanelView extends JPanel {
 	}
 	
 
-	public int checkUpdated() {
+	public int showSaveDialog() {
 		Object[] options = {"Save", "Don't Save", "Cancel"};
 		int n=0;
 		
 		if (pc.isUpdated()) {
-			n = JOptionPane.showOptionDialog(this, "The file has been edited. Do you want to save the file and continue?", "Question", 
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-			if (n == 0) {				 //YES: save and convert to view mode
+			n = JOptionPane.showOptionDialog(this,
+											"The file has been edited. Do you want to save the file and continue?",
+											"Question", 
+											JOptionPane.YES_NO_CANCEL_OPTION,
+											JOptionPane.QUESTION_MESSAGE,
+											null, options, options[0]);
+			
+			if (n == 0) {										// YES: save and switch to view mode
 				this.save();	
 			} 
-			else if(n == 1) { 			//NO: not save, convert to view mode
+			else if(n == 1) { 									// NO: not save, switch to view mode
 				pc.setUpdated(false);
-				textArea.setText(pc.getOriginalFileContent()); //show panel state before escapeBtn pressed	
+				textArea.setText(pc.getOriginalFileContent()); 	// reset textArea to original file content	
 			} 
 			else {
 				// Do nothing
@@ -251,6 +241,21 @@ public class PanelView extends JPanel {
   		if (pc.save()) {
   			setMode(Mode.VIEW);
   		}
+	}
+	
+	public void saveAs() {
+		FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
+		fd.setVisible(true);
+		
+		String editedContent = textArea.getText();
+		pc.setFileContent(editedContent);
+		
+		if (fd.getFile() != null) {
+			String filePath = fd.getDirectory() + fd.getFile();
+			if (pc.saveAs(filePath)) {
+				setMode(Mode.VIEW);	
+			}
+		}
 	}
 	
 	public PanelController getPC() {

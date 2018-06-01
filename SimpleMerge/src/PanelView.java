@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +37,9 @@ public class PanelView extends JPanel {
 
 	
 	private Color panelColor;
+	
+	private ArrayList<Integer> diffIndex;
+	private int[] block; // block to be colored: {begin_idx, end_idx}
 	   
 	
 	public PanelView() throws Exception{
@@ -44,7 +49,10 @@ public class PanelView extends JPanel {
 		editorPanel 	= new JPanel();
 		titlePanel 		= new JPanel();
 		
-		panelColor 		= new Color(0,0,0); //set color default as WHITE 
+		panelColor 		= new Color(0,0,0); // set color default as WHITE 
+		diffIndex		= new ArrayList<Integer>(); // highlighted when compare & traverse
+		block 			= new int[] {0, 0}; // default value : nothing to be colored
+
 		
 		// set image icon
 		load_icon 		= new ImageIcon("res/load.png");
@@ -124,6 +132,7 @@ public class PanelView extends JPanel {
 		this.setVisible(true);
 		
 		this.setMode(Mode.VIEW);
+		editBtn.setEnabled(false); // at the start, only loadBtn enable!
 		
 		// keyboard input
 		textArea.addKeyListener(new KeyAdapter() {
@@ -247,7 +256,8 @@ public class PanelView extends JPanel {
 		pc.setFileContent(editedContent);
 		
   		if (pc.save()) {
-  			setMode(Mode.VIEW);
+  			if(pc.getMode()!=Mode.COMPARE)
+  				setMode(Mode.VIEW);
   		}
 	}
 	
@@ -261,7 +271,8 @@ public class PanelView extends JPanel {
 		if (fd.getFile() != null) {
 			String filePath = fd.getDirectory() + fd.getFile();
 			if (pc.saveAs(filePath)) {
-				setMode(Mode.VIEW);	
+				if(pc.getMode()!=Mode.COMPARE)
+					setMode(Mode.VIEW);	
 			}
 		}
 	}
@@ -274,4 +285,11 @@ public class PanelView extends JPanel {
 		panelColor=new Color(x,y,z);
 	}
 	
+	public void setDiffIndex(ArrayList<Integer> diffIndex){
+		this.diffIndex=diffIndex;
+	}
+	
+	public void setBlock(int[] block){
+		this.block=block;
+	}
 }

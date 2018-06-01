@@ -70,3 +70,24 @@ Fifth meeting
 >1. code review (initial version of simple-merge)
 >2. all team members did presentation about code which they develop individually
 >3. set next meeting: 5/30, continue code review, and develop
+
+
+Sixth meeting
+---------------
+**DATE** : 2018/05/30
+
+**WORK**
+>1. all team member did code review
+>2. 윤신영 & 손승표 discussed about how to implement merge function (incomplete)
+>3. change program UI: add [x button] and update compare/up/down/copy to left/copy to right buttons' operation
+>4. set next meeting 06/01, continue code review and change software architecture based on MVC model
+
+
+Seventh meeting
+--------------
+**DATE** : 2018/06/01
+
+**WORK**
+>1. change 'simple-merge' structure based on MVC model
+>2. diss cuss about how to implement coloring differences between two oanels
+>3. Keep developing the way to implement merge function of the program

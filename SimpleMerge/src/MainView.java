@@ -240,30 +240,20 @@ public class MainView extends JFrame{
 	
 		if (fd.getFile() != null) {		// Pressed "Open" in FileDialog
 			String filePath = fd.getDirectory() + fd.getFile();
-			
-        	if (yours.pc.getFile() == null) {		// if the other panel does not have a file open, LOAD
-        		if (mine.pc.load(filePath)) {		// if load succeeds, set to View mode and update View
-        				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.pc.getFileContent());
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-            		System.out.println("Failed to open file.");
-        		}
-        	} 
-        	else if (!filePath.equals(yours.pc.getFile().toString())) {	// check if files in both panels are equal
-        		if(mine.pc.load(filePath)) {
-        				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.pc.getFileContent());
-        		}
-    			else {
-    				JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-            		System.out.println("Failed to open file.");
-    			}	
-        	} 
-        	else {	// if the files are equal, cancel everything
+        	
+        	if (filePath.equals(yours.pc.getFilePath())) {	// if the files are equal, cancel everything
         		JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
         		System.out.println("File is already open in another panel.");
+        	}
+        	else {
+        		if (mine.pc.load(filePath)) {		// if load succeeds, set to View mode and update View
+    				mine.setMode(Mode.VIEW);
+        			mine.textArea.setText(mine.pc.getOriginalFileContent());
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(null, "Failed to open file.1", "ERROR!", JOptionPane.ERROR_MESSAGE);
+        			System.out.println("Failed to open file.");
+        		}
         	}
         }
 		
@@ -295,14 +285,14 @@ public class MainView extends JFrame{
 	
 	
 	// Check file format
-	private boolean accept(File file) {
-		if(file.isFile()) {
-			String fileName = file.getName();
-			if(fileName.endsWith(".txt")) return true; // txt format
-		}
-		
-		return false;
-	}
+//	private boolean accept(File file) {
+//		if(file.isFile()) {
+//			String fileName = file.getName();
+//			if(fileName.endsWith(".txt")) return true; // txt format
+//		}
+//		
+//		return false;
+//	}
 	
 	private void updateView() {
 		// set enable [compare/merge/traverse] button only when two panel loaded
@@ -314,6 +304,7 @@ public class MainView extends JFrame{
 		
 		leftPV.updateView();
 		rightPV.updateView();
+		System.out.println("Main View is updated");
 	}
 
 	private void setMode(Mode mode) {

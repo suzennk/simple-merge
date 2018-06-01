@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PanelController {
+public class TextEditorModel {
 	private PanelInfo panelInfo;
 
 	private FileReader fr = null;
@@ -17,7 +17,7 @@ public class PanelController {
 	private boolean dirty;
 	
 	
-	public PanelController() {
+	public TextEditorModel() {
 		panelInfo = new PanelInfo();
 		currentIndex = 0;
 		dirty = false;
@@ -290,7 +290,7 @@ public class PanelController {
 		Scanner s = new Scanner(System.in);
 		Scanner s2 = new Scanner(System.in);
 
-		PanelController pc = new PanelController();
+		TextEditorModel pc = new TextEditorModel();
 
 		String filePath = new String();
 

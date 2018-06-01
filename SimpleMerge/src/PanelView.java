@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableModel;
 
 public class PanelView extends JPanel {
-	protected	PanelController pc;
+	protected	TextEditorController tec;
 
 	private 	JPanel menuPanel;	
 	protected 	JButton loadBtn;
@@ -24,8 +23,6 @@ public class PanelView extends JPanel {
 	
 	private		JScrollPane scrollPane;
 	protected	JEditorPane textArea;
-	protected	JTable textTable;
-	protected	DefaultTableModel model;
 	
 	private 	JLabel statusLabel;
 	
@@ -43,7 +40,7 @@ public class PanelView extends JPanel {
 	   
 	
 	public PanelView() throws Exception{
-		pc 				= new PanelController();
+		tec				= new TextEditorController();
 		
 		menuPanel 		= new JPanel();
 		editorPanel 	= new JPanel();
@@ -96,17 +93,12 @@ public class PanelView extends JPanel {
 		// Text Area
 		textArea	 	= new JEditorPane();
 		textArea.setText("Click the Load Button.");
-		TextLineNumber tln = new TextLineNumber(textArea);
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-		model			= new DefaultTableModel();
-		textTable		= new JTable(model);
-		
-		scrollPane		= new JScrollPane(textArea);
-//		scrollPane.setRowHeaderView(tln);
+		scrollPane = new JScrollPane(textArea);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		 
-		statusLabel 	= new JLabel("");
+		statusLabel = new JLabel("");
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
 		
 		
@@ -138,7 +130,7 @@ public class PanelView extends JPanel {
 		textArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				pc.setUpdated(true); 
+				tec.panel.setUpdated(true);
 				updateView();
 			}
 		});
@@ -176,7 +168,7 @@ public class PanelView extends JPanel {
 	public void setMode(Mode mode) {
 		switch(mode) {
 		case VIEW:
-			pc.setMode(Mode.VIEW);
+			tec.panel.setMode(Mode.VIEW);
 			statusLabel.setText("View Mode");
 			textArea.setEditable(false);
 			loadBtn.setEnabled(true);
@@ -186,7 +178,7 @@ public class PanelView extends JPanel {
 			xBtn.setEnabled(true);
 			break;
 		case EDIT:
-			pc.setMode(Mode.EDIT);
+			tec.panel.setMode(Mode.EDIT);
 			statusLabel.setText("Edit Mode");
 			textArea.setEditable(true);
 			loadBtn.setEnabled(true);
@@ -196,7 +188,7 @@ public class PanelView extends JPanel {
 			xBtn.setEnabled(true);
 			break;
 		case COMPARE:
-			pc.setMode(Mode.COMPARE);
+			tec.panel.setMode(Mode.COMPARE);
 			statusLabel.setText("Compare Mode");
 			textArea.setEditable(false);
 			loadBtn.setEnabled(false);
@@ -216,7 +208,7 @@ public class PanelView extends JPanel {
 		Object[] options = {"Save", "Don't Save", "Cancel"};
 		int n=0;
 		
-		if (pc.isUpdated()) {
+		if (tec.panel.isUpdated()) {
 			n = JOptionPane.showOptionDialog(this,
 											"The file has been edited. Do you want to save the file and continue?",
 											"Question", 
@@ -228,8 +220,8 @@ public class PanelView extends JPanel {
 				this.save();	
 			} 
 			else if(n == 1) { 									// NO: not save, switch to view mode
-				pc.setUpdated(false);
-				textArea.setText(pc.getOriginalFileContent()); 	// reset textArea to original file content	
+				tec.panel.setUpdated(false);
+				textArea.setText(tec.panel.getOriginalFileContent()); 	// reset textArea to original file content	
 			} 
 			else {
 				// Do nothing
@@ -239,24 +231,24 @@ public class PanelView extends JPanel {
 	}
 	
 	public void updateView() {
-		if (pc.getFile() == null) {
+		if (tec.panel.getFile() == null) {
 			textArea.setText("Click the Load Button.");
 		}
 		
-		if (pc.isUpdated()) {
-			fileNameLabel.setText("*" + pc.getFileName());
+		if (tec.panel.isUpdated()) {
+			fileNameLabel.setText("*" + tec.panel.getFileName());
 		} else {
-			fileNameLabel.setText(pc.getFileName());
+			fileNameLabel.setText(tec.panel.getFileName());
 		}
 	}
 
 	
 	public void save() {
 		String editedContent = textArea.getText();
-		pc.setFileContent(editedContent);
+		tec.panel.setFileContent(editedContent);
 		
-  		if (pc.save()) {
-  			if(pc.getMode()!=Mode.COMPARE)
+  		if (tec.panel.save()) {
+  			if(tec.panel.getMode()!=Mode.COMPARE)
   				setMode(Mode.VIEW);
   		}
 	}
@@ -266,19 +258,19 @@ public class PanelView extends JPanel {
 		fd.setVisible(true);
 		
 		String editedContent = textArea.getText();
-		pc.setFileContent(editedContent);
+		tec.panel.setFileContent(editedContent);
 		
 		if (fd.getFile() != null) {
 			String filePath = fd.getDirectory() + fd.getFile();
-			if (pc.saveAs(filePath)) {
-				if(pc.getMode()!=Mode.COMPARE)
+			if (tec.panel.saveAs(filePath)) {
+				if(tec.panel.getMode()!=Mode.COMPARE)
 					setMode(Mode.VIEW);	
 			}
 		}
 	}
 	
-	public PanelController getPC() {
-		return pc;
+	public TextEditorModel getTextEditorModel() {
+		return tec.panel;
 	}
 	
 	public void setPanelColor(int x, int y, int z){

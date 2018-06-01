@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class PanelView extends JPanel {
 	protected	PanelController pc;
@@ -21,6 +22,8 @@ public class PanelView extends JPanel {
 	
 	private		JScrollPane scrollPane;
 	protected	JEditorPane textArea;
+	protected	JTable textTable;
+	protected	DefaultTableModel model;
 	
 	private 	JLabel statusLabel;
 	
@@ -85,12 +88,17 @@ public class PanelView extends JPanel {
 		// Text Area
 		textArea	 	= new JEditorPane();
 		textArea.setText("Click the Load Button.");
+		TextLineNumber tln = new TextLineNumber(textArea);
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-		scrollPane = new JScrollPane(textArea);
+		model			= new DefaultTableModel();
+		textTable		= new JTable(model);
+		
+		scrollPane		= new JScrollPane(textArea);
+//		scrollPane.setRowHeaderView(tln);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		 
-		statusLabel = new JLabel("");
+		statusLabel 	= new JLabel("");
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
 		
 		

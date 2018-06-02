@@ -228,7 +228,7 @@ public class PanelView extends JPanel {
 
 	}
 
-	public void highlightDiffIndices(ArrayList<Integer> indices) {
+	public void highlightDiffIndices(ArrayList<int[]> blocks) {
 
 	}
 
@@ -252,7 +252,7 @@ public class PanelView extends JPanel {
 			System.out.println(fileContentList.get(i));
 		}
 
-		// TODO column width ¼öÁ¤(°¡·Î·Î ´Ù ¾Èº¸ÀÌ´Â °Ü¿ì ÀÖÀ» ¼ö ÀÖÀ½!)
+		// TODO column width ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Î·ï¿½ ï¿½ï¿½ ï¿½Èºï¿½ï¿½Ì´ï¿½ ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!)
 
 		// Initialize model and textTable, make textTable non-Editable
 		textTable = new JTable(model) {

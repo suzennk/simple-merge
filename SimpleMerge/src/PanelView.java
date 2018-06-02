@@ -131,6 +131,7 @@ public class PanelView extends JPanel {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
 				tec.setUpdated(true);
+				tec.setFileContentBuffer(textArea.getText());
 				updateView();
 			}
 		});
@@ -244,9 +245,6 @@ public class PanelView extends JPanel {
 
 	
 	public void save() {
-		String editedContent = textArea.getText();
-		tec.setFileContentBuffer(editedContent);
-		
   		if (tec.save()) {
   			if(tec.getMode() != Mode.COMPARE)
   				setMode(Mode.VIEW);
@@ -256,9 +254,6 @@ public class PanelView extends JPanel {
 	public void saveAs() {
 		FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
 		fd.setVisible(true);
-		
-		String editedContent = textArea.getText();
-		tec.setFileContentBuffer(editedContent);
 		
 		if (fd.getFile() != null) {
 			String filePath = fd.getDirectory() + fd.getFile();

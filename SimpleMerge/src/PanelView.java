@@ -174,8 +174,9 @@ public class PanelView extends JPanel {
 			}
 		});
 	}
+
 	public void setMode(Mode mode) {
-		switch(mode) {
+		switch (mode) {
 		case VIEW:
 			tec.setMode(Mode.VIEW);
 			statusLabel.setText("View Mode");
@@ -211,105 +212,108 @@ public class PanelView extends JPanel {
 		}
 		updateView();
 	}
-	
-  public void exitCompareMode() {
-     // JEditorPane
-       textTable.setVisible(false);
-       textArea.setVisible(true);
-       
-       editorPanel.remove(scrollPane);
-       scrollPane = new JScrollPane(textArea);
-       editorPanel.add(scrollPane);
-       System.out.println("change to editor");
-  }
-  
-  public void enterCompareMode() {
-     // make model arguments        
-	  // get file content as Arraylist
-	  ArrayList<String> fileContentList = tec.getFileContentList();
-	  
-      // set header
-      Vector<String> head = new Vector<String>();
-      head.addElement("line");
-      head.addElement("Content");
-      model = new DefaultTableModel(head, 0);
-       
-       
-      // set contents
-      for (int i = 0; i < fileContentList.size(); i++) {
-          Vector<String> contents = new Vector<String>();
-          contents.addElement(String.valueOf(i+1));
-          contents.addElement(fileContentList.get(i));
-          model.addRow(contents);
-          System.out.println(fileContentList.get(i));
-      }
-       
-    // TODO column width 수정(가로로 다 안보이는 겨우 있을 수 있음!)
-       
-      // Initialize model and textTable, make textTable non-Editable
-      textTable = new JTable(model) {
-          @Override
-          public boolean isCellEditable(int row, int col) {
-             return false;
-          }        
-      };
-       
-       // Set Color or Grid and Header
-       textTable.setGridColor(Color.LIGHT_GRAY);
-       JTableHeader header = textTable.getTableHeader();
-       header.setBackground(Color.WHITE);
-       
-       // Set column size
-       TableColumnModel col = textTable.getColumnModel();
-       col.getColumn(0).setPreferredWidth(30);
-       col.getColumn(1).setPreferredWidth(550);      
-       
-       textTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-       
-       // Color textTable
-       ArrayList<Integer> arri = new ArrayList<Integer>();
-       TableColumnColor renderer = new TableColumnColor(arri, panelColor);
-       try {
-        textTable.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
-     } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-     }
-       
-       
-       // JTable
-       textArea.setVisible(false);
-       textTable.setVisible(true);
-       
-       // set textTable
-       editorPanel.remove(scrollPane);
-       scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-       editorPanel.add(scrollPane);
-       System.out.println("change to text table");
-  }
 
-  /**
-   * 
-   * @return -1 if not updated
-   * @return 0 if save
-   * @return 1 if don't save
-   * @return 2 if cancel
-   */
+	public void exitCompareMode() {
+		// JEditorPane
+		textTable.setVisible(false);
+		textArea.setVisible(true);
+
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textArea);
+		editorPanel.add(scrollPane);
+		System.out.println("change to editor");
+	}
+
+	public void setFileContentList(ArrayList<String> list) {
+
+	}
+
+	public void highlightDiffIndices(ArrayList<Integer> indices) {
+
+	}
+
+	public void enterCompareMode() {
+		// make model arguments
+		// get file content as Arraylist
+		ArrayList<String> fileContentList = tec.getFileContentList();
+
+		// set header
+		Vector<String> head = new Vector<String>();
+		head.addElement("line");
+		head.addElement("Content");
+		model = new DefaultTableModel(head, 0);
+
+		// set contents
+		for (int i = 0; i < fileContentList.size(); i++) {
+			Vector<String> contents = new Vector<String>();
+			contents.addElement(String.valueOf(i + 1));
+			contents.addElement(fileContentList.get(i));
+			model.addRow(contents);
+			System.out.println(fileContentList.get(i));
+		}
+
+		// TODO column width 수정(가로로 다 안보이는 겨우 있을 수 있음!)
+
+		// Initialize model and textTable, make textTable non-Editable
+		textTable = new JTable(model) {
+			@Override
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		};
+
+		// Set Color or Grid and Header
+		textTable.setGridColor(Color.LIGHT_GRAY);
+		JTableHeader header = textTable.getTableHeader();
+		header.setBackground(Color.WHITE);
+
+		// Set column size
+		TableColumnModel col = textTable.getColumnModel();
+		col.getColumn(0).setPreferredWidth(30);
+		col.getColumn(1).setPreferredWidth(550);
+
+		textTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		// Color textTable
+		ArrayList<Integer> arri = new ArrayList<Integer>();
+		TableColumnColor renderer = new TableColumnColor(arri, panelColor);
+		try {
+			textTable.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// JTable
+		textArea.setVisible(false);
+		textTable.setVisible(true);
+
+		// set textTable
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editorPanel.add(scrollPane);
+		System.out.println("change to text table");
+	}
+
+	/**
+	 * @return -1 if not updated
+	 * @return 0 if save
+	 * @return 1 if don't save
+	 * @return 2 if cancel
+	 */
 	public int showSaveDialog() {
-		Object[] options = {"Save", "Don't Save", "Cancel"};
+		Object[] options = { "Save", "Don't Save", "Cancel" };
 		int n = -1;
-		
+
 		if (tec.isUpdated()) {
 			n = JOptionPane.showOptionDialog(this,
-											"The file has been edited. Do you want to save the file and continue?",
-											"Question", 
-											JOptionPane.YES_NO_CANCEL_OPTION,
-											JOptionPane.QUESTION_MESSAGE,
-											null, options, options[0]);
+					"The file has been edited. Do you want to save the file and continue?", "Question",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		}
 		return n;
 	}
-	
+
 	public int showSaveDialogWithCompletion() {
 		int n = showSaveDialog();
 		

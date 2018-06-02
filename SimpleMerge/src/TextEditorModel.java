@@ -205,6 +205,10 @@ public class TextEditorModel {
 	}
 	
 	public ArrayList<String> getFileContentBufferList() {
+	String[] fcArray = fileContentBuffer.split("\r\n");
+		
+		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
+		
 		return this.fileContentList;
 	}
 	
@@ -213,13 +217,7 @@ public class TextEditorModel {
 		this.fileContentList = (ArrayList<String>)fromMerge.clone();
 	}
 	
-	/* Private Functionss */
-	private void enterCompareMode() {
-		String[] fcArray = fileContentBuffer.split("\r\n");
-		
-		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
-	}
-
+	/* Private Functions */
 	private void exitCompareMode() {
 		fileContentBuffer = new String();
 		

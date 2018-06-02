@@ -225,31 +225,34 @@ public class PanelView extends JPanel {
   
   public void enterCompareMode() {
      // make model arguments        
-       // set header
-       Vector<String> head = new Vector<String>();
-       head.addElement("line");
-       head.addElement("Content");
-       model = new DefaultTableModel(head, 0);
+	  // get file content as Arraylist
+	  ArrayList<String> fileContentList = tec.getFileContentList();
+	  
+      // set header
+      Vector<String> head = new Vector<String>();
+      head.addElement("line");
+      head.addElement("Content");
+      model = new DefaultTableModel(head, 0);
        
        
-       // set contents
-       for (int i = 0; i < tec.getFileContentList().size(); i++) {
+      // set contents
+      for (int i = 0; i < fileContentList.size(); i++) {
           Vector<String> contents = new Vector<String>();
           contents.addElement(String.valueOf(i+1));
-          contents.addElement(tec.getFileContentList().get(i));
+          contents.addElement(fileContentList.get(i));
           model.addRow(contents);
-          System.out.println(tec.getFileContentList().get(i));
-       }
+          System.out.println(fileContentList.get(i));
+      }
        
     // TODO column width 수정(가로로 다 안보이는 겨우 있을 수 있음!)
        
-       // Initialize model and textTable, make textTable non-Editable
-       textTable = new JTable(model) {
+      // Initialize model and textTable, make textTable non-Editable
+      textTable = new JTable(model) {
           @Override
           public boolean isCellEditable(int row, int col) {
              return false;
           }        
-       };
+      };
        
        // Set Color or Grid and Header
        textTable.setGridColor(Color.LIGHT_GRAY);

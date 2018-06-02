@@ -49,10 +49,10 @@ public class Merge {
       this.traverseCursor = new int[] {0, 0};
 
       /* panel contents 받아와서 parsing 후 arraylist에 저장 */
-      this.leftFileContents = new ArrayList<String>(leftPanel.getFileContentList());
+      this.leftFileContents = new ArrayList<String>(leftPanel.getFileContentBufferList());
       this.leftFileContents.add(0, "");
 
-      this.rightFileContents = new ArrayList<String>(rightPanel.getFileContentList());
+      this.rightFileContents = new ArrayList<String>(rightPanel.getFileContentBufferList());
       this.rightFileContents.add(0, "");
       
       /* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
@@ -267,7 +267,7 @@ public class Merge {
       TextEditorModel left = new TextEditorModel();
       TextEditorModel right = new TextEditorModel();
 
-      left.setFileContent("same part1\r\n" + 
+      left.setFileContentBuffer("same part1\r\n" + 
             "same part2\r\n" + 
             "different but same line.1\r\n" + 
             "different but same line.2\r\n" + 
@@ -281,7 +281,7 @@ public class Merge {
             "same part7\r\n" + 
             "same part8");
 
-      right.setFileContent("same part1\r\n" + 
+      right.setFileContentBuffer("same part1\r\n" + 
             "same part2\r\n" + 
             "different but same line.3\r\n" + 
             "different but same line.4\r\n" + 

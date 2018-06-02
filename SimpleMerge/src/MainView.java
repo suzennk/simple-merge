@@ -241,20 +241,20 @@ public class MainView extends JFrame{
 		if (fd.getFile() != null) {		// Pressed "Open" in FileDialog
 			String filePath = fd.getDirectory() + fd.getFile();
 			
-        	if (yours.tec.panel.getFile() == null) {		// if the other panel does not have a file open, LOAD
-        		if (mine.tec.panel.load(filePath)) {		// if load succeeds, set to View mode and update View
+        	if (yours.tec.fileIsOpen() == false) {		// if the other panel does not have a file open, LOAD
+        		if (mine.tec.load(filePath)) {		// if load succeeds, set to View mode and update View
         				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.tec.panel.getFileContent());
+            			mine.textArea.setText(mine.tec.getFileContentBuffer());
         		}
         		else {
         			JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
             		System.out.println("Failed to open file.");
         		}
         	} 
-        	else if (!filePath.equals(yours.tec.panel.getFile().toString())) {	// check if files in both panels are equal
-        		if(mine.tec.panel.load(filePath)) {
+        	else if (!filePath.equals(yours.tec.getFilePath())) {	// check if files in both panels are equal
+        		if(mine.tec.load(filePath)) {
         				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.tec.panel.getFileContent());
+            			mine.textArea.setText(mine.tec.getFileContentBuffer());
         		}
     			else {
     				JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -279,7 +279,7 @@ public class MainView extends JFrame{
 		// TODO Auto-generated method stub
 		System.out.println("xbutton pressed.");
 		
-		pv.tec.panel.closeFile();
+		pv.tec.closeFile();
 		
 		// Set Mode
 		setMode(Mode.VIEW);
@@ -294,19 +294,9 @@ public class MainView extends JFrame{
 	}
 	
 	
-	// Check file format
-	private boolean accept(File file) {
-		if(file.isFile()) {
-			String fileName = file.getName();
-			if(fileName.endsWith(".txt")) return true; // txt format
-		}
-		
-		return false;
-	}
-	
 	private void updateView() {
 		// set enable [compare/merge/traverse] button only when two panel loaded
-		if(leftPV.tec.panel.fileIsOpen() && rightPV.tec.panel.fileIsOpen()){
+		if(leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
 			setMVbutton(true);
 		} else {
 			setMVbutton(false);

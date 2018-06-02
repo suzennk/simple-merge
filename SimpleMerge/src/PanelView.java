@@ -136,7 +136,8 @@ public class PanelView extends JPanel {
 		textArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				tec.panel.setUpdated(true);
+				tec.setUpdated(true);
+				tec.setFileContentBuffer(textArea.getText());
 				updateView();
 			}
 		});
@@ -171,85 +172,43 @@ public class PanelView extends JPanel {
 		});
 	}
 	public void setMode(Mode mode) {
-        switch(mode) {
-        case VIEW:
-           tec.panel.setMode(Mode.VIEW);
-           statusLabel.setText("View Mode");
-           textArea.setEditable(false);
-           loadBtn.setEnabled(true);
-           editBtn.setEnabled(true);
-           saveBtn.setEnabled(false);
-           saveAsBtn.setEnabled(false);
-           xBtn.setEnabled(true);
-           break;
-        case EDIT:
-           tec.panel.setMode(Mode.EDIT);
-           statusLabel.setText("Edit Mode");
-           textArea.setEditable(true);
-           loadBtn.setEnabled(true);
-           editBtn.setEnabled(false);
-           saveBtn.setEnabled(true);
-           saveAsBtn.setEnabled(true);
-           xBtn.setEnabled(true);
-           break;
-        case COMPARE:
-           tec.panel.setMode(Mode.COMPARE);
-           statusLabel.setText("Compare Mode");
-           textArea.setEditable(false);
-           loadBtn.setEnabled(false);
-           editBtn.setEnabled(false);
-           saveBtn.setEnabled(true);
-           saveAsBtn.setEnabled(true);
-           xBtn.setEnabled(false);
-           
-           break;
-        default:
-           break;
-        }
-        updateView();
-     } 
-//	public void setMode(Mode mode) {
-//        switch(mode) {
-//        case VIEW:
-//           pc.setMode(Mode.VIEW);
-//           statusLabel.setText("View Mode");
-//           textArea.setEditable(false);
-//           loadBtn.setEnabled(true);
-//           editBtn.setEnabled(true);
-//           saveBtn.setEnabled(false);
-//           saveAsBtn.setEnabled(false);
-//           xBtn.setEnabled(true);
-//           
-//           changeToEditor();
-//           break;
-//        case EDIT:
-//           pc.setMode(Mode.EDIT);
-//           statusLabel.setText("Edit Mode");
-//           textArea.setEditable(true);
-//           loadBtn.setEnabled(true);
-//           editBtn.setEnabled(false);
-//           saveBtn.setEnabled(true);
-//           saveAsBtn.setEnabled(true);
-//           xBtn.setEnabled(true);
-//           break;
-//        case COMPARE:
-//           pc.setMode(Mode.COMPARE);
-//           statusLabel.setText("Compare Mode");
-//           textArea.setEditable(false);
-//           loadBtn.setEnabled(false);
-//           editBtn.setEnabled(false);
-//           saveBtn.setEnabled(true);
-//           saveAsBtn.setEnabled(true);
-//           xBtn.setEnabled(false);
-//           
-//           changeToTable();
-//           break;
-//        default:
-//           break;
-//        }
-//        updateView();
-//     }
-//  
+		switch(mode) {
+		case VIEW:
+			tec.setMode(Mode.VIEW);
+			statusLabel.setText("View Mode");
+			textArea.setEditable(false);
+			loadBtn.setEnabled(true);
+			editBtn.setEnabled(true);
+			saveBtn.setEnabled(false);
+			saveAsBtn.setEnabled(false);
+			xBtn.setEnabled(true);
+			break;
+		case EDIT:
+			tec.setMode(Mode.EDIT);
+			statusLabel.setText("Edit Mode");
+			textArea.setEditable(true);
+			loadBtn.setEnabled(true);
+			editBtn.setEnabled(false);
+			saveBtn.setEnabled(true);
+			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(true);
+			break;
+		case COMPARE:
+			tec.setMode(Mode.COMPARE);
+			statusLabel.setText("Compare Mode");
+			textArea.setEditable(false);
+			loadBtn.setEnabled(false);
+			editBtn.setEnabled(false);
+			saveBtn.setEnabled(true);
+			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(false);
+			break;
+		default:
+			break;
+		}
+		updateView();
+	}
+	
 //  private void changeToEditor() {
 //     // JEditorPane
 //       textTable.setVisible(false);
@@ -322,13 +281,12 @@ public class PanelView extends JPanel {
 //       editorPanel.add(scrollPane);
 //       System.out.println("change to text table");
 //  }
-	
 
 	public int showSaveDialog() {
 		Object[] options = {"Save", "Don't Save", "Cancel"};
 		int n=0;
 		
-		if (tec.panel.isUpdated()) {
+		if (tec.isUpdated()) {
 			n = JOptionPane.showOptionDialog(this,
 											"The file has been edited. Do you want to save the file and continue?",
 											"Question", 
@@ -340,8 +298,8 @@ public class PanelView extends JPanel {
 				this.save();	
 			} 
 			else if(n == 1) { 									// NO: not save, switch to view mode
-				tec.panel.setUpdated(false);
-				textArea.setText(tec.panel.getOriginalFileContent()); 	// reset textArea to original file content	
+				tec.setUpdated(false);
+				textArea.setText(tec.getOriginalFileContent()); 	// reset textArea to original file content	
 			} 
 			else {
 				// Do nothing
@@ -351,24 +309,21 @@ public class PanelView extends JPanel {
 	}
 	
 	public void updateView() {
-		if (tec.panel.getFile() == null) {
+		if (!tec.fileIsOpen()) {
 			textArea.setText("Click the Load Button.");
 		}
 		
-		if (tec.panel.isUpdated()) {
-			fileNameLabel.setText("*" + tec.panel.getFileName());
+		if (tec.isUpdated()) {
+			fileNameLabel.setText("*" + tec.getFileName());
 		} else {
-			fileNameLabel.setText(tec.panel.getFileName());
+			fileNameLabel.setText(tec.getFileName());
 		}
 	}
 
 	
 	public void save() {
-		String editedContent = textArea.getText();
-		tec.panel.setFileContent(editedContent);
-		
-  		if (tec.panel.save()) {
-  			if(tec.panel.getMode()!=Mode.COMPARE)
+  		if (tec.save()) {
+  			if(tec.getMode() != Mode.COMPARE)
   				setMode(Mode.VIEW);
   		}
 	}
@@ -377,22 +332,16 @@ public class PanelView extends JPanel {
 		FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
 		fd.setVisible(true);
 		
-		String editedContent = textArea.getText();
-		tec.panel.setFileContent(editedContent);
-		
 		if (fd.getFile() != null) {
 			String filePath = fd.getDirectory() + fd.getFile();
-			if (tec.panel.saveAs(filePath)) {
-				if(tec.panel.getMode()!=Mode.COMPARE)
+			if (tec.saveAs(filePath)) {
+				if(tec.getMode()!=Mode.COMPARE)
 					setMode(Mode.VIEW);	
 			}
 		}
 	}
 	
-	public TextEditorModel getTextEditorModel() {
-		return tec.panel;
-	}
-	
+
 	public void setPanelColor(int x, int y, int z){
 		panelColor=new Color(x,y,z);
 	}

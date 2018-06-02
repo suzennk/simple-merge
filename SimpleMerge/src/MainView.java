@@ -150,22 +150,48 @@ public class MainView extends JFrame{
 					compareBtn.setIcon(view_icon);
 					
 					setMode(Mode.COMPARE);
+					leftPV.enterCompareMode();
+					rightPV.enterCompareMode();
 				}
 				else{
 					// compareBtn pressed twice->try to escape compare mode
-					if(comparePressed >= 0) {
-						int a = leftPV.showSaveDialog();
-						int b = rightPV.showSaveDialog();
-						
-						if(a == 2 || b == 2) {
-							// keep compare mode
-							comparePressed++;
-						} else{
-							// convert to view mode
-							compareBtn.setIcon(compare_icon);
-							setMode(Mode.VIEW);
-						}
+
+					int a = leftPV.showSaveDialog();
+					if (a == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
 					}
+					
+					int b = rightPV.showSaveDialog();
+					
+					if (b == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
+					} 
+					
+					// if (a != 2 && b != 2)
+					// save files if needed
+					if (a == 0) 
+						leftPV.save();
+					else if (a == 1) {
+						leftPV.tec.setUpdated(false);
+						leftPV.textArea.setText(leftPV.tec.getOriginalFileContent());
+					}
+					
+					if (b == 0)
+						rightPV.save();
+					else if (b == 1) {
+						rightPV.tec.setUpdated(false);
+						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
+					}
+					
+					// convert to view mode
+					compareBtn.setIcon(compare_icon);
+					setMode(Mode.VIEW);
+
+
 				}
 			}
 			
@@ -219,7 +245,7 @@ public class MainView extends JFrame{
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		
-		int dirtyCheck = mine.showSaveDialog();
+		int dirtyCheck = mine.showSaveDialogWithCompletion();
 	
 		if (dirtyCheck == 2) {
 			System.out.println("File load canceled.");

@@ -245,7 +245,7 @@ public class PanelView extends JPanel {
 	
 	public void save() {
 		String editedContent = textArea.getText();
-		tec.setFileContent(editedContent);
+		tec.setFileContentBuffer(editedContent);
 		
   		if (tec.save()) {
   			if(tec.getMode() != Mode.COMPARE)
@@ -258,7 +258,7 @@ public class PanelView extends JPanel {
 		fd.setVisible(true);
 		
 		String editedContent = textArea.getText();
-		tec.setFileContent(editedContent);
+		tec.setFileContentBuffer(editedContent);
 		
 		if (fd.getFile() != null) {
 			String filePath = fd.getDirectory() + fd.getFile();

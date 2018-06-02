@@ -60,18 +60,26 @@ public class TextEditorController {
 		this.tem.setMode(mode);
 	}
 	
+	/**
+	 * @return the original file content, which is the content before editing
+	 */
 	public String getOriginalFileContent() {
 		return tem.getOriginalFileContent();
 	}
 	
-	public void setFileContent(String fileContent) {
-		tem.setFileContentBuffer(fileContent);
-	}
-	
+	/**
+	 * @return current file content
+	 */
 	public String getFileContentBuffer() {
 		return tem.getFileContentBuffer();
 	}
 	
+	
+	public void setFileContentBuffer(String fileContent) {
+		tem.setFileContentBuffer(fileContent);
+	}
+	
+
 	/**
 	 * @return true is the file has been updated
 	 */

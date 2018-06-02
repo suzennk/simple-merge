@@ -252,7 +252,7 @@ public class PanelView extends JPanel {
 			System.out.println(fileContentList.get(i));
 		}
 
-		// TODO column width ����(���η� �� �Ⱥ��̴� �ܿ� ���� �� ����!)
+		// TODO column width
 
 		// Initialize model and textTable, make textTable non-Editable
 		textTable = new JTable(model) {
@@ -263,6 +263,7 @@ public class PanelView extends JPanel {
 		};
 
 		// Set Color or Grid and Header
+		textTable.setShowHorizontalLines(false);
 		textTable.setGridColor(Color.LIGHT_GRAY);
 		JTableHeader header = textTable.getTableHeader();
 		header.setBackground(Color.WHITE);

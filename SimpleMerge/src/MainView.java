@@ -150,22 +150,50 @@ public class MainView extends JFrame{
 					compareBtn.setIcon(view_icon);
 					
 					setMode(Mode.COMPARE);
+					leftPV.enterCompareMode();
+					rightPV.enterCompareMode();
 				}
 				else{
 					// compareBtn pressed twice->try to escape compare mode
-					if(comparePressed >= 0) {
-						int a = leftPV.showSaveDialog();
-						int b = rightPV.showSaveDialog();
-						
-						if(a == 2 || b == 2) {
-							// keep compare mode
-							comparePressed++;
-						} else{
-							// convert to view mode
-							compareBtn.setIcon(compare_icon);
-							setMode(Mode.VIEW);
-						}
+
+					int a = leftPV.showSaveDialog();
+					if (a == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
 					}
+					
+					int b = rightPV.showSaveDialog();
+					
+					if (b == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
+					} 
+					
+					// if (a != 2 && b != 2)
+					// save files if needed
+					if (a == 0) 
+						leftPV.save();
+					else if (a == 1) {
+						leftPV.tec.setUpdated(false);
+						leftPV.textArea.setText(leftPV.tec.getOriginalFileContent());
+					}
+					
+					if (b == 0)
+						rightPV.save();
+					else if (b == 1) {
+						rightPV.tec.setUpdated(false);
+						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
+					}
+					
+					// convert to view mode
+					compareBtn.setIcon(compare_icon);
+					leftPV.exitCompareMode();
+					rightPV.exitCompareMode();
+					setMode(Mode.VIEW);
+
+
 				}
 			}
 			
@@ -219,7 +247,7 @@ public class MainView extends JFrame{
 	private void load(PanelView mine, PanelView yours) {
 		System.out.println("Load button pressed.");
 		
-		int dirtyCheck = mine.showSaveDialog();
+		int dirtyCheck = mine.showSaveDialogWithCompletion();
 	
 		if (dirtyCheck == 2) {
 			System.out.println("File load canceled.");
@@ -241,20 +269,20 @@ public class MainView extends JFrame{
 		if (fd.getFile() != null) {		// Pressed "Open" in FileDialog
 			String filePath = fd.getDirectory() + fd.getFile();
 			
-        	if (yours.tec.panel.getFile() == null) {		// if the other panel does not have a file open, LOAD
-        		if (mine.tec.panel.load(filePath)) {		// if load succeeds, set to View mode and update View
+        	if (yours.tec.fileIsOpen() == false) {		// if the other panel does not have a file open, LOAD
+        		if (mine.tec.load(filePath)) {		// if load succeeds, set to View mode and update View
         				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.tec.panel.getFileContent());
+            			mine.textArea.setText(mine.tec.getFileContentBuffer());
         		}
         		else {
         			JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
             		System.out.println("Failed to open file.");
         		}
         	} 
-        	else if (!filePath.equals(yours.tec.panel.getFile().toString())) {	// check if files in both panels are equal
-        		if(mine.tec.panel.load(filePath)) {
+        	else if (!filePath.equals(yours.tec.getFilePath())) {	// check if files in both panels are equal
+        		if(mine.tec.load(filePath)) {
         				mine.setMode(Mode.VIEW);
-            			mine.textArea.setText(mine.tec.panel.getFileContent());
+            			mine.textArea.setText(mine.tec.getFileContentBuffer());
         		}
     			else {
     				JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
@@ -279,7 +307,7 @@ public class MainView extends JFrame{
 		// TODO Auto-generated method stub
 		System.out.println("xbutton pressed.");
 		
-		pv.tec.panel.closeFile();
+		pv.tec.closeFile();
 		
 		// Set Mode
 		setMode(Mode.VIEW);
@@ -294,19 +322,9 @@ public class MainView extends JFrame{
 	}
 	
 	
-	// Check file format
-	private boolean accept(File file) {
-		if(file.isFile()) {
-			String fileName = file.getName();
-			if(fileName.endsWith(".txt")) return true; // txt format
-		}
-		
-		return false;
-	}
-	
 	private void updateView() {
 		// set enable [compare/merge/traverse] button only when two panel loaded
-		if(leftPV.tec.panel.fileIsOpen() && rightPV.tec.panel.fileIsOpen()){
+		if(leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
 			setMVbutton(true);
 		} else {
 			setMVbutton(false);

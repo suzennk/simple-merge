@@ -18,7 +18,6 @@ public class PanelView extends JPanel {
 	private 	JButton saveBtn;
 	protected 	JButton saveAsBtn;
 	
-
 	private 	JPanel editorPanel; // xPanel + text field
 	
 	private 	JPanel titlePanel; // filename, xbutton
@@ -28,7 +27,7 @@ public class PanelView extends JPanel {
 	private     JScrollPane scrollPane;
 	private		TextLineNumber tln;
 	protected   JEditorPane textArea;
-	protected   JTable textTable;
+	protected   CompareTable textTable;
 	private     DefaultTableModel model;
 	
 	private 	JLabel statusLabel;
@@ -104,7 +103,7 @@ public class PanelView extends JPanel {
 		
 		tln		 		= new TextLineNumber(textArea);
 		model			= new DefaultTableModel();
-	    textTable		= new JTable();
+	    textTable		= new CompareTable();
 
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);
@@ -216,77 +215,14 @@ public class PanelView extends JPanel {
 		updateView();
 	}
 
-	public void exitCompareMode() {
-		// JEditorPane
-		textTable.setVisible(false);
-		textArea.setVisible(true);
-
-		editorPanel.remove(scrollPane);
-		scrollPane = new JScrollPane(textArea);
-		editorPanel.add(scrollPane);
-		System.out.println("change to editor");
-	}
-
-	public void setFileContentList(ArrayList<String> list) {
-
-	}
-
-	public void highlightDiffIndices(ArrayList<int[]> blocks) {
-
-	}
-
+	
 	public void enterCompareMode() {
 		// make model arguments
 		// get file content as Arraylist
 		ArrayList<String> fileContentList = tec.getFileContentList();
 
-		// set header
-		Vector<String> head = new Vector<String>();
-		head.addElement("line");
-		head.addElement("Content");
-		model = new DefaultTableModel(head, 0);
-
-		// set contents
-		for (int i = 0; i < fileContentList.size(); i++) {
-			Vector<String> contents = new Vector<String>();
-			contents.addElement(String.valueOf(i + 1));
-			contents.addElement(fileContentList.get(i));
-			model.addRow(contents);
-			System.out.println(fileContentList.get(i));
-		}
-
-		// TODO column width
-
 		// Initialize model and textTable, make textTable non-Editable
-		textTable = new JTable(model) {
-			@Override
-			public boolean isCellEditable(int row, int col) {
-				return false;
-			}
-		};
-
-		// Set Color or Grid and Header
-		textTable.setShowHorizontalLines(false);
-		textTable.setGridColor(Color.LIGHT_GRAY);
-		JTableHeader header = textTable.getTableHeader();
-		header.setBackground(Color.WHITE);
-
-		// Set column size
-		TableColumnModel col = textTable.getColumnModel();
-		col.getColumn(0).setPreferredWidth(30);
-		col.getColumn(1).setPreferredWidth(550);
-
-		textTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		// Color textTable
-		ArrayList<Integer> arri = new ArrayList<Integer>();
-		TableColumnColor renderer = new TableColumnColor(arri, panelColor);
-		try {
-			textTable.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), panelColor);
 
 		// JTable
 		textArea.setVisible(false);
@@ -299,6 +235,19 @@ public class PanelView extends JPanel {
 		editorPanel.add(scrollPane);
 		System.out.println("change to text table");
 	}
+	
+	public void exitCompareMode() {
+		// JEditorPane
+		textTable.setVisible(false);
+		textArea.setVisible(true);
+
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textArea);
+		editorPanel.add(scrollPane);
+		System.out.println("change to editor");
+	}
+
+	
 
 	/**
 	 * @return -1 if not updated
@@ -379,5 +328,9 @@ public class PanelView extends JPanel {
 	
 	public void setBlock(int[] block){
 		this.block=block;
+	}
+	
+	public TextEditorModel getTEM() {
+		return tec.getTEM();
 	}
 }

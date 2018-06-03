@@ -70,7 +70,6 @@ public class TextEditorModel {
 			file = new File(filePath);
 
 			
-			System.out.println(getFilePath());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -82,8 +81,6 @@ public class TextEditorModel {
 			if (br != null)	try { br.close(); } catch (IOException e) {}
 			if (fr != null)	try { fr.close(); } catch (IOException e) {}
 		}
-
-		System.out.println(this.fileContentBuffer);
 		
 		fileContentBuffer = new String(originalFileContent);
 		dirty = false;

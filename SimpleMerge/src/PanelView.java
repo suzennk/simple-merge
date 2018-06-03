@@ -219,7 +219,7 @@ public class PanelView extends JPanel {
 	public void enterCompareMode() {
 		// make model arguments
 		// get file content as Arraylist
-		ArrayList<String> fileContentList = tec.getFileContentBufferList();
+		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
 
 		// Initialize model and textTable, make textTable non-Editable
 		textTable = new CompareTable(fileContentList, tec.getBlocks(), panelColor);

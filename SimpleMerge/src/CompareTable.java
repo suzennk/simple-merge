@@ -71,7 +71,6 @@ public class CompareTable extends JTable {
 
          for (int i = start; i <= end; i++) {
             highlightIndices.add(i);
-            System.out.println(i);
          }   
       }
       

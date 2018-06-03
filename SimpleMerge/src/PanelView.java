@@ -228,7 +228,7 @@ public class PanelView extends JPanel {
 
 	}
 
-	public void highlightDiffIndices(ArrayList<Integer> indices) {
+	public void highlightDiffIndices(ArrayList<int[]> blocks) {
 
 	}
 
@@ -252,7 +252,7 @@ public class PanelView extends JPanel {
 			System.out.println(fileContentList.get(i));
 		}
 
-		// TODO column width 수정(가로로 다 안보이는 겨우 있을 수 있음!)
+		// TODO column width
 
 		// Initialize model and textTable, make textTable non-Editable
 		textTable = new JTable(model) {
@@ -263,6 +263,7 @@ public class PanelView extends JPanel {
 		};
 
 		// Set Color or Grid and Header
+		textTable.setShowHorizontalLines(false);
 		textTable.setGridColor(Color.LIGHT_GRAY);
 		JTableHeader header = textTable.getTableHeader();
 		header.setBackground(Color.WHITE);

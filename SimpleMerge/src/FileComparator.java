@@ -111,7 +111,6 @@ public class FileComparator {
       int L = 0, R = 0;
       int L_Max = leftDiffIndex.size();
       int R_Max = rightDiffIndex.size();
-
       while (L < L_Max && R < R_Max) {
          /* 같은 string인 경우 해당 string의 index를 저장 */
          if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {

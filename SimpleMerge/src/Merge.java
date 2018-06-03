@@ -24,7 +24,7 @@ public class Merge {
    /*
     * 현재 커서의 위치 int[2] => [begin index, end index]
     */
-   private int[] traverseCursor;
+   private int traverseCursor;
    /*
     * flagPrevious 는  더이상 앞으로 이동할 곳이없다를 표시하는 flag. true이면 아직 있다. false면 더이상없다.
     * flagNext 마찬가지.
@@ -32,13 +32,7 @@ public class Merge {
     */
    private boolean flagPrevious;
    private boolean flagNext;
-   /*
-    * diffFirstIndex는  가장 처음 block(SRS glossory)의 begin 인자.
-    * diffLastIndex는 가장 마지막 block(SRS glossory)의 end 인자.
-    */
-   private int diffFirstIndex;
-   private int diffLastIndex;
-   
+ 
    Merge() {
       System.out.println("No input panels");
    }
@@ -46,7 +40,7 @@ public class Merge {
    Merge(TextEditorModel leftPanel, TextEditorModel rightPanel) {
       this.leftPanel = leftPanel;
       this.rightPanel = rightPanel;
-      this.traverseCursor = new int[] {0, 0};
+      this.traverseCursor = -1;
 
       /* panel contents 받아와서 parsing 후 arraylist에 저장 */
       this.leftFileContents = new ArrayList<String>(leftPanel.getFileContentBufferList());
@@ -61,144 +55,60 @@ public class Merge {
       this.rightDiffIndex = fc.getDiffRight();
       this.blocks = fc.getBlocks();
 
-      setDiffFirstIndex();
-      setDiffLastIndex();
-      flagPrevious = setFlagPrevious();
-      flagNext = setFlagNext();
+      setFlag();
+   }
+   
+   /*
+    * 이거 쓸 때 꼭 if문에 flagPrevious 혹은 flagNext 이용해서 쓰길 바람.
+    */
+   private void setFlag(){
+      if(blocks.size() == 0)
+         flagPrevious = false;
       
-   }
-/*
- * diffFirstIndex를 계산해준다.
- */
-   private void setDiffFirstIndex(){
-      for(int i = 1; i < leftDiffIndex.size(); i++){
-         if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
-            diffFirstIndex = i;
-            break;
-         }
-      }
-   }
-   
-   /*
-    * diffLastIndex를 계산해준다.
-    */
-   private void setDiffLastIndex(){
-      for(int i = leftDiffIndex.size()-1; i > 0; i--){
-         if(leftDiffIndex.get(i) <= 0 || rightDiffIndex.get(i) <= 0){
-            diffLastIndex = i;
-            break;
-         }
-      }
-   }
-   
-   /*
-    * flagPrevious 설정. 
-    */
-   private boolean setFlagPrevious(){
-      if(traverseCursor[0] != diffFirstIndex)
-         return true;
+      else if(traverseCursor != 1)
+    	  flagPrevious = true;
       
       else
-         return false;
-   }
-   
-   /*
-    * flagNext 설정
-    */
-   private boolean setFlagNext(){
-      if(traverseCursor[1] != diffLastIndex)
-         return true;
+    	  flagPrevious = false;
+      
+	  int size = blocks.size() ;
+      if(size == 0)
+         flagNext = false;
+      
+      else if(traverseCursor != size-1)
+    	  flagNext = true;
       
       else
-         return false;
+    	  flagNext = false;
    }
-   
-   /*
-    * 이 메소드를 실행하면 previous block 을 가리킨다.
-    * MainView는 getTraverseCursor을 통해 현재 가리키는 [begin index, end index] 를 얻는다.
-    * 알고리즘은 바로 아래의 메소드를 참고 바람.
-    */
-   void traversePrevious() {
-     int i = traverseCursor[0] - 1;
-     
-     while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
-        i--;
-     
-      traverseCursor[1] = i;
 
-      if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-         while(i >= diffFirstIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-            i--;
-      }
-      
-      else{
-         while(i >= diffFirstIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-            i--;
-      }
-      
-      traverseCursor[0] = ++i;
+   void traversePrevious() {
+      	--traverseCursor;
    }   
 
-   /*
-    * 알고리즘 : 
-    * [0,0]은 그 어떤 traverse 버튼도 누르기 전의 초기 상태이다.
-    * 이 상태에서 next 버튼을 누른다면
-    * 1) leftDiffIndex의 1번 index부터 block을 찾기시작한다.
-    * 2) block을 찾았다면 그 block의 begin index를 현재 커서의 begin index에 대입.
-    * 3) block의 끝을 찾기 위해 검토를 한다. <이 때, 공백줄vs다른내용인 block case와 다른내용vs다른내용인 block case를 나눴다.>
-    * 4) block의 끝을 찾았다면 커서의 end index에 대입.
-    * 5) MainView는 getTraverseCursor을 통해 현재 가리키는 [begin index, end index] 를 얻는다.
-    * # 위의 previous는 이와 반대로 이루어져있다.
-    */
    void traverseNext() {
-     int i = traverseCursor[1] + 1;
-     
-     while(leftDiffIndex.get(i) > 0 && rightDiffIndex.get(i) > 0)
-        i++;
-     
-     traverseCursor[0] = i;
-   
-     if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-        while(i <= diffLastIndex && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-           i++;
-     }
-     
-     else{
-        while(i <= diffLastIndex && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-           i++;
-     }
-     
-     traverseCursor[1] = --i;
+       	++traverseCursor;
    }
 
-   ////////////////////////merge의 함수 CTL, CTR 미완성 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
-   /*
-    * 
-    * 
-    *  
-    */
    void copyToLeft() {
-      for(int i = traverseCursor[0]; i< traverseCursor[1]; i++){
-         
-      }
+	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
+		  leftDiffIndex.set(i, rightDiffIndex.get(i));
+	  }
+	  blocks.remove(traverseCursor);
+	  
+	  traverseCursor--;
+	  setFlag();
    }
 
-   /**
-    * clear all the string and copy from left to right
-    */
    void copyToRight() {
-      int i = traverseCursor[0];
-        if(leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0){
-           while(i <=traverseCursor[1] && (leftDiffIndex.get(i) == 0 || rightDiffIndex.get(i) == 0))
-              i++;
-        }
-        
-        else{
-           while(i <= traverseCursor[1] && (leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0))
-              i++;
-        }
+	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
+		  rightDiffIndex.set(i, leftDiffIndex.get(i));
+	  }
+	  blocks.remove(traverseCursor);
+	  
+	  traverseCursor--;
+	  setFlag();
    }
-   /////////////////////////////////////
 
    public ArrayList<String> getLeftFileContents() {
       return this.leftFileContents;
@@ -224,7 +134,7 @@ public class Merge {
       return this.flagNext;
    }
    
-   public int[] getTraverseCursor(){
+   public int getTraverseCursor(){
       return this.traverseCursor;
    }
    
@@ -242,7 +152,7 @@ public class Merge {
       for (int i = 1; i < this.rightDiffIndex.size(); i++)
          System.out.println("["+i+"] "+this.rightDiffIndex.get(i));
    }
-   
+   //
    /**
     * Used for the test of main class of this class.
     * You can delete this method.
@@ -321,7 +231,6 @@ public class Merge {
             break;
          case 3:
             mc.traversePrevious();
-            index = mc.getTraverseCursor();
             if (index[0] != -1 && index[1] != -1) {
                System.out.println("Traverse line " + index[0] + " to " + index[1]);
                for (int i = index[0]; i <= index[1]; i++)
@@ -330,7 +239,6 @@ public class Merge {
             break;
          case 4:
             mc.traverseNext();
-            index = mc.getTraverseCursor();
             if (index[0] != -1 && index[1] != -1) {
                System.out.println("Traverse line " + index[0] + " to " + index[1]);
                for (int i = index[0]; i <= index[1]; i++)

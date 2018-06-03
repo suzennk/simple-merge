@@ -152,7 +152,7 @@ public class Merge {
       for (int i = 1; i < this.rightDiffIndex.size(); i++)
          System.out.println("["+i+"] "+this.rightDiffIndex.get(i));
    }
-   
+   //
    /**
     * Used for the test of main class of this class.
     * You can delete this method.

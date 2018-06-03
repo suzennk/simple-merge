@@ -15,11 +15,10 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 	
-	
-	private ArrayList<String> fileContentBufferList;					/** for viewing purpose */
+	private ArrayList<String> alignedFileContentBufferList;		/** for viewing purpose */
+	private ArrayList<String> fileContentBufferList;			/** for saving purpose */
 	private ArrayList<int[]> blocks;
-	private ArrayList<String> fileContentBufferListWithoutBlankspace;	/** for saving purpose */
-
+	
 	private FileReader fr;
 	private FileWriter fw;
 	private BufferedReader br;
@@ -212,6 +211,14 @@ public class TextEditorModel {
 	//	Merge - Use these methods !												//
 	//////////////////////////////////////////////////////////////////////////////
 	
+	public ArrayList<String> getAlignedFileContentBufferList() {
+		String[] fcArray = fileContentBuffer.split("\r\n");
+		
+		this.alignedFileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
+		
+		return alignedFileContentBufferList;
+	}
+	
 	public ArrayList<String> getFileContentBufferList() {
 		String[] fcArray = fileContentBuffer.split("\r\n");
 		
@@ -219,16 +226,17 @@ public class TextEditorModel {
 		
 		return this.fileContentBufferList;
 	}
-
+	
+	// setBlocks(), setFileContentBufferList(), and setAlignedFileContentBufferList()
+	// above methods are no longer needed, as references are copied by getter methods
 	public void setBlocks(ArrayList<int[]> blocks) {
 		this.blocks = blocks;
 	}
 	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
 		this.fileContentBufferList = fileContentBufferList;
 	}
-	
-	public void setFileContentBufferListWithoutBlankspace(ArrayList<String> fileContentBufferListWithoutBlankspace) {
-		this.fileContentBufferListWithoutBlankspace = fileContentBufferListWithoutBlankspace;
+	public void setAlignedFileContentBufferList(ArrayList<String> alignedFileContentBufferList) {
+		this.alignedFileContentBufferList = alignedFileContentBufferList;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////
@@ -237,10 +245,6 @@ public class TextEditorModel {
 	
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
-	}
-
-	public ArrayList<String> getFileContentBufferListWithoutBlankspace() {
-		return fileContentBufferListWithoutBlankspace;
 	}
 	
 	@SuppressWarnings("unchecked")

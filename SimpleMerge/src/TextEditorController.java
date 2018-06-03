@@ -91,15 +91,22 @@ public class TextEditorController {
 		tem.setUpdated(flag);
 	}
 	
-	public ArrayList<String> getFileContentList() {
+	public ArrayList<String> getFileContentBufferList() {
 		return tem.getFileContentBufferList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void setFileContentList(ArrayList<String> fromMerge) {
-		tem.setFileContentList(fromMerge);
+	public ArrayList<String> getAlignedFileContentBufferList() {
+		return tem.getAlignedFileContentBufferList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void setFileContentBufferList(ArrayList<String> fromMerge) {
+		tem.setFileContentBufferList(fromMerge);
+	}
+	
+	public void setAlignedFileContentBufferList(ArrayList<String> fromMerge) {
+		tem.setAlignedFileContentBufferList(fromMerge);
+	}
 	public ArrayList<int[]> getBlocks() {
 		return tem.getBlocks();
 	}
@@ -185,12 +192,12 @@ public class TextEditorController {
 //				break;
 			
 			case 8:
-				System.out.println(pc.getFileContentList());
+				System.out.println(pc.getFileContentBufferList());
 				break;
 			case 9:
-				ArrayList<String> edited = pc.getFileContentList();
+				ArrayList<String> edited = pc.getFileContentBufferList();
 				edited.add("Is this added????");
-				pc.setFileContentList(edited);
+				pc.setFileContentBufferList(edited);
 				System.out.println(pc.getOriginalFileContent());	// 이부분 테스트 안됨..!! b/c original != buffer
 				break;
 			case 10:

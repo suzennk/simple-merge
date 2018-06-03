@@ -209,10 +209,6 @@ public class TextEditorModel {
 	//////////////////////////////////////////////////////////////////////////////
 	
 	public ArrayList<String> getAlignedFileContentBufferList() {
-		String[] fcArray = fileContentBuffer.split("\r\n");
-		
-		this.alignedFileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
-		
 		return alignedFileContentBufferList;
 	}
 	

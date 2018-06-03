@@ -29,12 +29,12 @@ public class CompareTable extends JTable {
       model = new DefaultTableModel(head, 0);
 
       // Set contents
-      for (int i = 0; i < fileContentList.size(); i++) {
+      for (int i = 1; i < fileContentList.size(); i++) {
          Vector<String> contents = new Vector<String>();
-         contents.addElement(String.valueOf(i + 1));
+         contents.addElement(String.valueOf(i));
          contents.addElement(fileContentList.get(i));
          model.addRow(contents);
-         System.out.println(fileContentList.get(i));
+         System.out.println(i + "\t\t" + fileContentList.get(i));
       }
       
       // Highlight Lines

@@ -100,6 +100,10 @@ public class TextEditorController {
 		tem.setFileContentList(fromMerge);
 	}
 	
+	public ArrayList<int[]> getBlocks() {
+		return tem.getBlocks();
+	}
+	
 	public TextEditorModel getTEM() {
 		return this.tem;
 	}

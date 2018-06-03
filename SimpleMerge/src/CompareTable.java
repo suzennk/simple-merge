@@ -8,64 +8,90 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 public class CompareTable extends JTable {
-	DefaultTableModel model;
+   DefaultTableModel model;
+   ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
+   Color highlightColor;
 
-	CompareTable() {
+   public CompareTable() {
 
-	}
+   }
 
-	CompareTable(ArrayList<String> fileContentList, Color panelColor) {
-		super();
-		// set header
-		Vector<String> head = new Vector<String>();
-		head.addElement("line");
-		head.addElement("Content");
-		model = new DefaultTableModel(head, 0);
+   public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, Color highlightColor) {
+      super();
+      
+      // Set highlight color
+      this.highlightColor = highlightColor;
+      
+      // Set header
+      Vector<String> head = new Vector<String>();
+      head.addElement("line");
+      head.addElement("Content");
+      model = new DefaultTableModel(head, 0);
 
-		// set contents
-		for (int i = 0; i < fileContentList.size(); i++) {
-			Vector<String> contents = new Vector<String>();
-			contents.addElement(String.valueOf(i + 1));
-			contents.addElement(fileContentList.get(i));
-			model.addRow(contents);
-			System.out.println(fileContentList.get(i));
-		}
+      // Set contents
+      for (int i = 0; i < fileContentList.size(); i++) {
+         Vector<String> contents = new Vector<String>();
+         contents.addElement(String.valueOf(i + 1));
+         contents.addElement(fileContentList.get(i));
+         model.addRow(contents);
+         System.out.println(fileContentList.get(i));
+      }
+      
+      // Highlight Lines
+      highlightBlocks(blocks);
 
-		this.setModel(model);
+      this.setModel(model);
 
-		// Set Color or Grid and Header
-		this.setShowHorizontalLines(false);
-		this.setGridColor(Color.LIGHT_GRAY);
-		JTableHeader header = this.getTableHeader();
-		header.setBackground(Color.WHITE);
+      // Set Color or Grid and Header
+      this.setShowHorizontalLines(false);
+      this.setGridColor(Color.LIGHT_GRAY);
+      JTableHeader header = this.getTableHeader();
+      header.setBackground(Color.WHITE);
 
-		// TODO column width
-		// Set column size
-		TableColumnModel col = this.getColumnModel();
-		col.getColumn(0).setPreferredWidth(30);
-		col.getColumn(1).setPreferredWidth(550);
+      // TODO column width
+      // Set column size
+      TableColumnModel col = this.getColumnModel();
+      col.getColumn(0).setPreferredWidth(30);
+      col.getColumn(1).setPreferredWidth(550);
 
-		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+      this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		// Color textTable
-		ArrayList<Integer> arri = new ArrayList<Integer>();
-		TableColumnColor renderer = new TableColumnColor(arri, panelColor);
-		try {
-			this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+      ///// for testing
+//      ArrayList<int[]> blocks = new ArrayList<int[]>();
+//      blocks.add(new int[]{1,5});
+//      blocks.add(new int[]{8,9});
+//      System.out.println(blocks);
+//      highlightBlocks(blocks);
+   }
 
-	CompareTable(DefaultTableModel model) {
-		super(model);
+   public void highlightBlocks(ArrayList<int[]> blocks) {
+      for (int[] block: blocks) {
+         int start = block[0];
+         int end = block[1];
 
-	}
+         for (int i = start; i <= end; i++) {
+            highlightIndices.add(i);
+            System.out.println(i);
+         }   
+      }
+      
+      TableColumnColor renderer = new TableColumnColor(highlightIndices, highlightColor);
+      try {
+         this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+      } catch (ClassNotFoundException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
 
-	@Override
-	public boolean isCellEditable(int row, int col) {
-		return false;
-	}
+   }
+
+   public void highlightCurrentBlock() {
+
+   }
+
+   @Override
+   public boolean isCellEditable(int row, int col) {
+      return false;
+   }
 
 }

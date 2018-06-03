@@ -9,14 +9,10 @@ public class TableColumnColor extends DefaultTableCellRenderer{
    
    private ArrayList<Integer> arri = new ArrayList<Integer>();
    private Color lineColor;
-   private Color LetterColor;
    
    @SuppressWarnings("unchecked")
    public TableColumnColor (ArrayList<Integer> arr, Color color){
-      //this.arri = (ArrayList<Integer>) arr.clone();
-      arri.add(1);
-      arri.add(4);
-      arri.add(8);
+      this.arri = (ArrayList<Integer>) arr.clone();
       this.lineColor = color;
    }
 

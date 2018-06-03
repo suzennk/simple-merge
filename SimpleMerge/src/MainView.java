@@ -387,18 +387,16 @@ public class MainView extends JFrame{
 	}
 	
 	private void enterCompareMode() { 
-		compareBtn.setIcon(view_icon);
-		leftPV.enterCompareMode();
-		rightPV.enterCompareMode();
-		
-		// create merge model
-		TextEditorModel leftTEM = leftPV.getTEM();
-		TextEditorModel rightTEM = rightPV.getTEM();
-		merge = new Merge(leftTEM, rightTEM);
-
-		//enter compare mode
-		setMode(Mode.COMPARE);
-	}
+	      compareBtn.setIcon(view_icon);
+	      
+	      // create merge model
+	      merge = new Merge(leftPV.getTEM(), rightPV.getTEM());
+	      
+	      //enter compare mode
+	      leftPV.enterCompareMode();
+	      rightPV.enterCompareMode();
+	      setMode(Mode.COMPARE);
+	   }
 	
 	private void exitCompareMode() {
 		// convert to view mode

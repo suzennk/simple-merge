@@ -215,32 +215,14 @@ public class PanelView extends JPanel {
 		updateView();
 	}
 
-	public void exitCompareMode() {
-		// JEditorPane
-		textTable.setVisible(false);
-		textArea.setVisible(true);
-
-		editorPanel.remove(scrollPane);
-		scrollPane = new JScrollPane(textArea);
-		editorPanel.add(scrollPane);
-		System.out.println("change to editor");
-	}
-
-	public void setFileContentList(ArrayList<String> list) {
-
-	}
-
-	public void highlightDiffIndices(ArrayList<int[]> blocks) {
-
-	}
-
+	
 	public void enterCompareMode() {
 		// make model arguments
 		// get file content as Arraylist
 		ArrayList<String> fileContentList = tec.getFileContentList();
 
 		// Initialize model and textTable, make textTable non-Editable
-		textTable = new CompareTable(fileContentList, panelColor);
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), panelColor);
 
 		// JTable
 		textArea.setVisible(false);
@@ -253,6 +235,19 @@ public class PanelView extends JPanel {
 		editorPanel.add(scrollPane);
 		System.out.println("change to text table");
 	}
+	
+	public void exitCompareMode() {
+		// JEditorPane
+		textTable.setVisible(false);
+		textArea.setVisible(true);
+
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textArea);
+		editorPanel.add(scrollPane);
+		System.out.println("change to editor");
+	}
+
+	
 
 	/**
 	 * @return -1 if not updated

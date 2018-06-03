@@ -15,7 +15,8 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 	
-	private ArrayList <String> fileContentList;
+	private ArrayList<String> fileContentBufferList;
+	private ArrayList<int[]> blocks;
 	
 	private FileReader fr;
 	private FileWriter fw;
@@ -31,7 +32,7 @@ public class TextEditorModel {
 		fileContentBuffer = null;
 		dirty = false;
 		
-		fileContentList = null;
+		fileContentBufferList = null;
 		
 		fr = null;
 		fw = null;
@@ -146,7 +147,7 @@ public class TextEditorModel {
 		fileContentBuffer = null;
 		dirty = false;
 		
-		fileContentList = null;
+		fileContentBufferList = null;
 	}
 	
 	/**
@@ -204,25 +205,45 @@ public class TextEditorModel {
 		this.dirty = flag;
 	}
 	
+	
+	//////////////////////////////////////////////////////////////////////////////
+	//	Merge - Use these methods !												//
+	//////////////////////////////////////////////////////////////////////////////
+	
 	public ArrayList<String> getFileContentBufferList() {
-	String[] fcArray = fileContentBuffer.split("\r\n");
+		String[] fcArray = fileContentBuffer.split("\r\n");
 		
-		this.fileContentList = new ArrayList<String>(Arrays.asList(fcArray));
+		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
 		
-		return this.fileContentList;
+		return this.fileContentBufferList;
+	}
+
+	public void setBlocks(ArrayList<int[]> blocks) {
+		this.blocks = blocks;
+	}
+	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
+		this.fileContentBufferList = fileContentBufferList;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+	//	Merge - Use these methods !												//
+	//////////////////////////////////////////////////////////////////////////////
+	
+	public ArrayList<int[]> getBlocks() {
+		return blocks;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void setFileContentList(ArrayList<String> fromMerge) {
-		this.fileContentList = (ArrayList<String>)fromMerge.clone();
+		this.fileContentBufferList = (ArrayList<String>)fromMerge.clone();
 	}
 	
 	/* Private Functions */
 	private void exitCompareMode() {
 		fileContentBuffer = new String();
 		
-		for (int i = 0; i< fileContentList.size(); i++) {
-			fileContentBuffer += this.fileContentList.get(i);
+		for (int i = 0; i< fileContentBufferList.size(); i++) {
+			fileContentBuffer += this.fileContentBufferList.get(i);
 			fileContentBuffer += "\r\n";
 		}
 	}

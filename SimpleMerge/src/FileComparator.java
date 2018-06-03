@@ -136,7 +136,16 @@ public class FileComparator {
             }
          }
       }
-      //////
+      
+      while(L< L_Max){
+          leftViewIndex.add(L++);
+          rightViewIndex.add(0);
+      }
+      
+      while(R< R_Max){
+          leftViewIndex.add(0);
+          rightViewIndex.add(R++);
+      }
       
       leftDiffIndex = leftViewIndex;
       rightDiffIndex = rightViewIndex;

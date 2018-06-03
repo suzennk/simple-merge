@@ -247,11 +247,6 @@ public class TextEditorModel {
 		return blocks;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void setFileContentList(ArrayList<String> fromMerge) {
-		this.fileContentBufferList = (ArrayList<String>)fromMerge.clone();
-	}
-	
 	/* Private Functions */
 	private void exitCompareMode() {
 		fileContentBuffer = new String();

@@ -136,7 +136,8 @@ public class FileComparator {
             }
          }
       }
-
+      //////
+      
       leftDiffIndex = leftViewIndex;
       rightDiffIndex = rightViewIndex;
 

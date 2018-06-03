@@ -15,9 +15,11 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 	
-	private ArrayList<String> fileContentBufferList;
-	private ArrayList<int[]> blocks;
 	
+	private ArrayList<String> fileContentBufferList;					/** for viewing purpose */
+	private ArrayList<int[]> blocks;
+	private ArrayList<String> fileContentBufferListWithoutBlankspace;	/** for saving purpose */
+
 	private FileReader fr;
 	private FileWriter fw;
 	private BufferedReader br;
@@ -225,12 +227,20 @@ public class TextEditorModel {
 		this.fileContentBufferList = fileContentBufferList;
 	}
 	
+	public void setFileContentBufferListWithoutBlankspace(ArrayList<String> fileContentBufferListWithoutBlankspace) {
+		this.fileContentBufferListWithoutBlankspace = fileContentBufferListWithoutBlankspace;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////
 	//	Merge - Use these methods !												//
 	//////////////////////////////////////////////////////////////////////////////
 	
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
+	}
+
+	public ArrayList<String> getFileContentBufferListWithoutBlankspace() {
+		return fileContentBufferListWithoutBlankspace;
 	}
 	
 	@SuppressWarnings("unchecked")

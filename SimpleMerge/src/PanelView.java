@@ -26,6 +26,7 @@ public class PanelView extends JPanel {
 	protected 	JButton xBtn;
 	
 	private     JScrollPane scrollPane;
+	private		TextLineNumber tln;
 	protected   JEditorPane textArea;
 	protected   JTable textTable;
 	private     DefaultTableModel model;
@@ -101,10 +102,12 @@ public class PanelView extends JPanel {
 		textArea.setText("Click the Load Button.");
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		
+		tln		 		= new TextLineNumber(textArea);
 		model			= new DefaultTableModel();
 	    textTable		= new JTable();
 
 		scrollPane = new JScrollPane(textArea);
+		scrollPane.setRowHeaderView(tln);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		 
 		statusLabel = new JLabel("");

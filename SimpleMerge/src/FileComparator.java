@@ -236,9 +236,9 @@ public class FileComparator {
       ArrayList<String> s2 = new ArrayList<String>();
       s1.add("same part1");
       s1.add("same part2");
+      s1.add("different but same line.1");
+      s1.add("differenet but same line.2");
       s1.add("same part3");
-      s1.add("different part-a");
-      s1.add("different part-a");
       s1.add("same part4");
       s1.add("same part5");
       s1.add("same part6");
@@ -247,9 +247,11 @@ public class FileComparator {
       s1.add("different part-a");
       s1.add("same part7");
       s1.add("same part8");
-
+      
       s2.add("same part1");
       s2.add("same part2");
+      s2.add("different but same line.3");
+      s2.add("different but same line.4");
       s2.add("different part-b");
       s2.add("different part-b");
       s2.add("different part-b");
@@ -262,7 +264,7 @@ public class FileComparator {
       s2.add("same part6");
       s2.add("same part7");
       s2.add("same part8");
-
+      
       FileComparator fc = new FileComparator(s1, s2);
 
       System.out.println("Left Panel=========");

@@ -44,24 +44,27 @@ public class Merge {
    Merge(TextEditorModel leftPanel, TextEditorModel rightPanel) {
       this.leftPanel = leftPanel;
       this.rightPanel = rightPanel;
-      this.traverseCursor = -1;
+      this.traverseCursor = 0;
 
       /* panel contents 받아와서 parsing 후 arraylist에 저장 */
       this.leftFileContents = new ArrayList<String>(leftPanel.getFileContentBufferList());
+      this.leftFileSourceContents = new ArrayList<String>();
       this.leftFileSourceContents.addAll(leftFileContents);
-      this.leftFileSourceContents.add(0, "");
       this.leftViewContents = new ArrayList<String>();
 	  this.leftViewContents.add("");
 
 
       this.rightFileContents = new ArrayList<String>(rightPanel.getFileContentBufferList());
+      this.rightFileSourceContents = new ArrayList<String>();
       this.rightFileSourceContents.addAll(rightFileContents);
-      this.rightFileSourceContents.add(0, "");
+
       this.rightViewContents = new ArrayList<String>();
 	  this.rightViewContents.add("");
 	   
       /* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
       FileComparator fc = new FileComparator(leftFileSourceContents, rightFileSourceContents);
+      this.leftFileSourceContents.add(0, "");
+      this.rightFileSourceContents.add(0, "");
       this.leftDiffIndex = fc.getDiffLeft();
       this.rightDiffIndex = fc.getDiffRight();
       this.blocks = fc.getBlocks();
@@ -77,7 +80,7 @@ public class Merge {
       if(blocks.size() == 0)
          flagPrevious = false;
       
-      else if(traverseCursor != 1)
+      else if(traverseCursor != 0)
     	  flagPrevious = true;
       
       else

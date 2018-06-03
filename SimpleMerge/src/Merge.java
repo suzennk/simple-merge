@@ -69,6 +69,8 @@ public class Merge {
       this.rightDiffIndex = fc.getDiffRight();
       this.blocks = fc.getBlocks();
 
+      leftPanel.setBlocks(blocks);
+      rightPanel.setBlocks(blocks);
       setFlag();
       setContentsForView();
    }

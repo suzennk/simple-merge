@@ -100,9 +100,9 @@ public class TextEditorController {
 		tem.setFileContentList(fromMerge);
 	}
 	
-	
-	/* Private Functions */
-
+	public TextEditorModel getTEM() {
+		return this.tem;
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -200,5 +200,6 @@ public class TextEditorController {
 		}
 		System.out.println("Exit Program.");
 	}
+
 	
 }

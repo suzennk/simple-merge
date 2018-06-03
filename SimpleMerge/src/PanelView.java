@@ -18,7 +18,6 @@ public class PanelView extends JPanel {
 	private 	JButton saveBtn;
 	protected 	JButton saveAsBtn;
 	
-
 	private 	JPanel editorPanel; // xPanel + text field
 	
 	private 	JPanel titlePanel; // filename, xbutton
@@ -379,5 +378,9 @@ public class PanelView extends JPanel {
 	
 	public void setBlock(int[] block){
 		this.block=block;
+	}
+	
+	public TextEditorModel getTEM() {
+		return tec.getTEM();
 	}
 }

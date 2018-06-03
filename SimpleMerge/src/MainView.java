@@ -8,6 +8,8 @@ import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame{
+	private Merge merge;
+	
 	private JPanel toolPanel;	// tool panel
 	private JButton compareBtn;
 	private JButton upBtn;
@@ -146,12 +148,38 @@ public class MainView extends JFrame{
 				comparePressed++;
 				
 				if(comparePressed % 2 == 1) {
-					// compareBtn pressed once->do compare
-					compareBtn.setIcon(view_icon);
+					int a = leftPV.showSaveDialog();
+					if (a == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
+					}
 					
-					setMode(Mode.COMPARE);
-					leftPV.enterCompareMode();
-					rightPV.enterCompareMode();
+					int b = rightPV.showSaveDialog();
+					
+					if (b == 2) {
+						// keep compare mode
+						comparePressed++;
+						return;
+					} 
+					
+					// if (a != 2 && b != 2)
+					// save files if needed
+					if (a == 0) 
+						leftPV.save();
+					else if (a == 1) {
+						leftPV.tec.setUpdated(false);
+						leftPV.textArea.setText(leftPV.tec.getOriginalFileContent());
+					}
+					
+					if (b == 0)
+						rightPV.save();
+					else if (b == 1) {
+						rightPV.tec.setUpdated(false);
+						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
+					}
+					// compareBtn pressed once->do compare
+					enterCompareMode();
 				}
 				else{
 					// compareBtn pressed twice->try to escape compare mode
@@ -187,12 +215,7 @@ public class MainView extends JFrame{
 						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
 					}
 					
-					// convert to view mode
-					compareBtn.setIcon(compare_icon);
-					leftPV.exitCompareMode();
-					rightPV.exitCompareMode();
-					setMode(Mode.VIEW);
-
+					exitCompareMode();
 
 				}
 			}
@@ -361,6 +384,28 @@ public class MainView extends JFrame{
 		}
 		
 		updateView();
+	}
+	
+	private void enterCompareMode() { 
+		compareBtn.setIcon(view_icon);
+		leftPV.enterCompareMode();
+		rightPV.enterCompareMode();
+		
+		// create merge model
+		TextEditorModel leftTEM = leftPV.getTEM();
+		TextEditorModel rightTEM = rightPV.getTEM();
+		merge = new Merge(leftTEM, rightTEM);
+
+		//enter compare mode
+		setMode(Mode.COMPARE);
+	}
+	
+	private void exitCompareMode() {
+		// convert to view mode
+		compareBtn.setIcon(compare_icon);
+		leftPV.exitCompareMode();
+		rightPV.exitCompareMode();
+		setMode(Mode.VIEW);
 	}
 	
 	public static void main(String[] args) throws Exception {

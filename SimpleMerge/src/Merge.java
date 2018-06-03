@@ -11,6 +11,10 @@ public class Merge {
    private TextEditorModel rightPanel;
    private ArrayList<String> leftFileContents;
    private ArrayList<String> rightFileContents;
+   private ArrayList<String> leftFileSourceContents;
+   private ArrayList<String> rightFileSourceContents;
+   private ArrayList<String> leftViewContents;
+   private ArrayList<String> rightViewContents;
    /**
     * 각 Panel의 difference index를 저장하는 배열
     * index는 0이 아닌 1부터 시작!
@@ -44,18 +48,26 @@ public class Merge {
 
       /* panel contents 받아와서 parsing 후 arraylist에 저장 */
       this.leftFileContents = new ArrayList<String>(leftPanel.getFileContentBufferList());
-      this.leftFileContents.add(0, "");
+      this.leftFileSourceContents.addAll(leftFileContents);
+      this.leftFileSourceContents.add(0, "");
+      this.leftViewContents = new ArrayList<String>();
+	  this.leftViewContents.add("");
+
 
       this.rightFileContents = new ArrayList<String>(rightPanel.getFileContentBufferList());
-      this.rightFileContents.add(0, "");
-      
+      this.rightFileSourceContents.addAll(rightFileContents);
+      this.rightFileSourceContents.add(0, "");
+      this.rightViewContents = new ArrayList<String>();
+	  this.rightViewContents.add("");
+	   
       /* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
-      FileComparator fc = new FileComparator(leftFileContents, rightFileContents);
+      FileComparator fc = new FileComparator(leftFileSourceContents, rightFileSourceContents);
       this.leftDiffIndex = fc.getDiffLeft();
       this.rightDiffIndex = fc.getDiffRight();
       this.blocks = fc.getBlocks();
 
       setFlag();
+      setContentsForView();
    }
    
    /*
@@ -82,6 +94,51 @@ public class Merge {
     	  flagNext = false;
    }
 
+   private void setContentsForView(){   
+	   //making leftViewContents
+	   for(int i = 1; i < leftDiffIndex.size(); i++){
+		   int num = leftDiffIndex.get(i);
+		   if(num < 0)
+			   leftViewContents.add(leftFileSourceContents.get(num*(-1)));
+		   else
+			   leftViewContents.add("");
+	   }	   
+	   //making rightViewContents
+	   for(int i = 1; i < rightDiffIndex.size(); i++){
+		   int num = rightDiffIndex.get(i);
+		   if(num > 0)
+			   rightViewContents.add(rightFileSourceContents.get(num));
+		   else
+			   rightViewContents.add("");
+	   }
+   }
+   
+   private void setFileContents(){   
+	   //making leftViewContents
+	   leftFileContents.clear();
+	   for(int i = 1; i < leftDiffIndex.size(); i++){
+		   int num = leftDiffIndex.get(i);
+		   if(num < 0)
+			   leftFileContents.add(leftFileSourceContents.get(num*(-1)));
+		   else if(num > 0)
+			   leftFileContents.add(rightFileSourceContents.get(num));
+		   else
+			   continue;
+	   }	   
+	   
+	   //making rightViewContents
+	   rightFileContents.clear();
+	   for(int i = 1; i < rightDiffIndex.size(); i++){
+		   int num = rightDiffIndex.get(i);
+		   if(num > 0)
+			   rightFileContents.add(rightFileSourceContents.get(num));
+		   else if(num < 0)
+			   rightFileContents.add(leftFileSourceContents.get(num*(-1)));
+		   else
+			   continue;
+	   }
+   }
+   
    void traversePrevious() {
       	--traverseCursor;
    }   
@@ -93,8 +150,15 @@ public class Merge {
    void copyToLeft() {
 	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
 		  leftDiffIndex.set(i, rightDiffIndex.get(i));
+		  leftViewContents.set(i, rightViewContents.get(i));
 	  }
 	  blocks.remove(traverseCursor);
+	  
+	  setFileContents();
+	  leftPanel.setBlocks(blocks);
+	  rightPanel.setBlocks(blocks);
+	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
+	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
 	  
 	  traverseCursor--;
 	  setFlag();
@@ -103,27 +167,18 @@ public class Merge {
    void copyToRight() {
 	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
 		  rightDiffIndex.set(i, leftDiffIndex.get(i));
+		  rightViewContents.set(i, leftViewContents.get(i));
 	  }
 	  blocks.remove(traverseCursor);
 	  
+	  setFileContents();
+	  leftPanel.setBlocks(blocks);
+	  rightPanel.setBlocks(blocks);
+	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
+	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+	  
 	  traverseCursor--;
 	  setFlag();
-   }
-
-   public ArrayList<String> getLeftFileContents() {
-      return this.leftFileContents;
-   }
-
-   public ArrayList<String> getRightFileContents() {
-      return this.rightFileContents;
-   }
-
-   public ArrayList<Integer> getLeftDiffIndex() {
-      return this.leftDiffIndex;
-   }
-
-   public ArrayList<Integer> getRightDiffIndex() {
-      return this.leftDiffIndex;
    }
    
    public boolean getFlagPrevious(){
@@ -160,12 +215,12 @@ public class Merge {
     */
    void printAll() {
       System.out.println("Left Panel=========");
-      for (int i = 1; i < this.leftFileContents.size(); i++)
-         System.out.println(this.leftFileContents.get(i));
+      for (int i = 1; i < this.leftFileSourceContents.size(); i++)
+         System.out.println(this.leftFileSourceContents.get(i));
 
       System.out.println("\nRight Panel=========");
-      for (int i = 1; i < this.rightFileContents.size(); i++)
-         System.out.println(this.rightFileContents.get(i));
+      for (int i = 1; i < this.rightFileSourceContents.size(); i++)
+         System.out.println(this.rightFileSourceContents.get(i));
    }
 
    public static void main(String[] args) {
@@ -234,7 +289,7 @@ public class Merge {
             if (index[0] != -1 && index[1] != -1) {
                System.out.println("Traverse line " + index[0] + " to " + index[1]);
                for (int i = index[0]; i <= index[1]; i++)
-                  System.out.println(mc.leftFileContents.get(i));
+                  System.out.println(mc.leftFileSourceContents.get(i));
             }
             break;
          case 4:
@@ -242,7 +297,7 @@ public class Merge {
             if (index[0] != -1 && index[1] != -1) {
                System.out.println("Traverse line " + index[0] + " to " + index[1]);
                for (int i = index[0]; i <= index[1]; i++)
-                  System.out.println(mc.leftFileContents.get(i));
+                  System.out.println(mc.leftFileSourceContents.get(i));
             }
             break;
          case 5:

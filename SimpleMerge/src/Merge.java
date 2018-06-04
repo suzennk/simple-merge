@@ -1,6 +1,4 @@
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*패널간의 메소드를 관리하는 컨트롤러(interpanel controller),

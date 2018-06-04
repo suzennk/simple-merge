@@ -3,10 +3,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class CompareTableRenderer extends DefaultTableCellRenderer {

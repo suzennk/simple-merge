@@ -8,7 +8,7 @@ import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame{
-	private Merge merge;
+	private MergeController MGcontroller; //WRONG!: viewer can't directly connected to model
 	
 	private JPanel toolPanel;	// tool panel
 	private JButton compareBtn;
@@ -388,7 +388,7 @@ public class MainView extends JFrame{
 	      compareBtn.setIcon(view_icon);
 	      
 	      // create merge model
-	      merge = new Merge(leftPV.getTEM(), rightPV.getTEM());
+	      MGcontroller = new MergeController(leftPV.getTEM(), rightPV.getTEM());
 	      
 	      //enter compare mode
 	      leftPV.enterCompareMode();

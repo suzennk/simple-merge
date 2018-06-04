@@ -144,10 +144,14 @@ public class Merge {
    
    void traversePrevious() {
       	--traverseCursor;
+      	leftPanel.setTraverseIndex(traverseCursor);
+      	rightPanel.setTraverseIndex(traverseCursor);
    }   
 
    void traverseNext() {
        	++traverseCursor;
+      	leftPanel.setTraverseIndex(traverseCursor);
+      	rightPanel.setTraverseIndex(traverseCursor);
    }
    
 
@@ -167,6 +171,8 @@ public class Merge {
 	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
+	  leftPanel.setTraverseIndex(traverseCursor);
+	  rightPanel.setTraverseIndex(traverseCursor);
 	  setFlag();
    }
 
@@ -186,6 +192,8 @@ public class Merge {
 	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
+	  leftPanel.setTraverseIndex(traverseCursor);
+	  rightPanel.setTraverseIndex(traverseCursor);
 	  setFlag();
    }
    

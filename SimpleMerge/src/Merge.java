@@ -151,6 +151,7 @@ public class Merge {
    void traverseNext() {
        	++traverseCursor;
    }
+   
 
    void copyToLeft() {
 	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
@@ -196,6 +197,14 @@ public class Merge {
    
    public int getTraverseCursor(){
       return this.traverseCursor;
+   }
+   
+   public void setTraverseCursor(int move) {
+	   if(move == -1){
+		   traversePrevious();
+	   }else if(move == +1){
+		   traverseNext();
+	   }
    }
    
    /**

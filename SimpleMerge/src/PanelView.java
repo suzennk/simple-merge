@@ -248,6 +248,8 @@ public class PanelView extends JPanel {
 
 		editorPanel.remove(scrollPane);
 		scrollPane = new JScrollPane(textArea);
+		scrollPane.setRowHeaderView(tln);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		editorPanel.add(scrollPane);
 		System.out.println("change to editor");
 	}

@@ -148,6 +148,11 @@ public class TextEditorModel {
 		fileContentBufferList = null;
 	}
 	
+	public void resetToOriginal() {
+		this.fileContentBuffer = new String(originalFileContent);
+		this.dirty = false;
+	}
+	
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file

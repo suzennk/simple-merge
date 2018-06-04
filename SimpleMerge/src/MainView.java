@@ -168,15 +168,13 @@ public class MainView extends JFrame{
 					if (a == 0) 
 						leftPV.save();
 					else if (a == 1) {
-						leftPV.tec.setUpdated(false);
-						leftPV.textArea.setText(leftPV.tec.getOriginalFileContent());
+						leftPV.resetToOriginal();
 					}
 					
 					if (b == 0)
 						rightPV.save();
 					else if (b == 1) {
-						rightPV.tec.setUpdated(false);
-						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
+						rightPV.resetToOriginal();
 					}
 					// compareBtn pressed once->do compare
 					enterCompareMode();

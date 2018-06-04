@@ -276,6 +276,7 @@ public class PanelView extends JPanel {
 		else if(n == 1) { 									// NO: not save, switch to view mode
 			tec.setUpdated(false);
 			textArea.setText(tec.getOriginalFileContent()); 	// reset textArea to original file content	
+			tec.setFileContentBuffer(tec.getOriginalFileContent());
 		} 
 		else {
 			// Do nothing
@@ -317,6 +318,10 @@ public class PanelView extends JPanel {
 		}
 	}
 	
+	public void resetToOriginal() {
+		tec.resetToOriginal();
+		this.textArea.setText(tec.getFileContentBuffer());
+	}
 
 	public void setPanelColor(int x, int y, int z){
 		panelColor=new Color(x,y,z);

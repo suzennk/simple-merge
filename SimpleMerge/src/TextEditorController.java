@@ -29,6 +29,9 @@ public class TextEditorController {
 		tem.closeFile();
 	}
 	
+	public void resetToOriginal() {
+		tem.resetToOriginal();
+	}
 	
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening

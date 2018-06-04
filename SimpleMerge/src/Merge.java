@@ -1,6 +1,4 @@
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*패널간의 메소드를 관리하는 컨트롤러(interpanel controller),
@@ -151,6 +149,7 @@ public class Merge {
    void traverseNext() {
        	++traverseCursor;
    }
+   
 
    void copyToLeft() {
 	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
@@ -196,6 +195,14 @@ public class Merge {
    
    public int getTraverseCursor(){
       return this.traverseCursor;
+   }
+   
+   public void setTraverseCursor(int move) {
+	   if(move == -1){
+		   traversePrevious();
+	   }else if(move == +1){
+		   traverseNext();
+	   }
    }
    
    /**

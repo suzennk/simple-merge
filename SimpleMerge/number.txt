@@ -1,0 +1,12 @@
+Your job is to work on these two files:
+ - Board.JAVA
+ - Solver.JAVA
+
+
+
+Nothing to do in these three files:
+ - MinPQ.Java
+ - Queue.JAVA
+ - Stack.JAVA
+
+Hello!

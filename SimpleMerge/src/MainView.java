@@ -226,7 +226,13 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("up button pressed.");
 			
+				if(!MGcontroller.getFlagPrevious()){
+					//no previous block, set upBtn disabled
+					upBtn.setEnabled(false);
+				}
 				
+			    //at least one previous block
+				MGcontroller.setTraverseCursor(-1);
 			
 			}
 			
@@ -237,7 +243,14 @@ public class MainView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("down button pressed.");
-
+				
+				if(!MGcontroller.getFlagNext()){
+					downBtn.setEnabled(false);
+				}
+				
+				//at least one next block
+				MGcontroller.setTraverseCursor(+1);
+				
 			}
 			
 		});
@@ -248,7 +261,11 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("copy to left button pressed.");
 				
-
+				// if there's no block to be merged, disable mergeBtn
+				
+				// do merge: copy to left
+				MGcontroller.callCopyToLeft();
+				
 			}
 			
 		});
@@ -259,6 +276,10 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("copy to right button pressed.");
 				
+				// if there's no block to be merged, disable mergeBtn
+				
+				// do merge: copy to right
+				MGcontroller.callCopyToRight();
 			}
 			
 		});

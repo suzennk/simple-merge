@@ -163,6 +163,8 @@ public class Merge {
 	  rightPanel.setBlocks(blocks);
 	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
 	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+	  leftPanel.setDiffIndices(leftDiffIndex);
+	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
 	  setFlag();
@@ -180,6 +182,8 @@ public class Merge {
 	  rightPanel.setBlocks(blocks);
 	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
 	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+	  leftPanel.setDiffIndices(leftDiffIndex);
+	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
 	  setFlag();

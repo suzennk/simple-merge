@@ -8,9 +8,9 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 public class CompareTable extends JTable {
-   DefaultTableModel model;
-   ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
-   Color highlightColor;
+   private DefaultTableModel model;
+   private ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
+   private Color highlightColor;
 
    public CompareTable() {
 

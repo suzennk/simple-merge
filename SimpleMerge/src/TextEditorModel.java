@@ -235,16 +235,8 @@ public class TextEditorModel {
 	// Merge - Use these methods ! //
 	//////////////////////////////////////////////////////////////////////////////
 
-	public ArrayList<Integer> getDiffIndices() {
-		return diffIndices;
-	}
-
 	public void setDiffIndices(ArrayList<Integer> diffIndices) {
 		this.diffIndices = diffIndices;
-	}
-
-	public int getTraverseIndex() {
-		return traverseIndex;
 	}
 
 	public void setTraverseIndex(int traverseIndex) {
@@ -282,6 +274,13 @@ public class TextEditorModel {
 	//////////////////////////////////////////////////////////////////////////////
 	// Merge - Use these methods ! //
 	//////////////////////////////////////////////////////////////////////////////
+
+	public ArrayList<Integer> getDiffIndices() {
+		return diffIndices;
+	}
+	public int getTraverseIndex() {
+		return traverseIndex;
+	}
 
 	public ArrayList<int[]> getBlocks() {
 		return blocks;

@@ -130,6 +130,9 @@ public class TextEditorModel {
 		
 		dirty = false;
 		originalFileContent = new String(fileContentBuffer);
+		
+		System.out.println(fileContentBuffer);
+		
 		return true;
 	}
 	
@@ -218,7 +221,7 @@ public class TextEditorModel {
 	}
 	
 	public ArrayList<String> getFileContentBufferList() {
-		String[] fcArray = fileContentBuffer.split("\r\n");
+		String[] fcArray = fileContentBuffer.split("\\r?\\n");
 		
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
 		

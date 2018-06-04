@@ -165,6 +165,7 @@ public class PanelView extends JPanel {
 		  		System.out.println("Save button pressed.");
 
 		  		// Save
+				tec.setFileContentBuffer(textArea.getText());
 		  		save();
 		  	}
 				
@@ -175,6 +176,7 @@ public class PanelView extends JPanel {
 				System.out.println("Save As button pressed.");
 				
 				// SaveAs
+				tec.setFileContentBuffer(textArea.getText());
 				saveAs();
 			}
 		});

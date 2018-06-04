@@ -24,8 +24,7 @@ public class CompareTableRenderer extends DefaultTableCellRenderer {
 			int row, int col) {
 		Component cell = super.getTableCellRendererComponent(table, object, isSelected, hasFocus, row, col);
 
-		Border padding = BorderFactory.createEmptyBorder(0, 5, 0, 0);
-		this.setBorder(BorderFactory.createCompoundBorder(getBorder(), padding));
+		this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		
 		if (!isSelected) {
 			if (arri.contains(row + 1)) {

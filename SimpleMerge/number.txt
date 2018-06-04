@@ -9,3 +9,4 @@ Nothing to do in these three files:
 
 
 Hello!
+isChanged

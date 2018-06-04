@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -103,16 +104,19 @@ public class PanelView extends JPanel {
 		textArea	 	= new JEditorPane();
 		textArea.setText("Click the Load Button.");
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		textArea.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		
 		
 		tln		 		= new TextLineNumber(textArea);
 		model			= new DefaultTableModel();
 	    textTable		= new CompareTable();
+	    
 
-		scrollPane = new JScrollPane(textArea);
+		scrollPane		= new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		 
-		statusLabel = new JLabel("");
+		statusLabel		= new JLabel("");
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
 		
 		

@@ -80,9 +80,9 @@ public class MainView extends JFrame{
 		copyToRightBtn.setBorderPainted(false);			copyToRightBtn.setFocusPainted(false);	
 
 		// set color of panel
-		leftPV.setPanelColor(255,0,0);
+		leftPV.setHighlightColor(255,232,232);
 		leftPV.setBorder(new MatteBorder(0,0,0,1, Color.GRAY));
-		rightPV.setPanelColor(0, 255, 0);
+		rightPV.setHighlightColor(218,255,216);
 		
 		
 		// set tool panel

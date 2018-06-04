@@ -39,7 +39,8 @@ public class PanelView extends JPanel {
 	private 	ImageIcon x_icon;
 
 	
-	private Color panelColor;
+	private Color highlightColor;
+	private Color focusHighlightColor;
 	
 	private ArrayList<Integer> diffIndex;
 	private int[] block; // block to be colored: {begin_idx, end_idx}
@@ -52,7 +53,9 @@ public class PanelView extends JPanel {
 		editorPanel 	= new JPanel();
 		titlePanel 		= new JPanel();
 		
-		panelColor 		= new Color(0,0,0); // set color default as WHITE 
+		highlightColor 	= new Color(0,0,0); // set color default as WHITE
+		
+		
 		diffIndex		= new ArrayList<Integer>(); // highlighted when compare & traverse
 		block 			= new int[] {0, 0}; // default value : nothing to be colored
 
@@ -222,7 +225,7 @@ public class PanelView extends JPanel {
 		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
 
 		// Initialize model and textTable, make textTable non-Editable
-		textTable = new CompareTable(fileContentList, tec.getBlocks(), panelColor);
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), highlightColor);
 
 		// JTable
 		textArea.setVisible(false);
@@ -274,9 +277,7 @@ public class PanelView extends JPanel {
 			this.save();	
 		} 
 		else if(n == 1) { 									// NO: not save, switch to view mode
-			tec.setUpdated(false);
-			textArea.setText(tec.getOriginalFileContent()); 	// reset textArea to original file content	
-			tec.setFileContentBuffer(tec.getOriginalFileContent());
+			this.resetToOriginal();
 		} 
 		else {
 			// Do nothing
@@ -323,8 +324,8 @@ public class PanelView extends JPanel {
 		this.textArea.setText(tec.getFileContentBuffer());
 	}
 
-	public void setPanelColor(int x, int y, int z){
-		panelColor=new Color(x,y,z);
+	public void setHighlightColor(int x, int y, int z){
+		highlightColor = new Color(x, y, z);
 	}
 	
 	public void setDiffIndex(ArrayList<Integer> diffIndex){

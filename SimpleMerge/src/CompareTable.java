@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
@@ -12,6 +14,8 @@ public class CompareTable extends JTable {
    private ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
    private Color highlightColor;
 
+   private CompareTableRenderer renderer;
+   
    public CompareTable() {
 
    }
@@ -51,17 +55,11 @@ public class CompareTable extends JTable {
       // TODO column width
       // Set column size
       TableColumnModel col = this.getColumnModel();
-      col.getColumn(0).setPreferredWidth(30);
+      col.getColumn(0).setPreferredWidth(40);
       col.getColumn(1).setPreferredWidth(550);
-
+      this.setRowHeight(20);
+      
       this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-      ///// for testing
-//      ArrayList<int[]> blocks = new ArrayList<int[]>();
-//      blocks.add(new int[]{1,5});
-//      blocks.add(new int[]{8,9});
-//      System.out.println(blocks);
-//      highlightBlocks(blocks);
    }
 
    public void highlightBlocks(ArrayList<int[]> blocks) {
@@ -74,7 +72,7 @@ public class CompareTable extends JTable {
          }   
       }
       
-      TableColumnColor renderer = new TableColumnColor(highlightIndices, highlightColor);
+      renderer = new CompareTableRenderer(highlightIndices, highlightColor);
       try {
          this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
       } catch (ClassNotFoundException e) {

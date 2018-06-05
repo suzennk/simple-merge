@@ -18,7 +18,7 @@ public class CompareTable extends JTable {
 
 	}
 
-	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, Color highlightColor, Color focusColor) {
+	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies, Color highlightColor, Color focusColor) {
 		super();
 
 		// Set highlight color
@@ -34,7 +34,12 @@ public class CompareTable extends JTable {
 		// Set contents
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
+			if (diffIndicies.get(i) == 0) {
+				contents.addElement("-");
+			}
+			else {
 			contents.addElement(String.valueOf(i));
+			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
 			System.out.println(i + "\t\t" + fileContentList.get(i));

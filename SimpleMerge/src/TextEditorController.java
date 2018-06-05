@@ -118,6 +118,10 @@ public class TextEditorController {
 		return this.tem;
 	}
 	
+	public ArrayList<Integer> getDiffIndices() {
+		return tem.getDiffIndices();
+	}
+	
 	public int getTraverseIndex() {
 		return tem.getTraverseIndex();
 	}

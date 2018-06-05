@@ -245,10 +245,15 @@ public class TextEditorModel {
 	}
 
 	public ArrayList<String> getFileContentBufferList() {
-		String[] fcArray = fileContentBuffer.split("\\r?\\n");
+		System.out.println(fileContentBuffer);
+		System.out.println("-------------");
+		// does not split well in empty space
+		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
 
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
-
+		
+		System.out.println(fileContentBufferList);
+		System.out.println("-------------");
 		return this.fileContentBufferList;
 	}
 

@@ -226,8 +226,8 @@ public class PanelView extends JPanel {
 		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
 
 		// Initialize model and textTable, make textTable non-Editable
-		textTable = new CompareTable(fileContentList, tec.getBlocks(), highlightColor, focusColor);
-
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), tec.getDiffIndices(), highlightColor, focusColor);
+		
 		// JTable
 		textArea.setVisible(false);
 		textTable.setVisible(true);

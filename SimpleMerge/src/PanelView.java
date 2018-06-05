@@ -36,7 +36,7 @@ public class PanelView extends JPanel {
 
 	
 	private Color highlightColor;
-	private Color focusHighlightColor;
+	private Color focusColor;
 	
 	private ArrayList<Integer> diffIndex;
 	private int[] block; // block to be colored: {begin_idx, end_idx}
@@ -50,7 +50,7 @@ public class PanelView extends JPanel {
 		titlePanel 		= new JPanel();
 		
 		highlightColor 	= new Color(0,0,0); // set color default as WHITE
-		
+		focusColor 		= new Color(0,0,0);		
 		
 		diffIndex		= new ArrayList<Integer>(); // highlighted when compare & traverse
 		block 			= new int[] {0, 0}; // default value : nothing to be colored
@@ -226,7 +226,7 @@ public class PanelView extends JPanel {
 		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
 
 		// Initialize model and textTable, make textTable non-Editable
-		textTable = new CompareTable(fileContentList, tec.getBlocks(), highlightColor);
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), highlightColor, focusColor);
 
 		// JTable
 		textArea.setVisible(false);
@@ -292,9 +292,10 @@ public class PanelView extends JPanel {
 	public void updateView() {
 		if (tec.getMode() == Mode.COMPARE) {		// if compare mode
 			// highlight blocks
+			textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
 			
 			// highlight traverse block
-			
+//			textTable.highlightCurrentBlock(tec.getCurrentBlock());
 		} 
 		
 		else {	// if not compare mode
@@ -340,7 +341,11 @@ public class PanelView extends JPanel {
 	public void setHighlightColor(int x, int y, int z){
 		highlightColor = new Color(x, y, z);
 	}
-	
+
+	public void setFocusColor(int x, int y, int z) {
+		focusColor = new Color(x, y, z);
+	}
+
 	public void setDiffIndex(ArrayList<Integer> diffIndex){
 		this.diffIndex=diffIndex;
 	}

@@ -8,85 +8,117 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 public class CompareTable extends JTable {
-   private DefaultTableModel model;
-   private ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
-   private Color highlightColor;
+	private DefaultTableModel model;
+	private Color highlightColor;
+	private Color focusColor;
 
-   private CompareTableRenderer renderer;
-   
-   public CompareTable() {
+	private CompareTableRenderer renderer;
 
-   }
+	public CompareTable() {
 
-   public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, Color highlightColor) {
-      super();
-      
-      // Set highlight color
-      this.highlightColor = highlightColor;
-      
-      // Set header
-      Vector<String> head = new Vector<String>();
-      head.addElement("line");
-      head.addElement("Content");
-      model = new DefaultTableModel(head, 0);
+	}
 
-      // Set contents
-      for (int i = 1; i < fileContentList.size(); i++) {
-         Vector<String> contents = new Vector<String>();
-         contents.addElement(String.valueOf(i));
-         contents.addElement(fileContentList.get(i));
-         model.addRow(contents);
-         System.out.println(i + "\t\t" + fileContentList.get(i));
-      }
-      
-      // Highlight Lines
-      highlightBlocks(blocks);
+	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, Color highlightColor, Color focusColor) {
+		super();
 
-      this.setModel(model);
+		// Set highlight color
+		this.highlightColor = highlightColor;
+		this.focusColor = focusColor;
+		
+		// Set header
+		Vector<String> head = new Vector<String>();
+		head.addElement("line");
+		head.addElement("Content");
+		model = new DefaultTableModel(head, 0);
 
-      // Set Color or Grid and Header
-      this.setShowHorizontalLines(false);
-      this.setGridColor(Color.LIGHT_GRAY);
-      JTableHeader header = this.getTableHeader();
-      header.setBackground(Color.WHITE);
+		// Set contents
+		for (int i = 1; i < fileContentList.size(); i++) {
+			Vector<String> contents = new Vector<String>();
+			contents.addElement(String.valueOf(i));
+			contents.addElement(fileContentList.get(i));
+			model.addRow(contents);
+			System.out.println(i + "\t\t" + fileContentList.get(i));
+		}
 
-      // TODO column width
-      // Set column size
-      TableColumnModel col = this.getColumnModel();
-      col.getColumn(0).setPreferredWidth(40);
-      col.getColumn(1).setPreferredWidth(550);
-      this.setRowHeight(20);
-      
-      this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-   }
+		// Highlight Lines
+		highlightBlocks(blocks);
 
-   public void highlightBlocks(ArrayList<int[]> blocks) {
-      for (int[] block: blocks) {
-         int start = block[0];
-         int end = block[1];
+		this.setModel(model);
 
-         for (int i = start; i <= end; i++) {
-            highlightIndices.add(i);
-         }   
-      }
-      
-      renderer = new CompareTableRenderer(highlightIndices, highlightColor);
-      try {
-         this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
-      } catch (ClassNotFoundException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+		// Set Color or Grid and Header
+		this.setShowHorizontalLines(false);
+		this.setGridColor(Color.LIGHT_GRAY);
+		JTableHeader header = this.getTableHeader();
+		header.setBackground(Color.WHITE);
 
-   }
+		// TODO column width
+		// Set column size
+		TableColumnModel col = this.getColumnModel();
+		col.getColumn(0).setPreferredWidth(40);
+		col.getColumn(1).setPreferredWidth(550);
+		this.setRowHeight(20);
 
-   public void highlightCurrentBlock() {
+		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	}
 
-   }
+	public void highlightBlocks(ArrayList<int[]> blocks, int traverseIndex) {
 
-   @Override
-   public boolean isCellEditable(int row, int col) {
-      return false;
-   }
+		ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
+		
+		for (int i = 0; i < blocks.size(); i++) {
+			int[] block = blocks.get(i);
+			int start = block[0];
+			int end = block[1];
+
+			for (int j = start; j <= end; j++) {
+				if (i == traverseIndex)
+					highlightIndices.add(-j);
+				else 
+					highlightIndices.add(j);
+			}
+			
+		}
+
+		renderer = new CompareTableRenderer(highlightIndices, highlightColor, focusColor);
+		try {
+			this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void highlightBlocks(ArrayList<int[]> blocks) {
+
+		highlightBlocks(blocks, 0);
+
+	}
+
+	public void highlightCurrentBlock(int[] block) {
+		ArrayList<Integer> currentBlockIndices = new ArrayList<Integer>();
+
+		int start = block[0];
+		int end = block[1];
+
+		for (int i = start; i <= end; i++) {
+			currentBlockIndices.add(i);
+		}
+//		
+//		CompareTableRenderer r = new CompareTableRenderer(currentBlockIndices, focusColor);
+//		try {
+//			this.setDefaultRenderer(Class.forName("java.lang.Object"), r);
+//		} catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int col) {
+		return false;
+	}
 
 }

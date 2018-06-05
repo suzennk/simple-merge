@@ -118,6 +118,14 @@ public class TextEditorController {
 		return this.tem;
 	}
 	
+	public int getTraverseIndex() {
+		return tem.getTraverseIndex();
+	}
+	
+	public int[] getCurrentBlock() {
+		return tem.getCurrentBlock();
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Test PanelController.");

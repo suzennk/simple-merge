@@ -15,14 +15,11 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 
-	private ArrayList<String> alignedFileContentBufferList;
-	/** for viewing purpose */
-	private ArrayList<String> fileContentBufferList;
-	/** for saving purpose */
+	private ArrayList<String> alignedFileContentBufferList;		/** for viewing purpose */
+	private ArrayList<String> fileContentBufferList;			/** for saving purpose */
 	private ArrayList<Integer> diffIndices;
 	private ArrayList<int[]> blocks;
-	private int traverseIndex;
-	/** index of blocks */
+	private int traverseIndex;									/** index of blocks */
 
 	private FileReader fr;
 	private FileWriter fw;
@@ -278,12 +275,17 @@ public class TextEditorModel {
 	public ArrayList<Integer> getDiffIndices() {
 		return diffIndices;
 	}
+	
 	public int getTraverseIndex() {
 		return traverseIndex;
 	}
 
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
+	}
+	
+	public int[] getCurrentBlock() {
+		return this.blocks.get(traverseIndex);
 	}
 
 	/* Private Functions */
@@ -295,6 +297,8 @@ public class TextEditorModel {
 			fileContentBuffer += "\r\n";
 		}
 	}
+	
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

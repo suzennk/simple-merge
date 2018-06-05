@@ -81,9 +81,10 @@ public class MainView extends JFrame{
 
 		// set color of panel
 		leftPV.setHighlightColor(255,232,232);
+		leftPV.setFocusColor(255, 142, 142);
 		leftPV.setBorder(new MatteBorder(0,0,0,1, Color.GRAY));
 		rightPV.setHighlightColor(218,255,216);
-		
+		rightPV.setFocusColor(126, 255, 119);
 		
 		// set tool panel
 		toolPanel.setLayout(new GridLayout(1, 5));

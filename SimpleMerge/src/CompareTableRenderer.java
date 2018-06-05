@@ -10,11 +10,13 @@ public class CompareTableRenderer extends DefaultTableCellRenderer {
 
 	private ArrayList<Integer> arri = new ArrayList<Integer>();
 	private Color lineColor;
+	private Color focusColor;
 
 	@SuppressWarnings("unchecked")
-	public CompareTableRenderer(ArrayList<Integer> arr, Color color) {
+	public CompareTableRenderer(ArrayList<Integer> arr, Color highlightColor, Color focusColor) {
 		this.arri = (ArrayList<Integer>) arr.clone();
-		this.lineColor = color;
+		this.lineColor = highlightColor;
+		this.focusColor = focusColor;
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object object, boolean isSelected, boolean hasFocus,
@@ -24,9 +26,13 @@ public class CompareTableRenderer extends DefaultTableCellRenderer {
 		this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		
 		if (!isSelected) {
-			if (arri.contains(row + 1)) {
+			if (arri.contains(row + 1))
 				cell.setBackground(lineColor);
-			} else
+
+			else if (arri.contains(-row - 1))
+				cell.setBackground(focusColor);
+
+			else
 				cell.setBackground(Color.white);
 		}
 		return cell;

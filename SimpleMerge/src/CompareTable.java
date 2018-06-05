@@ -95,6 +95,46 @@ public class CompareTable extends JTable {
 
 	}
 	
+	public void updateModel(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies) {
+		Vector<String> head = new Vector<String>();
+		head.addElement("line");
+		head.addElement("Content");
+		DefaultTableModel model = new DefaultTableModel(head, 0);
+
+		// Set contents
+		int ctr = 0;
+		for (int i = 1; i < fileContentList.size(); i++) {
+			Vector<String> contents = new Vector<String>();
+			if (diffIndicies.get(i) == 0) {
+				contents.addElement("-");
+			}
+			else {
+			contents.addElement(String.valueOf(++ctr));
+			}
+			contents.addElement(fileContentList.get(i));
+			model.addRow(contents);
+//			System.out.println(i + "\t\t" + fileContentList.get(i));
+		}
+
+		// Highlight Lines
+		highlightBlocks(blocks);
+
+		this.setModel(model);
+		
+		// Set Color or Grid and Header
+		this.setShowHorizontalLines(false);
+		this.setGridColor(Color.LIGHT_GRAY);
+		JTableHeader header = this.getTableHeader();
+		header.setBackground(Color.WHITE);
+
+		// TODO column width
+		// Set column size
+		TableColumnModel col = this.getColumnModel();
+		col.getColumn(0).setPreferredWidth(40);
+		col.getColumn(1).setPreferredWidth(550);
+		this.setRowHeight(20);
+	}
+	
 	public void highlightBlocks(ArrayList<int[]> blocks) {
 
 		highlightBlocks(blocks, 0);

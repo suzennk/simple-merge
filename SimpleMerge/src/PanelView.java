@@ -335,6 +335,10 @@ public class PanelView extends JPanel {
 		textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
 	}
 	
+	public void updateTableModel() {
+		textTable.updateModel(tec.getAlignedFileContentBufferList(), tec.getBlocks(), tec.getDiffIndices());
+	}
+	
 	public void resetToOriginal() {
 		tec.resetToOriginal();
 		this.textArea.setText(tec.getFileContentBuffer());

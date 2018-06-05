@@ -266,6 +266,9 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to left
 				MGcontroller.callCopyToLeft();
+
+				leftPV.updateTableModel();
+				rightPV.updateTableModel();
 				leftPV.updateTable();
 				rightPV.updateTable();
 				updateView();
@@ -283,6 +286,9 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to right
 				MGcontroller.callCopyToRight();
+
+				leftPV.updateTableModel();
+				rightPV.updateTableModel();
 				leftPV.updateTable();
 				rightPV.updateTable();
 				updateView();
@@ -385,7 +391,7 @@ public class MainView extends JFrame{
 
 
 			// if there's no block to be merged, disable mergeBtn
-			if (!MGcontroller.getFlagPrevious() && !MGcontroller.getFlagNext()) {
+			if (leftPV.tec.getBlocks().size() == 0) {
 				copyToLeftBtn.setEnabled(false);
 				copyToRightBtn.setEnabled(false);
 			} else {

@@ -62,6 +62,8 @@ public class Merge {
       this.rightDiffIndex = fc.getDiffRight();
       this.blocks = fc.getBlocks();
 
+	  leftPanel.setDiffIndices(leftDiffIndex);
+	  rightPanel.setDiffIndices(rightDiffIndex);
       leftPanel.setBlocks(blocks);
       rightPanel.setBlocks(blocks);
       setContentsForView();
@@ -90,7 +92,6 @@ public class Merge {
    }
    
    private void setFileContents(){   
-	   //making leftViewContents
 	   leftFileContents.clear();
 	   for(int i = 1; i < leftDiffIndex.size(); i++){
 		   int num = leftDiffIndex.get(i);
@@ -132,7 +133,20 @@ public class Merge {
       	rightPanel.setTraverseIndex(traverseCursor);
    }
    
-
+   private void setThingsAfterMerge(){
+		  setFileContents();
+		  leftPanel.setBlocks(blocks);
+		  rightPanel.setBlocks(blocks);
+		  leftPanel.setAlignedFileContentBufferList(leftViewContents);
+		  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+		  leftPanel.setDiffIndices(leftDiffIndex);
+		  rightPanel.setDiffIndices(rightDiffIndex);
+		  
+		  traverseCursor--;
+		  leftPanel.setTraverseIndex(traverseCursor);
+		  rightPanel.setTraverseIndex(traverseCursor);
+   }
+   
    void copyToLeft() {
 	  for(int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++){
 		  leftDiffIndex.set(i, rightDiffIndex.get(i));
@@ -173,19 +187,7 @@ public class Merge {
 	   }
    }
    
-   private void setThingsAfterMerge(){
-		  setFileContents();
-		  leftPanel.setBlocks(blocks);
-		  rightPanel.setBlocks(blocks);
-		  leftPanel.setAlignedFileContentBufferList(leftViewContents);
-		  rightPanel.setAlignedFileContentBufferList(rightViewContents);
-		  leftPanel.setDiffIndices(leftDiffIndex);
-		  rightPanel.setDiffIndices(rightDiffIndex);
-		  
-		  traverseCursor--;
-		  leftPanel.setTraverseIndex(traverseCursor);
-		  rightPanel.setTraverseIndex(traverseCursor);
-   }
+
    
    /**
     * Used for the test of main class of this class.
@@ -226,32 +228,21 @@ public class Merge {
       TextEditorModel left = new TextEditorModel();
       TextEditorModel right = new TextEditorModel();
 
-      left.setFileContentBuffer("Your job is to work on these two files:\r\n" + 
-            " - Board.JAVA\r\n" + 
-            " - Solver.JAVA\r\n" + 
+      left.setFileContentBuffer("\r\n" + 
             "\r\n" + 
-            "Nothing to do in these three files:\r\n" + 
-            " - MinPQ.Java\r\n" + 
-            " - Queue.JAVA\r\n" + 
-            " - Stack.JAVA\r\n" + 
             "\r\n" + 
-            "Hello!\r\n" + 
-            "Kim Soyeon test :)\r\n" + 
-            "ischanged\r\n");
+            "AAA\r\n" + 
+            "\r\n" + 
+            "\r\n" + 
+            "");
 
-      right.setFileContentBuffer("1\r\n" + 
-            "2\r\n" + 
-            "3\r\n" + 
-            "4\r\n" + 
-            "5\r\n" + 
-            "6\r\n" + 
-            "7\r\n" + 
-            "8\r\n" + 
-            "9\r\n" + 
-            "0\r\n" + 
-            "939331\r\n" + 
-            "111\r\n" + 
-            "11\r\n");
+      right.setFileContentBuffer("\r\n" + 
+              "\r\n" + 
+              "\r\n" + 
+              "AAA\r\n" + 
+              "\r\n" + 
+              "\r\n" + 
+              "");
 
       Merge mc = new Merge(left, right);
 

@@ -181,7 +181,7 @@ public class PanelView extends JPanel {
 
 				if (tec.getMode() == Mode.COMPARE) {
 					tec.fileContentBufferToString();
-					save();
+					saveAs();
 				}
 				else {
 					tec.setFileContentBuffer(textArea.getText());
@@ -254,7 +254,7 @@ public class PanelView extends JPanel {
 		// JEditorPane
 		textTable.setVisible(false);
 		textArea.setVisible(true);
-
+		
 		editorPanel.remove(scrollPane);
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);

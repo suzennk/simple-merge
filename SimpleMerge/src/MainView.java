@@ -457,6 +457,9 @@ public class MainView extends JFrame{
 		// convert to view mode
 		compareBtn.setIcon(compare_icon);
 		leftPV.exitCompareMode();
+		this.setMode(Mode.VIEW);
+		leftPV.textArea.setText(leftPV.tec.getFileContentBuffer());
+		rightPV.textArea.setText(rightPV.tec.getFileContentBuffer());
 		rightPV.exitCompareMode();
 		setMode(Mode.VIEW);
 	}

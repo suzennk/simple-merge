@@ -145,11 +145,18 @@ public class Merge {
    public void traversePrevious() {
       	--traverseCursor;
        	System.out.println(traverseCursor);
+       	
+      	leftPanel.setTraverseIndex(traverseCursor);
+      	rightPanel.setTraverseIndex(traverseCursor);
+
    }   
 
    public void traverseNext() {
        	++traverseCursor;
        	System.out.println(traverseCursor);
+       	
+      	leftPanel.setTraverseIndex(traverseCursor);
+      	rightPanel.setTraverseIndex(traverseCursor);
    }
    
 
@@ -165,8 +172,12 @@ public class Merge {
 	  rightPanel.setBlocks(blocks);
 	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
 	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+	  leftPanel.setDiffIndices(leftDiffIndex);
+	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
+	  leftPanel.setTraverseIndex(traverseCursor);
+	  rightPanel.setTraverseIndex(traverseCursor);
 	  setFlag();
    }
 
@@ -182,8 +193,12 @@ public class Merge {
 	  rightPanel.setBlocks(blocks);
 	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
 	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+	  leftPanel.setDiffIndices(leftDiffIndex);
+	  rightPanel.setDiffIndices(rightDiffIndex);
 	  
 	  traverseCursor--;
+	  leftPanel.setTraverseIndex(traverseCursor);
+	  rightPanel.setTraverseIndex(traverseCursor);
 	  setFlag();
    }
    
@@ -246,36 +261,32 @@ public class Merge {
       TextEditorModel left = new TextEditorModel();
       TextEditorModel right = new TextEditorModel();
 
-      left.setFileContentBuffer("same part1\r\n" + 
-            "same part2\r\n" + 
-            "different but same line.1\r\n" + 
-            "different but same line.2\r\n" + 
-            "same part3\r\n" + 
-            "same part4\r\n" + 
-            "same part5\r\n" + 
-            "same part6\r\n" + 
-            "different part-a\r\n" + 
-            "different part-a\r\n" + 
-            "different part-a\r\n" + 
-            "same part7\r\n" + 
-            "same part8");
+      left.setFileContentBuffer("Your job is to work on these two files:\r\n" + 
+            " - Board.JAVA\r\n" + 
+            " - Solver.JAVA\r\n" + 
+            "\r\n" + 
+            "Nothing to do in these three files:\r\n" + 
+            " - MinPQ.Java\r\n" + 
+            " - Queue.JAVA\r\n" + 
+            " - Stack.JAVA\r\n" + 
+            "\r\n" + 
+            "Hello!\r\n" + 
+            "Kim Soyeon test :)\r\n" + 
+            "ischanged\r\n");
 
-      right.setFileContentBuffer("same part1\r\n" + 
-            "same part2\r\n" + 
-            "different but same line.3\r\n" + 
-            "different but same line.4\r\n" + 
-            "different part-b\r\n" + 
-            "different part-b\r\n" + 
-            "different part-b\r\n" + 
-            "different part-b\r\n" + 
-            "same part3\r\n" + 
-            "same part4\r\n" + 
-            "same part5\r\n" + 
-            "different part-b\r\n" + 
-            "different part-b\r\n" + 
-            "same part6\r\n" + 
-            "same part7\r\n" + 
-            "same part8");
+      right.setFileContentBuffer("1\r\n" + 
+            "2\r\n" + 
+            "3\r\n" + 
+            "4\r\n" + 
+            "5\r\n" + 
+            "6\r\n" + 
+            "7\r\n" + 
+            "8\r\n" + 
+            "9\r\n" + 
+            "0\r\n" + 
+            "939331\r\n" + 
+            "111\r\n" + 
+            "11\r\n");
 
       Merge mc = new Merge(left, right);
 

@@ -32,17 +32,18 @@ public class CompareTable extends JTable {
 		model = new DefaultTableModel(head, 0);
 
 		// Set contents
+		int ctr = 0;
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
 			if (diffIndicies.get(i) == 0) {
 				contents.addElement("-");
 			}
 			else {
-			contents.addElement(String.valueOf(i));
+			contents.addElement(String.valueOf(++ctr));
 			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
-			System.out.println(i + "\t\t" + fileContentList.get(i));
+//			System.out.println(i + "\t\t" + fileContentList.get(i));
 		}
 
 		// Highlight Lines
@@ -83,7 +84,6 @@ public class CompareTable extends JTable {
 			}
 			
 		}
-
 		renderer = new CompareTableRenderer(highlightIndices, highlightColor, focusColor);
 		try {
 			this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
@@ -101,26 +101,6 @@ public class CompareTable extends JTable {
 
 	}
 
-	public void highlightCurrentBlock(int[] block) {
-		ArrayList<Integer> currentBlockIndices = new ArrayList<Integer>();
-
-		int start = block[0];
-		int end = block[1];
-
-		for (int i = start; i <= end; i++) {
-			currentBlockIndices.add(i);
-		}
-//		
-//		CompareTableRenderer r = new CompareTableRenderer(currentBlockIndices, focusColor);
-//		try {
-//			this.setDefaultRenderer(Class.forName("java.lang.Object"), r);
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-
-	}
 
 	@Override
 	public boolean isCellEditable(int row, int col) {

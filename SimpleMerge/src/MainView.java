@@ -231,6 +231,8 @@ public class MainView extends JFrame{
 				if(MGcontroller.getFlagPrevious()){
 				    //at least one previous block
 					MGcontroller.traversePrevious();
+					leftPV.updateTable();
+					rightPV.updateTable();
 				}
 				
 				updateView();
@@ -247,6 +249,8 @@ public class MainView extends JFrame{
 				if(MGcontroller.getFlagNext()){
 					//at least one next block
 					MGcontroller.traverseNext();
+					leftPV.updateTable();
+					rightPV.updateTable();
 				}
 				
 				updateView();
@@ -262,7 +266,8 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to left
 				MGcontroller.callCopyToLeft();
-			
+				leftPV.updateTable();
+				rightPV.updateTable();
 				updateView();
 			}
 			
@@ -278,7 +283,8 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to right
 				MGcontroller.callCopyToRight();
-
+				leftPV.updateTable();
+				rightPV.updateTable();
 				updateView();
 			}
 			

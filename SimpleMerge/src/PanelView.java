@@ -292,10 +292,8 @@ public class PanelView extends JPanel {
 	public void updateView() {
 		if (tec.getMode() == Mode.COMPARE) {		// if compare mode
 			// highlight blocks
-			textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
+//			textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
 			
-			// highlight traverse block
-//			textTable.highlightCurrentBlock(tec.getCurrentBlock());
 		} 
 		
 		else {	// if not compare mode
@@ -331,6 +329,10 @@ public class PanelView extends JPanel {
 					setMode(Mode.VIEW);	
 			}
 		}
+	}
+	
+	public void updateTable() {
+		textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
 	}
 	
 	public void resetToOriginal() {

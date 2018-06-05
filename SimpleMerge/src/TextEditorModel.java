@@ -148,8 +148,6 @@ public class TextEditorModel {
 		dirty = false;
 		originalFileContent = new String(fileContentBuffer);
 
-		System.out.println(fileContentBuffer);
-
 		return true;
 	}
 

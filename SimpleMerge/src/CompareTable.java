@@ -86,6 +86,7 @@ public class CompareTable extends JTable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		repaint();
 
 	}
 	

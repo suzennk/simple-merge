@@ -178,6 +178,7 @@ public class MainView extends JFrame{
 					}
 					// compareBtn pressed once->do compare
 					enterCompareMode();
+					
 				}
 				else{
 					// compareBtn pressed twice->try to escape compare mode
@@ -226,14 +227,12 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("up button pressed.");
 			
-				if(!MGcontroller.getFlagPrevious()){
-					//no previous block, set upBtn disabled
-					upBtn.setEnabled(false);
+				if(MGcontroller.getFlagPrevious()){
+				    //at least one previous block
+					MGcontroller.traversePrevious();
 				}
 				
-			    //at least one previous block
-				MGcontroller.setTraverseCursor(-1);
-			
+				updateView();
 			}
 			
 		});
@@ -244,13 +243,12 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("down button pressed.");
 				
-				if(!MGcontroller.getFlagNext()){
-					downBtn.setEnabled(false);
+				if(MGcontroller.getFlagNext()){
+					//at least one next block
+					MGcontroller.traverseNext();
 				}
 				
-				//at least one next block
-				MGcontroller.setTraverseCursor(+1);
-				
+				updateView();
 			}
 			
 		});
@@ -265,7 +263,8 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to left
 				MGcontroller.callCopyToLeft();
-				
+			
+				updateView();
 			}
 			
 		});
@@ -280,6 +279,8 @@ public class MainView extends JFrame{
 				
 				// do merge: copy to right
 				MGcontroller.callCopyToRight();
+
+				updateView();
 			}
 			
 		});
@@ -366,12 +367,31 @@ public class MainView extends JFrame{
 	
 	private void updateView() {
 		// set enable [compare/merge/traverse] button only when two panel loaded
-		if(leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
+		if (leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
 			setMVbutton(true);
 		} else {
 			setMVbutton(false);
 		}
 		
+		if (leftPV.tec.getMode() == Mode.COMPARE) {
+			if (!MGcontroller.getFlagPrevious())
+				upBtn.setEnabled(false);
+			else
+				upBtn.setEnabled(true);
+
+			if (!MGcontroller.getFlagNext())
+				downBtn.setEnabled(false);
+			else
+				downBtn.setEnabled(true);
+
+			if (!MGcontroller.getFlagPrevious() && !MGcontroller.getFlagNext()) {
+				copyToLeftBtn.setEnabled(false);
+				copyToRightBtn.setEnabled(false);
+			} else {
+				copyToLeftBtn.setEnabled(true);
+				copyToRightBtn.setEnabled(true);
+			}
+		}
 		leftPV.updateView();
 		rightPV.updateView();
 	}

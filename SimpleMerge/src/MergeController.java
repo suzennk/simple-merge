@@ -19,6 +19,14 @@ public class MergeController {
 		
 	}
 	
+	public void traverseNext() {
+		merge.traverseNext();
+	}
+	
+	public void traversePrevious() {
+		merge.traversePrevious();
+	}
+	
 	public void callCopyToLeft(){
 		merge.copyToLeft();
 		

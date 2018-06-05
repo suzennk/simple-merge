@@ -142,12 +142,14 @@ public class Merge {
 	   }
    }
    
-   void traversePrevious() {
+   public void traversePrevious() {
       	--traverseCursor;
+       	System.out.println(traverseCursor);
    }   
 
-   void traverseNext() {
+   public void traverseNext() {
        	++traverseCursor;
+       	System.out.println(traverseCursor);
    }
    
 
@@ -186,11 +188,11 @@ public class Merge {
    }
    
    public boolean getFlagPrevious(){
-      return this.flagPrevious;
+      return this.traverseCursor > 0;
    }
    
    public boolean getFlagNext(){
-      return this.flagNext;
+      return this.traverseCursor < blocks.size();
    }
    
    public int getTraverseCursor(){

@@ -163,9 +163,14 @@ public class PanelView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 		  		System.out.println("Save button pressed.");
 
-		  		// Save
-				tec.setFileContentBuffer(textArea.getText());
-		  		save();
+		  		if (tec.getMode() == Mode.COMPARE) {
+		  			tec.fileContentBufferToString();
+		  			save();
+		  		}
+		  		else {
+					tec.setFileContentBuffer(textArea.getText());
+			  		save();
+		  		}
 		  	}
 				
 		});
@@ -173,10 +178,15 @@ public class PanelView extends JPanel {
 		saveAsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Save As button pressed.");
-				
-				// SaveAs
-				tec.setFileContentBuffer(textArea.getText());
-				saveAs();
+
+				if (tec.getMode() == Mode.COMPARE) {
+					tec.fileContentBufferToString();
+					save();
+				}
+				else {
+					tec.setFileContentBuffer(textArea.getText());
+					saveAs();
+				}
 			}
 		});
 	}

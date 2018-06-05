@@ -33,6 +33,10 @@ public class TextEditorController {
 		tem.resetToOriginal();
 	}
 	
+	public void fileContentBufferToString() {
+		tem.fileContentBufferToString();
+	}
+	
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file

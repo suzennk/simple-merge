@@ -15,11 +15,14 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 
-	private ArrayList<String> alignedFileContentBufferList;		/** for viewing purpose */
-	private ArrayList<String> fileContentBufferList;			/** for saving purpose */
+	private ArrayList<String> alignedFileContentBufferList;
+	/** for viewing purpose */
+	private ArrayList<String> fileContentBufferList;
+	/** for saving purpose */
 	private ArrayList<Integer> diffIndices;
 	private ArrayList<int[]> blocks;
-	private int traverseIndex;									/** index of blocks */
+	private int traverseIndex;
+	/** index of blocks */
 
 	private FileReader fr;
 	private FileWriter fw;
@@ -63,11 +66,12 @@ public class TextEditorModel {
 			br = new BufferedReader(fr);
 
 			originalFileContent = new String();
-			String s = null;
-
+			String s = br.readLine();
+			
+			originalFileContent += s;
 			while ((s = br.readLine()) != null) {
-				originalFileContent += s;
 				originalFileContent += "\r\n";
+				originalFileContent += s;
 			}
 
 			file = new File(filePath);
@@ -170,6 +174,17 @@ public class TextEditorModel {
 		this.dirty = false;
 	}
 
+	public void fileContentBufferToString() {
+		fileContentBuffer = new String();
+
+		fileContentBuffer += fileContentBufferList.get(0);
+		for (int i = 1; i < fileContentBufferList.size(); i++) {
+			fileContentBuffer += "\r\n";
+			fileContentBuffer += fileContentBufferList.get(i);
+		}
+
+	}
+
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file
@@ -249,7 +264,7 @@ public class TextEditorModel {
 		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
 
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
-		
+
 		System.out.println(fileContentBufferList);
 		System.out.println("-------------");
 		return this.fileContentBufferList;
@@ -278,7 +293,7 @@ public class TextEditorModel {
 	public ArrayList<Integer> getDiffIndices() {
 		return diffIndices;
 	}
-	
+
 	public int getTraverseIndex() {
 		return traverseIndex;
 	}
@@ -286,7 +301,7 @@ public class TextEditorModel {
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
 	}
-	
+
 	public int[] getCurrentBlock() {
 		return this.blocks.get(traverseIndex);
 	}
@@ -300,8 +315,6 @@ public class TextEditorModel {
 			fileContentBuffer += "\r\n";
 		}
 	}
-	
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

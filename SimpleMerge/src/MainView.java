@@ -259,8 +259,6 @@ public class MainView extends JFrame{
 				// TODO Auto-generated method stub
 				System.out.println("copy to left button pressed.");
 				
-				// if there's no block to be merged, disable mergeBtn
-				
 				// do merge: copy to left
 				MGcontroller.callCopyToLeft();
 			
@@ -366,14 +364,8 @@ public class MainView extends JFrame{
 	
 	
 	private void updateView() {
-		// set enable [compare/merge/traverse] button only when two panel loaded
-		if (leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
-			setMVbutton(true);
-		} else {
-			setMVbutton(false);
-		}
-		
-		if (leftPV.tec.getMode() == Mode.COMPARE) {
+	
+		if (leftPV.tec.getMode() == Mode.COMPARE) {		// if compare mode
 			if (!MGcontroller.getFlagPrevious())
 				upBtn.setEnabled(false);
 			else
@@ -384,12 +376,22 @@ public class MainView extends JFrame{
 			else
 				downBtn.setEnabled(true);
 
+
+			// if there's no block to be merged, disable mergeBtn
 			if (!MGcontroller.getFlagPrevious() && !MGcontroller.getFlagNext()) {
 				copyToLeftBtn.setEnabled(false);
 				copyToRightBtn.setEnabled(false);
 			} else {
 				copyToLeftBtn.setEnabled(true);
 				copyToRightBtn.setEnabled(true);
+			}
+		} 
+		else {	// if not compare mode
+				// set enable [compare/merge/traverse] button only when two panel loaded
+			if (leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
+				setMVbutton(true);
+			} else {
+				setMVbutton(false);
 			}
 		}
 		leftPV.updateView();

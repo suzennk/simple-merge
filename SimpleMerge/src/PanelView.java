@@ -302,24 +302,17 @@ public class PanelView extends JPanel {
 	}
 	
 	public void updateView() {
-		if (tec.getMode() == Mode.COMPARE) {		// if compare mode
-			// highlight blocks
-//			textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
-			
-		} 
-		
-		else {	// if not compare mode
-			if (!tec.fileIsOpen()) {
-				textArea.setText("Click the Load Button.");
-			}
-
-			if (tec.isUpdated()) {
-				fileNameLabel.setText("*" + tec.getFileName());
-			} else {
-				fileNameLabel.setText(tec.getFileName());
-			}
-
+	
+		if (!tec.fileIsOpen()) {
+			textArea.setText("Click the Load Button.");
 		}
+
+		if (tec.isUpdated()) {
+			fileNameLabel.setText("*" + tec.getFileName());
+		} else {
+			fileNameLabel.setText(tec.getFileName());
+		}
+
 	}
 
 	
@@ -339,6 +332,8 @@ public class PanelView extends JPanel {
 			if (tec.saveAs(filePath)) {
 				if(tec.getMode()!=Mode.COMPARE)
 					setMode(Mode.VIEW);	
+				else 
+					updateView();
 			}
 		}
 	}

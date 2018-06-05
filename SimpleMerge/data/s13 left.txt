@@ -15,7 +15,7 @@ end
 function max (a: integer; b: integer) : integer; 
 
 var r,y:float;
-var r,y:float;
+
 
 begin
 	if a >= b then return a; 

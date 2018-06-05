@@ -241,8 +241,9 @@ public class FileComparator {
       /*
        * This main is a test for this class. You can delete this if you don't need.
        */
-      ArrayList<String> s1 = new ArrayList<String>();
       ArrayList<String> s2 = new ArrayList<String>();
+      ArrayList<String> s1 = new ArrayList<String>();
+      
       s1.add("Your job is to work on these two files:");
       s1.add(" - Board.JAVA");
       s1.add(" - Solver.JAVA");
@@ -254,23 +255,27 @@ public class FileComparator {
       s1.add("");
       s1.add("Hello!");
       s1.add("Kim Soyeon test :)");
+      s1.add("");
       s1.add("ischanged");
+      s1.add("");
+      s1.add("");
+      s1.add("1");
       
-      s2.add("1");
-      s2.add("2");
-      s2.add("3");
-      s2.add("4");
-      s2.add("5");
-      s2.add("6");
-      s2.add("7");
-      s2.add("8");
-      s2.add("9");
-      s2.add("0");
-      s2.add("939331");
-      s2.add("111");
-      s2.add("11");
+      s2.add("Your job is to work on these two files:");
+      s2.add(" - Board.JAVA");
+      s2.add(" - Solver.JAVA");
+      s2.add("");
+      s2.add("Nothing to do in these three files");
+      s2.add(" - MinPQ.JAVA");
+      s2.add(" - Queue.JAVA");
+      s2.add(" - Stack.JAVA");
+      s2.add("");
+      s2.add("");
+      s2.add("Hello!");
+      s2.add("isChanged");
       
-      FileComparator fc = new FileComparator(s1, s2);
+      
+      FileComparator fc = new FileComparator(s2, s1);
 
       System.out.println("Left Panel=========");
       for (int i = 1; i < fc.getDiffLeft().size(); i++) {

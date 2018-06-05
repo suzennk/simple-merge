@@ -32,8 +32,6 @@ public class Merge {
     * flagNext 마찬가지.
     * MainView 는 이 Flag 들을 이용해 traverse 버튼을 비활성화/활성화 시킨다.
     */
-   private boolean flagPrevious;
-   private boolean flagNext;
  
    Merge() {
       System.out.println("No input panels");
@@ -44,7 +42,7 @@ public class Merge {
       this.rightPanel = rightPanel;
       this.traverseCursor = 0;
 
-      /* panel contents 받아와서 parsing 후 arraylist에 저장 */
+      /* panel contents 받아와서 parsing 후 arrayList에 저장 */
       this.leftFileContents = leftPanel.getFileContentBufferList();
       this.leftFileSourceContents = new ArrayList<String>(leftFileContents);
       this.leftViewContents = new ArrayList<String>();
@@ -66,35 +64,10 @@ public class Merge {
 
       leftPanel.setBlocks(blocks);
       rightPanel.setBlocks(blocks);
-      setFlag();
       setContentsForView();
 	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
 	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
       
-   }
-   
-   /*
-    * 이거 쓸 때 꼭 if문에 flagPrevious 혹은 flagNext 이용해서 쓰길 바람.
-    */
-   private void setFlag(){
-      if(blocks.size() == 0)
-         flagPrevious = false;
-      
-      else if(traverseCursor != 0)
-    	  flagPrevious = true;
-      
-      else
-    	  flagPrevious = false;
-      
-	  int size = blocks.size() ;
-      if(size == 0)
-         flagNext = false;
-      
-      else if(traverseCursor != size-1)
-    	  flagNext = true;
-      
-      else
-    	  flagNext = false;
    }
 
    private void setContentsForView(){   
@@ -167,18 +140,7 @@ public class Merge {
 	  }
 	  blocks.remove(traverseCursor);
 	  
-	  setFileContents();
-	  leftPanel.setBlocks(blocks);
-	  rightPanel.setBlocks(blocks);
-	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
-	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
-	  leftPanel.setDiffIndices(leftDiffIndex);
-	  rightPanel.setDiffIndices(rightDiffIndex);
-	  
-	  traverseCursor--;
-	  leftPanel.setTraverseIndex(traverseCursor);
-	  rightPanel.setTraverseIndex(traverseCursor);
-	  setFlag();
+	  setThingsAfterMerge();
    }
 
    void copyToRight() {
@@ -187,19 +149,8 @@ public class Merge {
 		  rightViewContents.set(i, leftViewContents.get(i));
 	  }
 	  blocks.remove(traverseCursor);
-	  
-	  setFileContents();
-	  leftPanel.setBlocks(blocks);
-	  rightPanel.setBlocks(blocks);
-	  leftPanel.setAlignedFileContentBufferList(leftViewContents);
-	  rightPanel.setAlignedFileContentBufferList(rightViewContents);
-	  leftPanel.setDiffIndices(leftDiffIndex);
-	  rightPanel.setDiffIndices(rightDiffIndex);
-	  
-	  traverseCursor--;
-	  leftPanel.setTraverseIndex(traverseCursor);
-	  rightPanel.setTraverseIndex(traverseCursor);
-	  setFlag();
+	  setThingsAfterMerge();
+
    }
    
    public boolean getFlagPrevious(){
@@ -207,7 +158,7 @@ public class Merge {
    }
    
    public boolean getFlagNext(){
-      return this.traverseCursor < blocks.size();
+      return this.traverseCursor < blocks.size()-1;
    }
    
    public int getTraverseCursor(){
@@ -220,6 +171,20 @@ public class Merge {
 	   }else if(move == +1){
 		   traverseNext();
 	   }
+   }
+   
+   private void setThingsAfterMerge(){
+		  setFileContents();
+		  leftPanel.setBlocks(blocks);
+		  rightPanel.setBlocks(blocks);
+		  leftPanel.setAlignedFileContentBufferList(leftViewContents);
+		  rightPanel.setAlignedFileContentBufferList(rightViewContents);
+		  leftPanel.setDiffIndices(leftDiffIndex);
+		  rightPanel.setDiffIndices(rightDiffIndex);
+		  
+		  traverseCursor--;
+		  leftPanel.setTraverseIndex(traverseCursor);
+		  rightPanel.setTraverseIndex(traverseCursor);
    }
    
    /**

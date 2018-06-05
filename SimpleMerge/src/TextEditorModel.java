@@ -68,7 +68,8 @@ public class TextEditorModel {
 			originalFileContent = new String();
 			String s = br.readLine();
 			
-			originalFileContent += s;
+			if (s != null)
+				originalFileContent += s;
 			while ((s = br.readLine()) != null) {
 				originalFileContent += "\r\n";
 				originalFileContent += s;

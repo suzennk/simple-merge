@@ -402,9 +402,9 @@ public class MainView extends JFrame{
 		else {	// if not compare mode
 				// set enable [compare/merge/traverse] button only when two panel loaded
 			if (leftPV.tec.fileIsOpen() && rightPV.tec.fileIsOpen()){
-				setMVbutton(true);
+				compareBtn.setEnabled(true);
 			} else {
-				setMVbutton(false);
+				compareBtn.setEnabled(false);
 			}
 		}
 		

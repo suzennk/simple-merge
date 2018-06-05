@@ -62,18 +62,30 @@ public class FileComparator {
     * @param j:
     *            length(size) of text2
     */
-   void compare() {
+   private void compare() {
       /* if two strings have same line, store mutual index */
+	  boolean flag =  C.length < C[0].length;
+	   
+      if( flag ){
+    	int[][] B = new int[C[0].length][C.length];
+    	for(int a = 0; a < C[0].length; a++){
+    		for(int b =0; b < C.length; b++){
+    			B[a][b] = C[b][a];
+    		}
+    	}
+    	C=B;
+      }
+      
       int i = C.length - 1;
       int j = C[0].length - 1;
-
+      
       while (C[i][j] != 0) {
-         if (C[i][j] == C[i - 1][j]) {
-            leftDiffIndex.add(0, -1);
-            i--;
-         }
+         if (C[i][j] == C[i - 1][j]) {			//decrease row
+             leftDiffIndex.add(0, -1);
+             i--;
+          }
 
-         else if (C[i][j] == C[i][j - 1]) {
+         else if (C[i][j] == C[i][j - 1]) {		//decrease column
             rightDiffIndex.add(0, -1);
             j--;
          }
@@ -101,9 +113,16 @@ public class FileComparator {
 
       leftDiffIndex.add(0, 0);
       rightDiffIndex.add(0, 0);
+      
+      if(flag){
+    	  ArrayList<Integer> temp;
+    	  temp = leftDiffIndex;
+    	  leftDiffIndex = rightDiffIndex;
+    	  rightDiffIndex = temp;
+      }
    }
 
-   void arrange() {
+   private void arrange() {
 
       ArrayList<Integer> leftViewIndex = new ArrayList<Integer>();
       ArrayList<Integer> rightViewIndex = new ArrayList<Integer>();
@@ -157,7 +176,7 @@ public class FileComparator {
     * block의 start index와 end index를 저장하는 메소드
     * blocks arraylist에 (start, end)를 저장
     */
-   void computeBlocks() {
+   private void computeBlocks() {
       int start = 0;
       int end = 0;
       int i = 1;
@@ -291,6 +310,17 @@ public class FileComparator {
       for (int i = 0; i < fc.blocks.size(); i++) {
          System.out.println("block[" + i + "]: (" + fc.blocks.get(i)[0] + ", " + fc.blocks.get(i)[1] + ")");
       }
-
+      System.out.println("\nCTABLE=========");
+      for (int i = 0; i < fc.C.length; i++) {
+    	  for(int j =0; j < fc.C[0].length; j++)
+    		  System.out.printf("%2d ", fc.C[i][j]);
+    	  System.out.println();
+       }
+      System.out.println("\nCTABLE Trans=========");
+      for (int i = 0; i < fc.C[0].length; i++) {
+    	  for(int j =0; j < fc.C.length; j++)
+    		  System.out.printf("%2d ", fc.C[j][i]);
+    	  System.out.println();
+       }
    }
 }

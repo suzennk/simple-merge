@@ -290,14 +290,24 @@ public class PanelView extends JPanel {
 	}
 	
 	public void updateView() {
-		if (!tec.fileIsOpen()) {
-			textArea.setText("Click the Load Button.");
-		}
+		if (tec.getMode() == Mode.COMPARE) {		// if compare mode
+			// highlight blocks
+			
+			// highlight traverse block
+			
+		} 
 		
-		if (tec.isUpdated()) {
-			fileNameLabel.setText("*" + tec.getFileName());
-		} else {
-			fileNameLabel.setText(tec.getFileName());
+		else {	// if not compare mode
+			if (!tec.fileIsOpen()) {
+				textArea.setText("Click the Load Button.");
+			}
+
+			if (tec.isUpdated()) {
+				fileNameLabel.setText("*" + tec.getFileName());
+			} else {
+				fileNameLabel.setText(tec.getFileName());
+			}
+
 		}
 	}
 

@@ -394,6 +394,7 @@ public class MainView extends JFrame{
 				setMVbutton(false);
 			}
 		}
+		
 		leftPV.updateView();
 		rightPV.updateView();
 	}

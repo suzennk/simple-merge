@@ -180,6 +180,9 @@ public class MainView extends JFrame{
 					// compareBtn pressed once->do compare
 					enterCompareMode();
 					
+					if (leftPV.getTEM().getBlocks().size() == 0)
+						JOptionPane.showMessageDialog(new JFrame(), "The files are identical.");
+					
 				}
 				else{
 					// compareBtn pressed twice->try to escape compare mode
@@ -201,15 +204,19 @@ public class MainView extends JFrame{
 					
 					// if (a != 2 && b != 2)
 					// save files if needed
-					if (a == 0) 
+					if (a == 0) {
+						leftPV.tec.fileContentBufferToString();
 						leftPV.save();
+					}
 					else if (a == 1) {
 						leftPV.tec.setUpdated(false);
 						leftPV.textArea.setText(leftPV.tec.getOriginalFileContent());
 					}
 					
-					if (b == 0)
+					if (b == 0) {
+						rightPV.tec.fileContentBufferToString();
 						rightPV.save();
+					}
 					else if (b == 1) {
 						rightPV.tec.setUpdated(false);
 						rightPV.textArea.setText(rightPV.tec.getOriginalFileContent());
@@ -271,6 +278,9 @@ public class MainView extends JFrame{
 				rightPV.updateTableModel();
 				leftPV.updateTable();
 				rightPV.updateTable();
+				
+				leftPV.tec.setUpdated(true);
+				
 				updateView();
 			}
 			
@@ -291,6 +301,9 @@ public class MainView extends JFrame{
 				rightPV.updateTableModel();
 				leftPV.updateTable();
 				rightPV.updateTable();
+				
+				rightPV.tec.setUpdated(true);
+				
 				updateView();
 			}
 			

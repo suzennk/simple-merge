@@ -179,9 +179,7 @@ public class MainView extends JFrame{
 					}
 					// compareBtn pressed once->do compare
 					enterCompareMode();
-					
-					if (leftPV.getTEM().getBlocks().size() == 0)
-						JOptionPane.showMessageDialog(new JFrame(), "The files are identical.");
+					showMessageIfIdentical();
 					
 				}
 				else{
@@ -475,6 +473,11 @@ public class MainView extends JFrame{
 		rightPV.textArea.setText(rightPV.tec.getFileContentBuffer());
 		rightPV.exitCompareMode();
 		setMode(Mode.VIEW);
+	}
+	
+	private void showMessageIfIdentical() {
+		if (leftPV.getTEM().getBlocks().size() == 0)
+			JOptionPane.showMessageDialog(this, "The files are identical.");
 	}
 	
 	public static void main(String[] args) throws Exception {

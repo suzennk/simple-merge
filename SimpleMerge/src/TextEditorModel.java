@@ -127,8 +127,10 @@ public class TextEditorModel {
 		System.out.println("save as");
 		String extension = new String();
 		int ptr = file.getName().lastIndexOf('.');
-		if (ptr > 0) { 
+		if (ptr != -1)
 			extension = file.getName().substring(ptr);
+		
+		if (newFilePath.lastIndexOf('.') == -1) { 
 			newFilePath += extension;
 			System.out.println(newFilePath);
 		}

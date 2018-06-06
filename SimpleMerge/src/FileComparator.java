@@ -222,7 +222,7 @@ public class FileComparator {
    }
 
    /**
-    * leftDiffIndex의 element를 모두 0 이상의 정수로 바꾸어서 return 함
+    * leftDiffIndex의 element를 모두 0 이하의 정수로 바꾸어서 return 함
     * @return diffLeft
     */
    public ArrayList<Integer> getDiffLeft() {

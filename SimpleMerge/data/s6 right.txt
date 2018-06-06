@@ -5,7 +5,7 @@ var d,e:string;
 begin
 	a := 10;
 	b := 20;
-	c := 30;	
+	c := 30;
 end
 
 function max (a: integer; b: integer) : integer; 
@@ -29,7 +29,7 @@ begin
 
    a := 33;
    print a;
-   print max(10,2.4);	
+   print max(10,2.4);
    print func1(3,4);
 
 end. 

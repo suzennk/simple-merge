@@ -93,7 +93,7 @@ public class PanelView extends JPanel {
 		
 		fileNameLabel 	= new JLabel("");
 		fileNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-		fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));		
+		fileNameLabel.setFont(new Font(fileNameLabel.getFont().getName(), Font.BOLD, 20));
 
 		// Text Area
 		textArea	 	= new JEditorPane();

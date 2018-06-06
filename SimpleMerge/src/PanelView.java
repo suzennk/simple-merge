@@ -202,7 +202,6 @@ public class PanelView extends JPanel {
 			saveBtn.setEnabled(false);
 			saveAsBtn.setEnabled(false);
 			xBtn.setEnabled(true);
-			tec.setUpdated(false);
 			break;
 		case EDIT:
 			tec.setMode(Mode.EDIT);
@@ -223,7 +222,6 @@ public class PanelView extends JPanel {
 			saveBtn.setEnabled(true);
 			saveAsBtn.setEnabled(true);
 			xBtn.setEnabled(false);
-			tec.setUpdated(false);
 			break;
 		default:
 			break;

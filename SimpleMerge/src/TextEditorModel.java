@@ -67,7 +67,7 @@ public class TextEditorModel {
 
 			originalFileContent = new String();
 			String s = br.readLine();
-			
+
 			if (s != null)
 				originalFileContent += s;
 			while ((s = br.readLine()) != null) {
@@ -220,6 +220,18 @@ public class TextEditorModel {
 
 	public void setMode(Mode mode) {
 		this.mode = mode;
+		switch (mode) {
+		case VIEW:
+			dirty = false;
+			break;
+		case EDIT:
+			break;
+		case COMPARE:
+			dirty = false;
+			break;
+		default:
+			break;
+		}
 	}
 
 	public String getOriginalFileContent() {

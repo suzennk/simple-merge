@@ -24,13 +24,10 @@ public class Merge {
 
 	/**
 	 * current location 
-	 * 현재 커서의 위치 int[2] => [begin index, end index]
+	 * int[2] => {start index, end index}
 	 */
 	private int traverseCursor;
-	/*
-	 * flagPrevious 는 더이상 앞으로 이동할 곳이없다를 표시하는 flag. true이면 아직 있다. false면 더이상없다.
-	 * flagNext 마찬가지. MainView 는 이 Flag 들을 이용해 traverse 버튼을 비활성화/활성화 시킨다.
-	 */
+
 
 	Merge() {
 		// should not call this constructor
@@ -41,7 +38,7 @@ public class Merge {
 		this.rightPanel = rightPanel;
 		this.traverseCursor = 0;
 
-		/* panel contents 받아와서 parsing 후 arrayList에 저장 */
+		/* get panel contents, parse it and store to arraylist */
 		this.leftFileContents = leftPanel.getFileContentBufferList();
 		this.leftFileSourceContents = new ArrayList<String>(leftFileContents);
 		this.leftViewContents = new ArrayList<String>();
@@ -52,7 +49,7 @@ public class Merge {
 		this.rightViewContents = new ArrayList<String>();
 		this.rightViewContents.add("");
 
-		/* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
+		/* compare using FileComparator object */
 		FileComparator fc = new FileComparator(leftFileSourceContents, rightFileSourceContents);
 		this.leftFileSourceContents.add(0, "");
 		this.rightFileSourceContents.add(0, "");

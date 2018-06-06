@@ -8,7 +8,7 @@ import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame{
-	private MergeController MGcontroller; //WRONG!: viewer can't directly connected to model
+	private MergeController MGcontroller;
 	
 	private JPanel toolPanel;	// tool panel
 	private JButton compareBtn;

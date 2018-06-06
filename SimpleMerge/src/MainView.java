@@ -29,6 +29,8 @@ public class MainView extends JFrame {
 	private ImageIcon view_icon;
 
 	private int comparePressed;
+	
+	FileDialog fd;
 
 	public MainView() throws Exception {
 		super("Simple Merge");
@@ -40,6 +42,16 @@ public class MainView extends JFrame {
 
 		comparePressed = 0; // comparePressed: even=NOT pressed, odd= pressed
 
+		fd = new FileDialog(this, "Open File", FileDialog.LOAD);
+		fd.setFilenameFilter(new FilenameFilter() {
+
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".txt") || name.endsWith(".c") || name.endsWith(".cpp") || name.endsWith(".java")
+						|| name.endsWith(".md") || name.endsWith(".py");
+			}
+
+		});
+		
 		// set image icon
 		compare_icon = new ImageIcon("res/compare.png");
 		up_icon = new ImageIcon("res/up.png");
@@ -318,15 +330,6 @@ public class MainView extends JFrame {
 		}
 
 		// Load file via fileDialog
-		FileDialog fd = new FileDialog(this, "Open File", FileDialog.LOAD);
-		fd.setFilenameFilter(new FilenameFilter() {
-
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".txt") || name.endsWith(".c") || name.endsWith(".cpp") || name.endsWith(".java")
-						|| name.endsWith(".md") || name.endsWith(".py");
-			}
-
-		});
 		fd.setVisible(true);
 
 		if (fd.getFile() != null) { // Pressed "Open" in FileDialog

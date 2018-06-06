@@ -34,13 +34,10 @@ public class PanelView extends JPanel {
 	private 	ImageIcon saveAs_icon;
 	private 	ImageIcon x_icon;
 
-	
 	private Color highlightColor;
 	private Color focusColor;
 	
-	private ArrayList<Integer> diffIndex;
-	private int[] block; // block to be colored: {begin_idx, end_idx}
-	   
+	private FileDialog fd;
 	
 	public PanelView() throws Exception{
 		tec				= new TextEditorController();
@@ -52,10 +49,8 @@ public class PanelView extends JPanel {
 		highlightColor 	= new Color(0,0,0); // set color default as WHITE
 		focusColor 		= new Color(0,0,0);		
 		
-		diffIndex		= new ArrayList<Integer>(); // highlighted when compare & traverse
-		block 			= new int[] {0, 0}; // default value : nothing to be colored
-
-		
+		fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
+				 
 		// set image icon
 		load_icon 		= new ImageIcon("res/load.png");
 		edit_icon 		= new ImageIcon("res/edit.png");
@@ -101,11 +96,9 @@ public class PanelView extends JPanel {
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		textArea.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		
-		
 		tln		 		= new TextLineNumber(textArea);
 		model			= new DefaultTableModel();
 	    textTable		= new CompareTable();
-	    
 
 		scrollPane		= new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);
@@ -113,7 +106,6 @@ public class PanelView extends JPanel {
 		 
 		statusLabel		= new JLabel("");
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
-		
 		
 		menuPanel.setLayout(new GridLayout(1, 4));   
 		menuPanel.add(loadBtn);
@@ -317,7 +309,6 @@ public class PanelView extends JPanel {
 	}
 	
 	public void saveAs() {
-		FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
 		fd.setVisible(true);
 		
 		if (fd.getFile() != null) {
@@ -352,14 +343,6 @@ public class PanelView extends JPanel {
 		focusColor = new Color(x, y, z);
 	}
 
-	public void setDiffIndex(ArrayList<Integer> diffIndex){
-		this.diffIndex=diffIndex;
-	}
-	
-	public void setBlock(int[] block){
-		this.block=block;
-	}
-	
 	public TextEditorModel getTEM() {
 		return tec.getTEM();
 	}

@@ -322,13 +322,14 @@ public class PanelView extends JPanel {
 		}
 	}
 	
-	public void updateTable() {
+	public void updateTable(boolean up) {
 		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
-		if (tec.getBlocks().size() != 0) {
-			Rectangle cellRect = textTable.getCellRect(tec.getCurrentBlock()[0], 0, true);
-			textTable.scrollRectToVisible(cellRect);
+		if (up) {
+			textTable.scrollUpToCurrentIndex(tec.getBlocks(), tec.getCurrentBlock());			
 		}
-		
+		else {
+			textTable.scrollDownToCurrentIndex(tec.getBlocks(), tec.getCurrentBlock());
+		}
 	}
 	
 	public void updateTableModel() {

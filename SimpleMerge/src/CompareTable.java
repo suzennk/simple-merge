@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -137,7 +138,20 @@ public class CompareTable extends JTable {
 		highlightBlocks(blocks, greyIndices, 0);
 
 	}
+	
+	public void scrollDownToCurrentIndex(ArrayList<int[]> arrayList, int[] currentBlock) {
+		if (arrayList.size() != 0) {
+			Rectangle cellRect = this.getCellRect(currentBlock[1] - 1, 0, true);
+			this.scrollRectToVisible(cellRect);
+		}
+	}
 
+	public void scrollUpToCurrentIndex(ArrayList<int[]> blocks, int[] currentBlock) {
+		if (blocks.size() != 0) {
+			Rectangle cellRect = this.getCellRect(currentBlock[0] - 1, 0, true);
+			this.scrollRectToVisible(cellRect);
+		}
+	}
 
 	@Override
 	public boolean isCellEditable(int row, int col) {

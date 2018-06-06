@@ -179,6 +179,123 @@ public class PanelView extends JPanel {
 		});
 	}
 
+	
+	
+	public void save() {
+  		if (tec.save()) {
+  			if(tec.getMode() != Mode.COMPARE)
+  				setMode(Mode.VIEW);
+  		}
+	}
+	
+	public void saveAs() {
+		fd.setVisible(true);
+		
+		if (fd.getFile() != null) {
+			String filePath = fd.getDirectory() + fd.getFile();
+			if (tec.saveAs(filePath)) {
+				if(tec.getMode()!=Mode.COMPARE)
+					setMode(Mode.VIEW);	
+				else 
+					updateView();
+			}
+		}
+	}
+	
+	public void enterCompareMode() {
+		// make model arguments
+		// get file content as Arraylist
+		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
+
+		// Initialize model and textTable, make textTable non-Editable
+		textTable = new CompareTable(fileContentList, tec.getBlocks(), tec.getDiffIndices(), highlightColor, focusColor);
+		
+		// JTable
+		textArea.setVisible(false);
+		textTable.setVisible(true);
+
+		// set textTable
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editorPanel.add(scrollPane);
+	}
+	
+	public void exitCompareMode() {
+		// JEditorPane
+		textTable.setVisible(false);
+		textArea.setVisible(true);
+		
+		editorPanel.remove(scrollPane);
+		scrollPane = new JScrollPane(textArea);
+		scrollPane.setRowHeaderView(tln);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		editorPanel.add(scrollPane);
+	}
+
+	
+	public void updateView() {
+	
+		if (!tec.fileIsOpen()) {
+			textArea.setText("Click the Load Button.");
+			editBtn.setEnabled(false);
+		}
+
+		if (tec.isUpdated()) {
+			fileNameLabel.setText("*" + tec.getFileName());
+		} else {
+			fileNameLabel.setText(tec.getFileName());
+		}
+
+	}
+	
+	public void updateTable() {
+		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
+		if (tec.getBlocks().size() != 0) {
+			Rectangle cellRect = textTable.getCellRect(tec.getCurrentBlock()[0] - 1, 0, true);
+			textTable.scrollRectToVisible(cellRect);
+		}
+		
+	}
+	
+	public void updateTableModel() {
+		textTable.updateModel(tec.getAlignedFileContentBufferList(), tec.getBlocks(), tec.getDiffIndices());
+	}
+	
+	/**
+	 * @return -1 if not updated
+	 * @return 0 if save
+	 * @return 1 if don't save
+	 * @return 2 if cancel
+	 */
+	public int showSaveDialog() {
+		Object[] options = { "Save", "Don't Save", "Cancel" };
+		int n = -1;
+
+		if (tec.isUpdated()) {
+			n = JOptionPane.showOptionDialog(this,
+					tec.getFileName() +" has been edited.\nDo you want to save the file and continue?", "Simple Merge",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+		}
+		return n;
+	}
+
+	public int showSaveDialogWithCompletion() {
+		int n = showSaveDialog();
+		
+		if (n == 0) {										// YES: save and switch to view mode
+			this.save();	
+		} 
+		else if(n == 1) { 									// NO: not save, switch to view mode
+			this.resetToOriginal();
+		} 
+		else {
+			// Do nothing
+		}
+		
+		return n;
+	}
+	
 	public void setMode(Mode mode) {
 		switch (mode) {
 		case VIEW:
@@ -215,124 +332,6 @@ public class PanelView extends JPanel {
 			break;
 		}
 		updateView();
-	}
-
-	
-	public void enterCompareMode() {
-		// make model arguments
-		// get file content as Arraylist
-		ArrayList<String> fileContentList = tec.getAlignedFileContentBufferList();
-
-		// Initialize model and textTable, make textTable non-Editable
-		textTable = new CompareTable(fileContentList, tec.getBlocks(), tec.getDiffIndices(), highlightColor, focusColor);
-		
-		// JTable
-		textArea.setVisible(false);
-		textTable.setVisible(true);
-
-		// set textTable
-		editorPanel.remove(scrollPane);
-		scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		editorPanel.add(scrollPane);
-	}
-	
-	public void exitCompareMode() {
-		// JEditorPane
-		textTable.setVisible(false);
-		textArea.setVisible(true);
-		
-		editorPanel.remove(scrollPane);
-		scrollPane = new JScrollPane(textArea);
-		scrollPane.setRowHeaderView(tln);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		editorPanel.add(scrollPane);
-	}
-
-	
-
-	/**
-	 * @return -1 if not updated
-	 * @return 0 if save
-	 * @return 1 if don't save
-	 * @return 2 if cancel
-	 */
-	public int showSaveDialog() {
-		Object[] options = { "Save", "Don't Save", "Cancel" };
-		int n = -1;
-
-		if (tec.isUpdated()) {
-			n = JOptionPane.showOptionDialog(this,
-					tec.getFileName() +" has been edited.\nDo you want to save the file and continue?", "Simple Merge",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-		}
-		return n;
-	}
-
-	public int showSaveDialogWithCompletion() {
-		int n = showSaveDialog();
-		
-		if (n == 0) {										// YES: save and switch to view mode
-			this.save();	
-		} 
-		else if(n == 1) { 									// NO: not save, switch to view mode
-			this.resetToOriginal();
-		} 
-		else {
-			// Do nothing
-		}
-		
-		return n;
-	}
-	
-	public void updateView() {
-	
-		if (!tec.fileIsOpen()) {
-			textArea.setText("Click the Load Button.");
-			editBtn.setEnabled(false);
-		}
-
-		if (tec.isUpdated()) {
-			fileNameLabel.setText("*" + tec.getFileName());
-		} else {
-			fileNameLabel.setText(tec.getFileName());
-		}
-
-	}
-
-	
-	public void save() {
-  		if (tec.save()) {
-  			if(tec.getMode() != Mode.COMPARE)
-  				setMode(Mode.VIEW);
-  		}
-	}
-	
-	public void saveAs() {
-		fd.setVisible(true);
-		
-		if (fd.getFile() != null) {
-			String filePath = fd.getDirectory() + fd.getFile();
-			if (tec.saveAs(filePath)) {
-				if(tec.getMode()!=Mode.COMPARE)
-					setMode(Mode.VIEW);	
-				else 
-					updateView();
-			}
-		}
-	}
-	
-	public void updateTable() {
-		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
-		if (tec.getBlocks().size() != 0) {
-			Rectangle cellRect = textTable.getCellRect(tec.getCurrentBlock()[0], 0, true);
-			textTable.scrollRectToVisible(cellRect);
-		}
-		
-	}
-	
-	public void updateTableModel() {
-		textTable.updateModel(tec.getAlignedFileContentBufferList(), tec.getBlocks(), tec.getDiffIndices());
 	}
 	
 	public void resetToOriginal() {

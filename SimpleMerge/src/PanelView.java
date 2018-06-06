@@ -271,8 +271,8 @@ public class PanelView extends JPanel {
 
 		if (tec.isUpdated()) {
 			n = JOptionPane.showOptionDialog(this,
-					"The file has been edited. Do you want to save the file and continue?", "Question",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+					tec.getFileName() +" has been edited.\nDo you want to save the file and continue?", "Simple Merge",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 		}
 		return n;
 	}

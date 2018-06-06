@@ -466,7 +466,7 @@ public class MainView extends JFrame {
 
 	private void showMessageIfIdentical() {
 		if (leftPV.getTEM().getBlocks().size() == 0)
-			JOptionPane.showMessageDialog(this, "The files are identical.");
+			JOptionPane.showMessageDialog(this, "The files are identical.", "Simple Merge", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void main(String[] args) throws Exception {

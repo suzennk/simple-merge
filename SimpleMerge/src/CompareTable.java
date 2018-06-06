@@ -47,6 +47,7 @@ public class CompareTable extends JTable {
 
 		// Highlight Lines
 		highlightBlocks(blocks, diffIndices);
+		System.out.println(diffIndices);
 
 		this.setModel(model);
 

@@ -18,7 +18,7 @@ public class CompareTable extends JTable {
 
 	}
 
-	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies, Color highlightColor, Color focusColor) {
+	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndices, Color highlightColor, Color focusColor) {
 		super();
 
 		// Set highlight color
@@ -35,7 +35,7 @@ public class CompareTable extends JTable {
 		int ctr = 0;
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
-			if (diffIndicies.get(i) == 0) {
+			if (diffIndices.get(i) == 0) {
 				contents.addElement("-");
 			}
 			else {
@@ -46,7 +46,7 @@ public class CompareTable extends JTable {
 		}
 
 		// Highlight Lines
-		highlightBlocks(blocks);
+		highlightBlocks(blocks, diffIndices);
 
 		this.setModel(model);
 
@@ -66,7 +66,7 @@ public class CompareTable extends JTable {
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
-	public void highlightBlocks(ArrayList<int[]> blocks, int traverseIndex) {
+	public void highlightBlocks(ArrayList<int[]> blocks, ArrayList<Integer> greyIndices, int traverseIndex) {
 
 		ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
 		
@@ -83,7 +83,7 @@ public class CompareTable extends JTable {
 			}
 			
 		}
-		renderer = new CompareTableRenderer(highlightIndices, highlightColor, focusColor);
+		renderer = new CompareTableRenderer(highlightIndices, greyIndices, highlightColor, focusColor);
 		try {
 			this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 		} catch (ClassNotFoundException e) {
@@ -94,7 +94,7 @@ public class CompareTable extends JTable {
 
 	}
 	
-	public void updateModel(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies) {
+	public void updateModel(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndices) {
 		Vector<String> head = new Vector<String>();
 		head.addElement("line");
 		head.addElement("Content");
@@ -104,7 +104,7 @@ public class CompareTable extends JTable {
 		int ctr = 0;
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
-			if (diffIndicies.get(i) == 0) {
+			if (diffIndices.get(i) == 0) {
 				contents.addElement("-");
 			}
 			else {
@@ -115,7 +115,7 @@ public class CompareTable extends JTable {
 		}
 
 		// Highlight Lines
-		highlightBlocks(blocks);
+		highlightBlocks(blocks, diffIndices);
 
 		this.setModel(model);
 		
@@ -133,9 +133,9 @@ public class CompareTable extends JTable {
 		this.setRowHeight(20);
 	}
 	
-	public void highlightBlocks(ArrayList<int[]> blocks) {
+	public void highlightBlocks(ArrayList<int[]> blocks, ArrayList<Integer> greyIndices) {
 
-		highlightBlocks(blocks, 0);
+		highlightBlocks(blocks, greyIndices, 0);
 
 	}
 

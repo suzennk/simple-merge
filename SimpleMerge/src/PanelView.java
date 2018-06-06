@@ -332,7 +332,7 @@ public class PanelView extends JPanel {
 	}
 	
 	public void updateTable() {
-		textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
+		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
 	}
 	
 	public void updateTableModel() {

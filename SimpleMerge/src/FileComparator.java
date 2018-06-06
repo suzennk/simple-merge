@@ -1,17 +1,13 @@
 import java.util.ArrayList;
 
 public class FileComparator {
-   /**
-    * LCS length를 저장하는 배열 sequence alignment 알고리즘이나 LCS 알고리즘 참고
-    */
+   /* matrix which stores the LCS length */
    private int[][] C;
-   /**
-    * 각 Panel의 difference index를 저장하는 배열 같은 내용을 가진 줄은 서로의 index를 저장하고 다른 내용을 가진 줄에는
-    * -1을 저장한다. ex) <Left> <leftDiffIndex> <Right> <rightDiffIndex> abc 0 abc 0 de
-    * -1 fgh 2 fgh 1
-    */
+   /* arraylist which stores the difference indices of each panel */
    private ArrayList<Integer> leftDiffIndex;
    private ArrayList<Integer> rightDiffIndex;
+   /* integer array type arraylist
+    * which stores start and end indices of blocks */
    private ArrayList<int[]> blocks;
 
    FileComparator(ArrayList<String> left, ArrayList<String> right) {
@@ -26,16 +22,20 @@ public class FileComparator {
    }
 
    /**
-    * Computing the length of the LCS sequence alignment와 같은 알고리즘 길이가 m인 text1과 길이가
-    * n인 text2를 입력받아 모든 1 <= i <= m 와 1 <= j <= n에 대해 text1[1..i] 와 text2[1..j] 사이의
-    * 값에 대해 LCS를 연산하고, C[i, j]에 저장한다. C[m, n]은 text1과 text2에 대한 LCS 값을 가지게 된다.
+    * Compute the length of the LCS
+    * same algorithm with sequence alignment
+    * input: text1(length: m), text2(length: n)
+    * for all 1<= i <= m, 1 <= j <= n,
+    * calculate LCS of text1[1..i] and text2[1..j]
+    * and store it to C[i, j]
+    * C[m, n] = LCS value of text1 and text2
     */
    int LCSLength(ArrayList<String> left, ArrayList<String> right) {
       int m = left.size();
       int n = right.size();
       C = new int[m + 1][n + 1];
 
-      /* 행이나 열의 index가 0인 element는 0으로 초기화한다 */
+      /* initialize elements whose row/column index is zero to zero */
       for (int i = 0; i <= m; i++)
          C[i][0] = 0;
       for (int j = 0; j <= n; j++)
@@ -53,14 +53,8 @@ public class FileComparator {
    }
 
    /**
-    * @param C:
-    *            matrix of LCS length between text 1 and text2
-    * @param left
-    * @param right
-    * @param i:
-    *            length(size) of text1
-    * @param j:
-    *            length(size) of text2
+    * Compare two panels
+    * and store the information to arraylist
     */
    private void compare() {
       /* if two strings have same line, store mutual index */
@@ -122,6 +116,11 @@ public class FileComparator {
       }
    }
 
+   
+   /**
+    * After comparing, arrange the strings in each panel
+    * ex) add blank lines
+    */
    private void arrange() {
 
       ArrayList<Integer> leftViewIndex = new ArrayList<Integer>();
@@ -131,19 +130,21 @@ public class FileComparator {
       int L_Max = leftDiffIndex.size();
       int R_Max = rightDiffIndex.size();
       while (L < L_Max && R < R_Max) {
-         /* 같은 string인 경우 해당 string의 index를 저장 */
+         /* if same strings, store the index of string */
          if (this.leftDiffIndex.get(L) != -1 && this.rightDiffIndex.get(R) != -1) {
             leftViewIndex.add(L++);
             rightViewIndex.add(R++);
          }
-         /* 다른 string이지만 같은 line에 있는 경우 해당 string의 index*(-1)을 저장 */
+         /* if different strings but in same line,
+          * store the index * (-1) */
          else if (this.leftDiffIndex.get(L) == -1 && this.rightDiffIndex.get(R) == -1) {
             leftViewIndex.add(L * (-1));
             L++;
             rightViewIndex.add(R * (-1));
             R++;
          }
-         /* 한쪽 패널에만 내용이 존재하는 경우 내용을 해당 패널에 저장하고 다른 패널에는 공백(0)을 저장 */
+         /* if the string is in only one panel,
+          * store it in the panel and blank value(0) to another panel */
          else {
             while (this.rightDiffIndex.get(R) == -1) {
                leftViewIndex.add(0);
@@ -156,6 +157,8 @@ public class FileComparator {
          }
       }
       
+      /* When the line numbers are not same,
+       * add some blank line until they become same */
       while(L< L_Max){
           leftViewIndex.add(L++);
           rightViewIndex.add(0);
@@ -173,8 +176,8 @@ public class FileComparator {
 
    
    /**
-    * block의 start index와 end index를 저장하는 메소드
-    * blocks arraylist에 (start, end)를 저장
+    * Find start and end index of block
+    * and store it to blocks arraylist
     */
    private void computeBlocks() {
       int start = 0;
@@ -183,12 +186,12 @@ public class FileComparator {
       int size = leftDiffIndex.size();
 
       while (i < size) {
-         /* 같은 내용인 경우 */
+         /* if same string */
          while ((i < size && leftDiffIndex.get(i) > 0) && (rightDiffIndex.get(i) > 0)) {
             i++;
          }
 
-         /* 왼쪽이 공백인 경우 */
+         /* if left panel is blank */
          if (i < size && leftDiffIndex.get(i) == 0) {
             start = i++;
             while (i < size && leftDiffIndex.get(i) == 0) {
@@ -198,7 +201,7 @@ public class FileComparator {
 
             blocks.add(new int[] { start, end });
          }
-         /* 오른쪽이 공백인 경우 */
+         /* if right panel is blank */
          else if (i < size && rightDiffIndex.get(i) == 0) {
             start = i++;
             while (i < size && rightDiffIndex.get(i) == 0) {
@@ -208,7 +211,7 @@ public class FileComparator {
 
             blocks.add(new int[] { start, end });
          }
-         /* 다른 string이 같은 line에 있는 경우 */
+         /* if different string but in same line */
          else if (i < size && leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0) {
             start = i++;
             while (i < size && leftDiffIndex.get(i) < 0 && rightDiffIndex.get(i) < 0) {
@@ -222,7 +225,7 @@ public class FileComparator {
    }
 
    /**
-    * leftDiffIndex의 element를 모두 0 이하의 정수로 바꾸어서 return 함
+    * Make all elements in leftDiffIndex to negative integer and return it
     * @return diffLeft
     */
    public ArrayList<Integer> getDiffLeft() {
@@ -236,7 +239,7 @@ public class FileComparator {
    }
 
    /**
-    * rightDiffIndex의 element를 모두 0 이상의 정수로 바꾸어서 return 함
+    * Make all elements in rightDiffIndex to positive integer and return it
     * @return diffRight
     */
    ArrayList<Integer> getDiffRight() {

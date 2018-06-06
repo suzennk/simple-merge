@@ -182,11 +182,6 @@ public class TextEditorModel {
 		fileContentBufferList = null;
 	}
 
-	public void resetToOriginal() {
-		this.fileContentBuffer = new String(originalFileContent);
-		this.dirty = false;
-	}
-
 	public void fileContentBufferToString() {
 		fileContentBuffer = new String();
 
@@ -197,7 +192,18 @@ public class TextEditorModel {
 		}
 
 	}
+	
+	/* Private Functions */
+	private void exitCompareMode() {
+		fileContentBuffer = new String();
 
+		for (int i = 0; i < fileContentBufferList.size(); i++) {
+			fileContentBuffer += this.fileContentBufferList.get(i);
+			fileContentBuffer += "\r\n";
+		}
+	}
+
+	/* Getter & Setter */
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file
@@ -207,8 +213,7 @@ public class TextEditorModel {
 	public boolean fileIsOpen() {
 		return file != null;
 	}
-
-	/* Getter & Setter */
+	
 	public String getFilePath() {
 		if (file == null)
 			return "";
@@ -222,14 +227,13 @@ public class TextEditorModel {
 		else
 			return file.getName();
 	}
-
+	
 	/**
 	 * @return current mode of text editor
 	 */
 	public Mode getMode() {
 		return this.mode;
 	}
-
 	public void setMode(Mode mode) {
 		this.mode = mode;
 		switch (mode) {
@@ -245,7 +249,7 @@ public class TextEditorModel {
 			break;
 		}
 	}
-
+	
 	public String getOriginalFileContent() {
 		return this.originalFileContent;
 	}
@@ -257,7 +261,7 @@ public class TextEditorModel {
 	public void setFileContentBuffer(String fileContent) {
 		fileContentBuffer = new String(fileContent);
 	}
-
+	
 	public boolean isUpdated() {
 		return dirty;
 	}
@@ -265,30 +269,38 @@ public class TextEditorModel {
 	public void setUpdated(boolean flag) {
 		this.dirty = flag;
 	}
+	
+	public void resetToOriginal() {
+		this.fileContentBuffer = new String(originalFileContent);
+		this.dirty = false;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////
 	// Merge - Use these methods ! //
 	//////////////////////////////////////////////////////////////////////////////
-
-	public void setDiffIndices(ArrayList<Integer> diffIndices) {
-		this.diffIndices = diffIndices;
-	}
-
-	public void setTraverseIndex(int traverseIndex) {
-		this.traverseIndex = traverseIndex;
-	}
-
+	
 	public ArrayList<String> getAlignedFileContentBufferList() {
 		return alignedFileContentBufferList;
+	}
+	
+	public void setAlignedFileContentBufferList(ArrayList<String> alignedFileContentBufferList) {
+		this.alignedFileContentBufferList = alignedFileContentBufferList;
 	}
 
 	public ArrayList<String> getFileContentBufferList() {
 
 		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
-
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
 
 		return this.fileContentBufferList;
+	}
+	
+	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
+		this.fileContentBufferList = fileContentBufferList;
+	}
+	
+	public void setDiffIndices(ArrayList<Integer> diffIndices) {
+		this.diffIndices = diffIndices;
 	}
 
 	// setBlocks(), setFileContentBufferList(), and
@@ -298,13 +310,9 @@ public class TextEditorModel {
 	public void setBlocks(ArrayList<int[]> blocks) {
 		this.blocks = blocks;
 	}
-
-	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
-		this.fileContentBufferList = fileContentBufferList;
-	}
-
-	public void setAlignedFileContentBufferList(ArrayList<String> alignedFileContentBufferList) {
-		this.alignedFileContentBufferList = alignedFileContentBufferList;
+	
+	public void setTraverseIndex(int traverseIndex) {
+		this.traverseIndex = traverseIndex;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -315,29 +323,19 @@ public class TextEditorModel {
 		return diffIndices;
 	}
 
-	public int getTraverseIndex() {
-		return traverseIndex;
-	}
-
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
 	}
-
+	
 	public int[] getCurrentBlock() {
 		if (traverseIndex < 0 || traverseIndex > this.blocks.size())
 			return null;
 		else
 			return this.blocks.get(traverseIndex);
 	}
-
-	/* Private Functions */
-	private void exitCompareMode() {
-		fileContentBuffer = new String();
-
-		for (int i = 0; i < fileContentBufferList.size(); i++) {
-			fileContentBuffer += this.fileContentBufferList.get(i);
-			fileContentBuffer += "\r\n";
-		}
+	
+	public int getTraverseIndex() {
+		return traverseIndex;
 	}
 
 	public static void main(String[] args) {

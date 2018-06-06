@@ -29,14 +29,11 @@ public class TextEditorController {
 		tem.closeFile();
 	}
 	
-	public void resetToOriginal() {
-		tem.resetToOriginal();
-	}
-	
 	public void fileContentBufferToString() {
 		tem.fileContentBufferToString();
 	}
 	
+	/* Getter & Setter */
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file
@@ -48,12 +45,12 @@ public class TextEditorController {
 
 	
 	/* Getter & Setter */
-	public String getFileName() {
-		return tem.getFileName();
-	}
-
 	public String getFilePath() {
 		return tem.getFilePath();
+	}
+	
+	public String getFileName() {
+		return tem.getFileName();
 	}
 	
 	/**
@@ -85,7 +82,6 @@ public class TextEditorController {
 	public void setFileContentBuffer(String fileContent) {
 		tem.setFileContentBuffer(fileContent);
 	}
-	
 
 	/**
 	 * @return true is the file has been updated
@@ -98,12 +94,21 @@ public class TextEditorController {
 		tem.setUpdated(flag);
 	}
 	
-	public ArrayList<String> getFileContentBufferList() {
-		return tem.getFileContentBufferList();
+	public void resetToOriginal() {
+		tem.resetToOriginal();
 	}
+	
 	
 	public ArrayList<String> getAlignedFileContentBufferList() {
 		return tem.getAlignedFileContentBufferList();
+	}
+	
+	public void setAlignedFileContentBufferList(ArrayList<String> fromMerge) {
+		tem.setAlignedFileContentBufferList(fromMerge);
+	}
+	
+	public ArrayList<String> getFileContentBufferList() {
+		return tem.getFileContentBufferList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -111,27 +116,24 @@ public class TextEditorController {
 		tem.setFileContentBufferList(fromMerge);
 	}
 	
-	public void setAlignedFileContentBufferList(ArrayList<String> fromMerge) {
-		tem.setAlignedFileContentBufferList(fromMerge);
+	public ArrayList<Integer> getDiffIndices() {
+		return tem.getDiffIndices();
 	}
+	
 	public ArrayList<int[]> getBlocks() {
 		return tem.getBlocks();
 	}
 	
-	public TextEditorModel getTEM() {
-		return this.tem;
-	}
-	
-	public ArrayList<Integer> getDiffIndices() {
-		return tem.getDiffIndices();
+	public int[] getCurrentBlock() {
+		return tem.getCurrentBlock();
 	}
 	
 	public int getTraverseIndex() {
 		return tem.getTraverseIndex();
 	}
 	
-	public int[] getCurrentBlock() {
-		return tem.getCurrentBlock();
+	public TextEditorModel getTEM() {
+		return this.tem;
 	}
 
 }

@@ -124,6 +124,15 @@ public class TextEditorModel {
 	 * @return true if success, false if failure.
 	 */
 	public boolean saveAs(String newFilePath) {
+		System.out.println("save as");
+		String extension = new String();
+		int ptr = file.getName().lastIndexOf('.');
+		if (ptr > 0) { 
+			extension = file.getName().substring(ptr);
+			newFilePath += extension;
+			System.out.println(newFilePath);
+		}
+		
 		try {
 			file = new File(newFilePath);
 

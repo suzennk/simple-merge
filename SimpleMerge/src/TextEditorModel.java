@@ -324,7 +324,10 @@ public class TextEditorModel {
 	}
 
 	public int[] getCurrentBlock() {
-		return this.blocks.get(traverseIndex);
+		if (traverseIndex < 0 || traverseIndex > this.blocks.size())
+			return null;
+		else
+			return this.blocks.get(traverseIndex);
 	}
 
 	/* Private Functions */

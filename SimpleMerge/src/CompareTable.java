@@ -138,8 +138,8 @@ public class CompareTable extends JTable {
 
 	}
 	
-	public void scrollDownToCurrentIndex(ArrayList<int[]> arrayList, int[] currentBlock) {
-		if (arrayList.size() != 0) {
+	public void scrollDownToCurrentIndex(ArrayList<int[]> blocks, int[] currentBlock) {
+		if (blocks.size() != 0) {
 			Rectangle cellRect = this.getCellRect(currentBlock[1] - 1, 0, true);
 			this.scrollRectToVisible(cellRect);
 		}

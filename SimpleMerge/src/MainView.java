@@ -254,10 +254,9 @@ public class MainView extends JFrame{
 				if (MGcontroller.getFlagPrevious()) {
 					// at least one previous block
 					MGcontroller.traversePrevious();
-					leftPV.updateTable();
-					rightPV.updateTable();
+					leftPV.updateTable(true);
+					rightPV.updateTable(true);
 				}
-
 				updateView();
 			}
 
@@ -270,8 +269,8 @@ public class MainView extends JFrame{
 				if (MGcontroller.getFlagNext()) {
 					// at least one next block
 					MGcontroller.traverseNext();
-					leftPV.updateTable();
-					rightPV.updateTable();
+					leftPV.updateTable(false);
+					rightPV.updateTable(false);
 				}
 
 				updateView();
@@ -288,8 +287,8 @@ public class MainView extends JFrame{
 
 				leftPV.updateTableModel();
 				rightPV.updateTableModel();
-				leftPV.updateTable();
-				rightPV.updateTable();
+				leftPV.updateTable(false);
+				rightPV.updateTable(false);
 
 				leftPV.tec.setUpdated(true);
 
@@ -309,8 +308,8 @@ public class MainView extends JFrame{
 
 				leftPV.updateTableModel();
 				rightPV.updateTableModel();
-				leftPV.updateTable();
-				rightPV.updateTable();
+				leftPV.updateTable(false);
+				rightPV.updateTable(false);
 
 				rightPV.tec.setUpdated(true);
 

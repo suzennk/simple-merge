@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*패널간의 메소드를 관리하는 컨트롤러(interpanel controller),
- * compare, traverse, merge 메소드 포함 */
+/** Merge Model
+ *  Compare, traverse and merge functions
+ */
 public class Merge {
 
 	private TextEditorModel leftPanel;
@@ -14,14 +15,15 @@ public class Merge {
 	private ArrayList<String> leftViewContents;
 	private ArrayList<String> rightViewContents;
 	/**
-	 * 각 Panel의 difference index를 저장하는 배열 index는 0이 아닌 1부터 시작! 같은 내용을 가진 줄에는 서로의
-	 * index, 다른 내용을 가진 줄에는 (-1)*index, 공백줄은 0을 저장
+	 * arraylist which stores difference indices of each panel
+	 * the index is started at 1, not 0
 	 */
 	private ArrayList<Integer> leftDiffIndex;
 	private ArrayList<Integer> rightDiffIndex;
 	private ArrayList<int[]> blocks;
 
-	/*
+	/**
+	 * current location 
 	 * 현재 커서의 위치 int[2] => [begin index, end index]
 	 */
 	private int traverseCursor;

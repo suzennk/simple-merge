@@ -1,10 +1,12 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 public class CompareTable extends JTable {
@@ -63,6 +65,15 @@ public class CompareTable extends JTable {
 		col.getColumn(0).setPreferredWidth(40);
 		col.getColumn(1).setPreferredWidth(550);
 		this.setRowHeight(20);
+		TableColumnModel columnModel = this.getColumnModel();  
+				int width = 545, col1 = 1;
+				// Min width 
+				for (int row = 0; row < this.getRowCount(); row++) { 
+					TableCellRenderer renderer = this.getCellRenderer(row, col1); 
+					Component comp = this.prepareRenderer(renderer, row, col1); 
+					width = Math.max(comp.getPreferredSize().width +1 , width); 
+				} 
+				columnModel.getColumn(col1).setPreferredWidth(width); 
 
 		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}

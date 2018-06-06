@@ -303,6 +303,7 @@ public class PanelView extends JPanel {
 	
 		if (!tec.fileIsOpen()) {
 			textArea.setText("Click the Load Button.");
+			editBtn.setEnabled(false);
 		}
 
 		if (tec.isUpdated()) {

@@ -324,6 +324,11 @@ public class PanelView extends JPanel {
 	
 	public void updateTable() {
 		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
+		if (tec.getTraverseIndex() != -1) {
+			Rectangle cellRect = textTable.getCellRect(tec.getCurrentBlock()[0], 0, true);
+			textTable.scrollRectToVisible(cellRect);
+		}
+		
 	}
 	
 	public void updateTableModel() {

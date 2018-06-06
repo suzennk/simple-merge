@@ -59,23 +59,10 @@ public class CompareTable extends JTable {
 		JTableHeader header = this.getTableHeader();
 		header.setBackground(Color.WHITE);
 
-		// TODO column width
-		// Set column size
-		TableColumnModel col = this.getColumnModel();
-		col.getColumn(0).setPreferredWidth(40);
-		col.getColumn(1).setPreferredWidth(550);
+		// Set row and column size
 		this.setRowHeight(20);
-		TableColumnModel columnModel = this.getColumnModel();  
-				int width = 545, col1 = 1;
-				// Min width 
-				for (int row = 0; row < this.getRowCount(); row++) { 
-					TableCellRenderer renderer = this.getCellRenderer(row, col1); 
-					Component comp = this.prepareRenderer(renderer, row, col1); 
-					width = Math.max(comp.getPreferredSize().width +1 , width); 
-				} 
-				columnModel.getColumn(col1).setPreferredWidth(width); 
-
-		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		TableColumnModel col = this.getColumnModel();
+		col.getColumn(0).setMaxWidth(40);
 	}
 
 	public void highlightBlocks(ArrayList<int[]> blocks, ArrayList<Integer> greyIndices, int traverseIndex) {

@@ -6,6 +6,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class TextEditorModel {
 	private File file;
@@ -271,15 +272,11 @@ public class TextEditorModel {
 	}
 
 	public ArrayList<String> getFileContentBufferList() {
-		System.out.println(fileContentBuffer);
-		System.out.println("-------------");
-		// does not split well in empty space
+
 		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
 
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
 
-		System.out.println(fileContentBufferList);
-		System.out.println("-------------");
 		return this.fileContentBufferList;
 	}
 
@@ -331,6 +328,71 @@ public class TextEditorModel {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Test PanelInfo.java");
+		System.out.println("Test PanelController.");
+		Scanner s = new Scanner(System.in);
+		Scanner s2 = new Scanner(System.in);
+
+		TextEditorController pc = new TextEditorController();
+
+		String filePath = new String();
+
+		boolean iterate = true;
+		while (iterate) {
+			System.out.println("1. Load File");
+
+			System.out.println("2. Save File");
+			System.out.println("3. Save File As ...");
+			System.out.println("4. Append file content");
+
+			System.out.println("5. String to List");
+			System.out.println("6. List to String");
+			System.out.println("7. Exit");
+
+			System.out.print("Select menu: ");
+			int menu = s.nextInt();
+			switch (menu) {
+
+			case 1:
+				System.out.println("Enter File Path : ");
+				filePath = s2.nextLine();
+				pc.load(filePath);
+				break;
+			case 2:
+				System.out.println("Saving File ...");
+				pc.save();
+				System.out.println("Saved File!");
+				break;
+			case 3:
+				System.out.print("Enter File Name : ");
+				filePath = s2.nextLine();
+				pc.saveAs(filePath);
+				System.out.println("Saved File!");
+				break;
+			case 4:
+				System.out.println("Enter String to append : ");
+				String fc = pc.getOriginalFileContent();
+				String modifiedString = s2.nextLine();
+				fc += modifiedString;
+				pc.setUpdated(true);
+				break;
+			case 5:
+				System.out.println(pc.getFileContentBufferList());
+				break;
+			case 6:
+				ArrayList<String> edited = pc.getFileContentBufferList();
+				edited.add("Is this added????");
+				pc.setFileContentBufferList(edited);
+				System.out.println(pc.getOriginalFileContent()); // 이부분 테스트 안됨..!! b/c original != buffer
+				break;
+			case 7:
+				iterate = false;
+				break;
+			default:
+				System.out.println("wrong choice");
+				continue;
+			}
+
+		}
+		System.out.println("Exit Program.");
 	}
 }

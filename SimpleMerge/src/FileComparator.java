@@ -182,8 +182,6 @@ public class FileComparator {
       int i = 1;
       int size = leftDiffIndex.size();
 
-      // System.out.println("size: "+size);
-
       while (i < size) {
          /* 같은 내용인 경우 */
          while ((i < size && leftDiffIndex.get(i) > 0) && (rightDiffIndex.get(i) > 0)) {

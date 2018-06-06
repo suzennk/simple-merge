@@ -152,8 +152,6 @@ public class PanelView extends JPanel {
 		editBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Edit button pressed.");
-				
 				// Set Mode
 				setMode(Mode.EDIT);
 			}
@@ -161,7 +159,6 @@ public class PanelView extends JPanel {
 		
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		  		System.out.println("Save button pressed.");
 
 		  		if (tec.getMode() == Mode.COMPARE) {
 		  			tec.fileContentBufferToString();
@@ -177,7 +174,6 @@ public class PanelView extends JPanel {
 		   
 		saveAsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Save As button pressed.");
 
 				if (tec.getMode() == Mode.COMPARE) {
 					tec.fileContentBufferToString();
@@ -247,7 +243,6 @@ public class PanelView extends JPanel {
 		scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		editorPanel.add(scrollPane);
-		System.out.println("change to text table");
 	}
 	
 	public void exitCompareMode() {
@@ -260,7 +255,6 @@ public class PanelView extends JPanel {
 		scrollPane.setRowHeaderView(tln);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		editorPanel.add(scrollPane);
-		System.out.println("change to editor");
 	}
 
 	

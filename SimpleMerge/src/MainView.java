@@ -143,8 +143,6 @@ public class MainView extends JFrame{
 		compareBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("compare button pressed.");
 				
 				comparePressed++;
 				
@@ -230,8 +228,6 @@ public class MainView extends JFrame{
 		upBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("up button pressed.");
 			
 				if(MGcontroller.getFlagPrevious()){
 				    //at least one previous block
@@ -248,8 +244,6 @@ public class MainView extends JFrame{
 		downBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("down button pressed.");
 				
 				if(MGcontroller.getFlagNext()){
 					//at least one next block
@@ -266,8 +260,6 @@ public class MainView extends JFrame{
 		copyToLeftBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("copy to left button pressed.");
 				
 				// do merge: copy to left
 				MGcontroller.callCopyToLeft();
@@ -287,8 +279,6 @@ public class MainView extends JFrame{
 		copyToRightBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("copy to right button pressed.");
 				
 				// if there's no block to be merged, disable mergeBtn
 				
@@ -310,12 +300,11 @@ public class MainView extends JFrame{
 	}
 	
 	private void load(PanelView mine, PanelView yours) {
-		System.out.println("Load button pressed.");
 		
 		int dirtyCheck = mine.showSaveDialogWithCompletion();
 	
 		if (dirtyCheck == 2) {
-			System.out.println("File load canceled.");
+			// file load canceled.
 			return;
 		}
 		
@@ -341,7 +330,6 @@ public class MainView extends JFrame{
         		}
         		else {
         			JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-            		System.out.println("Failed to open file.");
         		}
         	} 
         	else if (!filePath.equals(yours.tec.getFilePath())) {	// check if files in both panels are equal
@@ -351,27 +339,22 @@ public class MainView extends JFrame{
         		}
     			else {
     				JOptionPane.showMessageDialog(null, "Failed to open file.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-            		System.out.println("Failed to open file.");
     			}	
         	} 
         	else {	// if the files are equal, cancel everything
         		JOptionPane.showMessageDialog(null, "File is already open in another panel.", "ERROR!", JOptionPane.ERROR_MESSAGE);
-        		System.out.println("File is already open in another panel.");
         	}
         }
 		
-		else {	// Pressed "Cancel" in FileDialog
-            System.out.println("File load canceled.");
+		else {	
+			// Pressed "Cancel" in FileDialog
         }
 		
 		updateView();
 	}
 	
 	private void closeFile(PanelView pv) {
-		
-		// TODO Auto-generated method stub
-		System.out.println("xbutton pressed.");
-		
+	
 		pv.tec.closeFile();
 		
 		// Set Mode
@@ -481,11 +464,8 @@ public class MainView extends JFrame{
 	}
 	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("Start!");
 		
 		MainView mv = new MainView();
 		
-		System.out.println("End!");
 	}
 }

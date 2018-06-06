@@ -43,7 +43,6 @@ public class CompareTable extends JTable {
 			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
-//			System.out.println(i + "\t\t" + fileContentList.get(i));
 		}
 
 		// Highlight Lines
@@ -113,7 +112,6 @@ public class CompareTable extends JTable {
 			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
-//			System.out.println(i + "\t\t" + fileContentList.get(i));
 		}
 
 		// Highlight Lines

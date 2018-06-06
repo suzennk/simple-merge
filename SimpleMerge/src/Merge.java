@@ -31,7 +31,7 @@ public class Merge {
 	 */
 
 	Merge() {
-		System.out.println("No input panels");
+		// should not call this constructor
 	}
 
 	Merge(TextEditorModel leftPanel, TextEditorModel rightPanel) {
@@ -114,7 +114,6 @@ public class Merge {
 
 	public void traversePrevious() {
 		--traverseCursor;
-		System.out.println(traverseCursor);
 
 		leftPanel.setTraverseIndex(traverseCursor);
 		rightPanel.setTraverseIndex(traverseCursor);
@@ -123,7 +122,6 @@ public class Merge {
 
 	public void traverseNext() {
 		++traverseCursor;
-		System.out.println(traverseCursor);
 
 		leftPanel.setTraverseIndex(traverseCursor);
 		rightPanel.setTraverseIndex(traverseCursor);

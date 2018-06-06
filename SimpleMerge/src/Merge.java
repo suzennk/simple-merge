@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*패널간의 메소드를 관리하는 컨트롤러(interpanel controller),
- * compare, traverse, merge 메소드 포함 */
+/** Merge Model
+ *  Compare, traverse and merge functions
+ */
 public class Merge {
 
 	private TextEditorModel leftPanel;
@@ -14,21 +15,19 @@ public class Merge {
 	private ArrayList<String> leftViewContents;
 	private ArrayList<String> rightViewContents;
 	/**
-	 * 각 Panel의 difference index를 저장하는 배열 index는 0이 아닌 1부터 시작! 같은 내용을 가진 줄에는 서로의
-	 * index, 다른 내용을 가진 줄에는 (-1)*index, 공백줄은 0을 저장
+	 * arraylist which stores difference indices of each panel
+	 * the index is started at 1, not 0
 	 */
 	private ArrayList<Integer> leftDiffIndex;
 	private ArrayList<Integer> rightDiffIndex;
 	private ArrayList<int[]> blocks;
 
-	/*
-	 * 현재 커서의 위치 int[2] => [begin index, end index]
+	/**
+	 * current location 
+	 * int[2] => {start index, end index}
 	 */
 	private int traverseCursor;
-	/*
-	 * flagPrevious 는 더이상 앞으로 이동할 곳이없다를 표시하는 flag. true이면 아직 있다. false면 더이상없다.
-	 * flagNext 마찬가지. MainView 는 이 Flag 들을 이용해 traverse 버튼을 비활성화/활성화 시킨다.
-	 */
+
 
 	Merge() {
 		// should not call this constructor
@@ -39,7 +38,7 @@ public class Merge {
 		this.rightPanel = rightPanel;
 		this.traverseCursor = 0;
 
-		/* panel contents 받아와서 parsing 후 arrayList에 저장 */
+		/* get panel contents, parse it and store to arraylist */
 		this.leftFileContents = leftPanel.getFileContentBufferList();
 		this.leftFileSourceContents = new ArrayList<String>(leftFileContents);
 		this.leftViewContents = new ArrayList<String>();
@@ -50,7 +49,7 @@ public class Merge {
 		this.rightViewContents = new ArrayList<String>();
 		this.rightViewContents.add("");
 
-		/* FileComparator를 이용하여 compare 후 difference를 저장한 index 돌려받기 */
+		/* compare using FileComparator object */
 		FileComparator fc = new FileComparator(leftFileSourceContents, rightFileSourceContents);
 		this.leftFileSourceContents.add(0, "");
 		this.rightFileSourceContents.add(0, "");

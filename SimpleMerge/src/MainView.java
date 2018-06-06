@@ -6,10 +6,11 @@ import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
-public class MainView extends JFrame {
-	private MergeController MGcontroller; // WRONG!: viewer can't directly connected to model
+public class MainView extends JFrame{
+	private MergeController MGcontroller;
+	
+	private JPanel toolPanel;	// tool panel
 
-	private JPanel toolPanel; // tool panel
 	private JButton compareBtn;
 	private JButton upBtn;
 	private JButton downBtn;

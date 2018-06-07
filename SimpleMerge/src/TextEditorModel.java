@@ -45,7 +45,7 @@ public class TextEditorModel {
 
 	/**
 	 * opens the file in the corresponding file path and sets the file of PanelInfo.
-	 * @return true if success, false if fail
+	 * @return true if successfully loaded file, false if failed to load files
 	 */
 	public boolean load(String filePath) {
 		if (file != null) {
@@ -100,7 +100,6 @@ public class TextEditorModel {
 
 	/**
 	 * saves the file
-	 * 
 	 * @return true if success, false if failure.
 	 */
 	public boolean save() {
@@ -115,7 +114,6 @@ public class TextEditorModel {
 
 	/**
 	 * save the file w/ different file name
-	 * 
 	 * @param newFilePath
 	 * @return true if success, false if failure.
 	 */
@@ -178,6 +176,29 @@ public class TextEditorModel {
 		fileContentBufferList = null;
 	}
 
+	/**
+	 * Switch the mode to another mode
+	 * @param mode
+	 */
+	public void setMode(Mode mode) {
+		this.mode = mode;
+		switch (mode) {
+		case VIEW:
+			dirty = false;
+			break;
+		case EDIT:
+			break;
+		case COMPARE:
+			dirty = false;
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * convert ArrayList<String> to String when saving contents from Compare Mode
+	 */
 	public void fileContentBufferToString() {
 		fileContentBuffer = new String();
 
@@ -199,6 +220,14 @@ public class TextEditorModel {
 		return file != null;
 	}
 	
+	/** 
+	 * resets the modification in file.
+	 */
+	public void resetToOriginal() {
+		this.fileContentBuffer = new String(originalFileContent);
+		this.dirty = false;
+	}
+	
 
 	/* Getter & Setter */
 	public String getFilePath() {
@@ -208,6 +237,10 @@ public class TextEditorModel {
 			return file.getPath();
 	}
 
+	/**
+	 * @return the file name of current file.
+	 * returns null if no file is open
+	 */
 	public String getFileName() {
 		if (file == null)
 			return "";
@@ -221,21 +254,6 @@ public class TextEditorModel {
 	public Mode getMode() {
 		return this.mode;
 	}
-	public void setMode(Mode mode) {
-		this.mode = mode;
-		switch (mode) {
-		case VIEW:
-			dirty = false;
-			break;
-		case EDIT:
-			break;
-		case COMPARE:
-			dirty = false;
-			break;
-		default:
-			break;
-		}
-	}
 	
 	public String getOriginalFileContent() {
 		return this.originalFileContent;
@@ -245,6 +263,10 @@ public class TextEditorModel {
 		return this.fileContentBuffer;
 	}
 
+	/**
+	 * set the file content as a copy of 'fileContent'
+	 * @param fileContent
+	 */
 	public void setFileContentBuffer(String fileContent) {
 		fileContentBuffer = new String(fileContent);
 	}
@@ -256,11 +278,6 @@ public class TextEditorModel {
 	public void setUpdated(boolean flag) {
 		this.dirty = flag;
 	}
-	
-	public void resetToOriginal() {
-		this.fileContentBuffer = new String(originalFileContent);
-		this.dirty = false;
-	}
 
 	public ArrayList<String> getAlignedFileContentBufferList() {
 		return alignedFileContentBufferList;
@@ -270,6 +287,10 @@ public class TextEditorModel {
 		this.alignedFileContentBufferList = alignedFileContentBufferList;
 	}
 
+	/**
+	 * call when entering compare mode
+	 * @return parsed file content buffer
+	 */
 	public ArrayList<String> getFileContentBufferList() {
 
 		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
@@ -302,6 +323,9 @@ public class TextEditorModel {
 		return blocks;
 	}
 	
+	/**
+	 * @return current block indices. returns null if no block is selected
+	 */
 	public int[] getCurrentBlock() {
 		if (traverseIndex < 0 || traverseIndex > this.blocks.size())
 			return null;

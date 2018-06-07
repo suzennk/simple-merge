@@ -188,16 +188,6 @@ public class TextEditorModel {
 		}
 
 	}
-	
-	/* Private Functions */
-	private void exitCompareMode() {
-		fileContentBuffer = new String();
-
-		for (int i = 0; i < fileContentBufferList.size(); i++) {
-			fileContentBuffer += this.fileContentBufferList.get(i);
-			fileContentBuffer += "\r\n";
-		}
-	}
 
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening

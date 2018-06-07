@@ -137,8 +137,8 @@ public class PanelView extends JPanel {
 				// DIRTY FLAG SET
 				if (tec.fileIsOpen()) {
 					tec.setUpdated(true);
-					tec.setFileContentBuffer(textArea.getText());
 				}
+				tec.setFileContentBuffer(textArea.getText());
 				updateView();
 			}
 		});
@@ -227,6 +227,8 @@ public class PanelView extends JPanel {
 		// JEditorPane
 		textTable.setVisible(false);
 		textArea.setVisible(true);
+
+		textArea.setText(tec.getFileContentBuffer());
 		
 		editorPanel.remove(scrollPane);
 		scrollPane = new JScrollPane(textArea);

@@ -231,6 +231,10 @@ public class TextEditorModel {
 	
 
 	/* Getter & Setter */
+	public File getFile() {
+		return this.file;
+	}
+	
 	public String getFilePath() {
 		if (file == null)
 			return "";

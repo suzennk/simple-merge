@@ -1,3 +1,5 @@
+package simplemerge;
+
 public class MergeController {
 	private Merge merge;
 	

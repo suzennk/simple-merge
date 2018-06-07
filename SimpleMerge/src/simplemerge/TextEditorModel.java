@@ -1,3 +1,4 @@
+package simplemerge;
 
 /**
 * TextEditorModel.java

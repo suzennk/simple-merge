@@ -1,3 +1,5 @@
+package simplemerge;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -5,6 +7,7 @@ import java.io.FilenameFilter;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
 
 public class MainView extends JFrame{
 	private MergeController MGcontroller;

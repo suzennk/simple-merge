@@ -1,3 +1,5 @@
+package simplemerge;
+
 /**
 * TextEditorController.java
 */

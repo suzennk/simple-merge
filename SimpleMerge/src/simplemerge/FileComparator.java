@@ -1,3 +1,5 @@
+package simplemerge;
+
 import java.util.ArrayList;
 
 public class FileComparator {

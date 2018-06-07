@@ -89,25 +89,26 @@ class TextEditorTests {
 	@Test
 	void loadTest() throws IOException {
 		
-		assertEquals(true, tem.load("TestInputs/input.txt"));
+		assertEquals(true, tem.load("data/s1 left.txt"));
+		assertEquals("s1 left.txt", tem.getFile().getName());
 		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile("TestInputs/input.txt"), tem.getFileContentBuffer());
-		assertEquals(tem.getFileContentBuffer(), tem.getFileContentBuffer());
+		assertEquals(readFile("data/s1 left.txt"), tem.getFileContentBuffer());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 		
-		assertEquals(true, tem.load("TestInputs/number.txt"));
+		assertEquals(true, tem.load("data/s10 left.txt"));
+		assertEquals("s10 left.txt", tem.getFile().getName());
 		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile("TestInputs/number.txt"), tem.getFileContentBuffer());
-		assertEquals(tem.getFileContentBuffer(), tem.getFileContentBuffer());
-		
-		assertEquals(true, tem.load("TestInputs/test.txt"));
-		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile("TestInputs/test.txt"), tem.getFileContentBuffer());
-		assertEquals(tem.getFileContentBuffer(), tem.getFileContentBuffer());
+		assertEquals(readFile("data/s10 left.txt"), tem.getFileContentBuffer());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
+
 	}
 	
 	@Test
 	void failingLoadTest() {
-		
+		assertEquals(false, tem.load("non-existing-file-path"));
+		assertEquals(null, tem.getFile());
+		assertEquals(false, tem.isUpdated());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 	
 	@Test 

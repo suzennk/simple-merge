@@ -16,14 +16,11 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 
-	private ArrayList<String> alignedFileContentBufferList;
-	/** for viewing purpose */
-	private ArrayList<String> fileContentBufferList;
-	/** for saving purpose */
+	private ArrayList<String> alignedFileContentBufferList;		/* for viewing purpose */
+	private ArrayList<String> fileContentBufferList;			/* for saving purpose */
 	private ArrayList<Integer> diffIndices;
 	private ArrayList<int[]> blocks;
-	private int traverseIndex;
-	/** index of blocks */
+	private int traverseIndex;									/* index of blocks */
 
 	private FileReader fr;
 	private FileWriter fw;
@@ -48,7 +45,6 @@ public class TextEditorModel {
 
 	/**
 	 * opens the file in the corresponding file path and sets the file of PanelInfo.
-	 * 
 	 * @return true if success, false if fail
 	 */
 	public boolean load(String filePath) {
@@ -203,7 +199,6 @@ public class TextEditorModel {
 		}
 	}
 
-	/* Getter & Setter */
 	/**
 	 * Checks if a file is open in the panel in order to save it before opening
 	 * another file
@@ -214,6 +209,8 @@ public class TextEditorModel {
 		return file != null;
 	}
 	
+
+	/* Getter & Setter */
 	public String getFilePath() {
 		if (file == null)
 			return "";
@@ -275,10 +272,6 @@ public class TextEditorModel {
 		this.dirty = false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
-	// Merge - Use these methods ! //
-	//////////////////////////////////////////////////////////////////////////////
-	
 	public ArrayList<String> getAlignedFileContentBufferList() {
 		return alignedFileContentBufferList;
 	}
@@ -303,10 +296,6 @@ public class TextEditorModel {
 		this.diffIndices = diffIndices;
 	}
 
-	// setBlocks(), setFileContentBufferList(), and
-	// setAlignedFileContentBufferList()
-	// above methods are no longer needed, as references are copied by getter
-	// methods
 	public void setBlocks(ArrayList<int[]> blocks) {
 		this.blocks = blocks;
 	}
@@ -314,10 +303,6 @@ public class TextEditorModel {
 	public void setTraverseIndex(int traverseIndex) {
 		this.traverseIndex = traverseIndex;
 	}
-
-	//////////////////////////////////////////////////////////////////////////////
-	// Merge - Use these methods ! //
-	//////////////////////////////////////////////////////////////////////////////
 
 	public ArrayList<Integer> getDiffIndices() {
 		return diffIndices;

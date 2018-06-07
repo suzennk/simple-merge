@@ -135,8 +135,10 @@ public class PanelView extends JPanel {
 		textArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				tec.setUpdated(true);
-				tec.setFileContentBuffer(textArea.getText());
+				if (tec.fileIsOpen()) {
+					tec.setUpdated(true);
+					tec.setFileContentBuffer(textArea.getText());
+				}
 				updateView();
 			}
 		});
@@ -239,9 +241,7 @@ public class PanelView extends JPanel {
 		if (!tec.fileIsOpen()) {
 			textArea.setText("Click the Load Button.");
 			editBtn.setEnabled(false);
-		}
-
-		if (tec.isUpdated()) {
+		} else if (tec.isUpdated()) {
 			fileNameLabel.setText("*" + tec.getFileName());
 		} else {
 			fileNameLabel.setText(tec.getFileName());

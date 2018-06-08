@@ -34,7 +34,7 @@ public class MainView extends JFrame{
 
 	private int comparePressed;
 	
-	FileDialog fd;
+	private FileDialog fd;
 
 	public MainView() throws Exception {
 		super("Simple Merge");

@@ -1,31 +1,22 @@
-/**
- * 
- */
 package test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import simplemerge.Mode;
 import simplemerge.TextEditorModel;
 
-/**
- * @author Susan
- *
- */
-class TextEditorModelTests {
+public class TextEditorModelTests {
 
 	TextEditorModel tem;
 	static String inputFile;
@@ -35,68 +26,30 @@ class TextEditorModelTests {
 	static String fileName;
 	static String filePath_NO;
 	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	}
 
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		filePath = new String("data/s1 left.txt");
 		fileName = new String("s1 left.txt");
 
 		filePath_NO = new String("non-existing-file-path");
-		
-//		inputFile = new String("input.txt");
-//		inputFile_no = new String("input_no.txt");
-//		
-//		// Generate a valid input file
-//		File input = new File(inputFile);
-//		FileWriter fw= new FileWriter(inputFile);
-//		BufferedWriter bw = new BufferedWriter(fw);
-//		content = new String();
-//		int i = 0;
-//		content += String.valueOf(i++);
-//		while (i++ < 100) {
-//			content += "\r\n";
-//			content += String.valueOf(i);
-//		}
-//		bw.write(content);
-//		
-//		if (bw != null)
-//			bw.close();
-//		if (fw != null)
-//			fw.close();
-//		
-//		// Generate an invalid input file by creating a file, and then deleting it.
-//		File input_no = new File(inputFile_no);
-//		input_no.delete();
-	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-		
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeEach
-	void setUp() throws Exception {
 		tem = new TextEditorModel();
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterEach
-	void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	void loadTest() throws IOException {
+	public void loadTest() throws IOException {
 		
 		assertEquals(true, tem.load(filePath));
 		assertEquals(fileName, tem.getFile().getName());
@@ -107,7 +60,7 @@ class TextEditorModelTests {
 	}
 	
 	@Test
-	void failingLoadTest() {
+	public void failingLoadTest() {
 		assertEquals(false, tem.load(filePath_NO));
 		assertEquals(null, tem.getFile());
 		assertEquals(false, tem.isUpdated());
@@ -115,7 +68,7 @@ class TextEditorModelTests {
 	}
 	
 	@Test
-	void closeFileTest() {
+	public void closeFileTest() {
 		tem.closeFile();
 		assertEquals(null, tem.getFile());
 		assertEquals(Mode.VIEW, tem.getMode());
@@ -126,7 +79,7 @@ class TextEditorModelTests {
 	}
 	
 	@Test
-	void saveTest() {
+	public void saveTest() {
 		// when no file is loaded, saving should fail.
 		tem.closeFile();
 		assertEquals(false, tem.save());
@@ -141,7 +94,7 @@ class TextEditorModelTests {
 	}
 	
 	@Test
-	void saveAsTest() {
+	public void saveAsTest() {
 		tem.load(filePath);
 		assertEquals(true, tem.saveAs("saveAs1.txt"));
 		assertEquals("saveAs1.txt", tem.getFileName());
@@ -169,4 +122,5 @@ class TextEditorModelTests {
 		}
 		return originalFileContent;
 	}
+
 }

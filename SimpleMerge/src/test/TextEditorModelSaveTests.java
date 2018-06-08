@@ -58,6 +58,7 @@ class TextEditorModelSaveTests {
 		tem.closeFile();
 		assertEquals(false, tem.save());
 		
+		// when a file is loaded, successfully save.
 		tem.load(filePath);
 		assertEquals(true, tem.save());
 	}

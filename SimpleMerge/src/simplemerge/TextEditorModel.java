@@ -302,11 +302,15 @@ public class TextEditorModel {
 	 * call when entering compare mode
 	 * @return parsed file content buffer
 	 */
-	public ArrayList<String> getFileContentBufferList() {
+	public ArrayList<String> getFileContentBufferStringToList() {
 
 		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
 		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
 
+		return this.fileContentBufferList;
+	}
+	
+	public ArrayList<String> getFileContentBufferList() {
 		return this.fileContentBufferList;
 	}
 	

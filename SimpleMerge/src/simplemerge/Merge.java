@@ -41,12 +41,12 @@ public class Merge {
 		this.traverseCursor = 0;
 
 		/* get panel contents, parse it and store to arraylist */
-		this.leftFileContents = leftPanel.getFileContentBufferList();
+		this.leftFileContents = leftPanel.getFileContentBufferStringToList();
 		this.leftFileSourceContents = new ArrayList<String>(leftFileContents);
 		this.leftViewContents = new ArrayList<String>();
 		this.leftViewContents.add("");
 
-		this.rightFileContents = rightPanel.getFileContentBufferList();
+		this.rightFileContents = rightPanel.getFileContentBufferStringToList();
 		this.rightFileSourceContents = new ArrayList<String>(rightFileContents);
 		this.rightViewContents = new ArrayList<String>();
 		this.rightViewContents.add("");

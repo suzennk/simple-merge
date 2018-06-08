@@ -49,7 +49,7 @@ class TextEditorModelSaveTests {
 		assertEquals(null, tem.getOriginalFileContent());
 		assertEquals(null, tem.getFileContentBuffer());
 		assertEquals(false, tem.isUpdated());
-		assertEquals(null, tem.getFileContentBufferList());
+//		assertEquals(null, tem.getFileContentBufferList());
 	}
 	
 	@Test

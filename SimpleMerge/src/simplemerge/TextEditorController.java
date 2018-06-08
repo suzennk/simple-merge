@@ -110,7 +110,7 @@ public class TextEditorController {
 	}
 	
 	public ArrayList<String> getFileContentBufferList() {
-		return tem.getFileContentBufferList();
+		return tem.getFileContentBufferStringToList();
 	}
 	
 	@SuppressWarnings("unchecked")

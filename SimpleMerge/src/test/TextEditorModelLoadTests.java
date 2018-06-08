@@ -3,12 +3,11 @@
  */
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,42 +24,51 @@ import simplemerge.TextEditorModel;
  * @author Susan
  *
  */
-class TextEditorTests {
+class TextEditorModelLoadTests {
 
 	TextEditorModel tem;
 	static String inputFile;
 	static String content;
 	static String inputFile_no;
+	static String filePath;
+	static String fileName;
+	static String filePath_NO;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		inputFile = new String("input.txt");
-		inputFile_no = new String("input_no.txt");
+
+		filePath = new String("data/s1 left.txt");
+		fileName = new String("s1 left.txt");
+
+		filePath_NO = new String("non-existing-file-path");
 		
-		// Generate a valid input file
-		File input = new File(inputFile);
-		FileWriter fw= new FileWriter(inputFile);
-		BufferedWriter bw = new BufferedWriter(fw);
-		content = new String();
-		int i = 0;
-		content += String.valueOf(i++);
-		while (i++ < 100) {
-			content += "\r\n";
-			content += String.valueOf(i);
-		}
-		bw.write(content);
-		
-		if (bw != null)
-			bw.close();
-		if (fw != null)
-			fw.close();
-		
-		// Generate an invalid input file by creating a file, and then deleting it.
-		File input_no = new File(inputFile_no);
-		input_no.delete();
+//		inputFile = new String("input.txt");
+//		inputFile_no = new String("input_no.txt");
+//		
+//		// Generate a valid input file
+//		File input = new File(inputFile);
+//		FileWriter fw= new FileWriter(inputFile);
+//		BufferedWriter bw = new BufferedWriter(fw);
+//		content = new String();
+//		int i = 0;
+//		content += String.valueOf(i++);
+//		while (i++ < 100) {
+//			content += "\r\n";
+//			content += String.valueOf(i);
+//		}
+//		bw.write(content);
+//		
+//		if (bw != null)
+//			bw.close();
+//		if (fw != null)
+//			fw.close();
+//		
+//		// Generate an invalid input file by creating a file, and then deleting it.
+//		File input_no = new File(inputFile_no);
+//		input_no.delete();
 	}
 
 	/**
@@ -88,8 +96,6 @@ class TextEditorTests {
 
 	@Test
 	void loadTest() throws IOException {
-		String filePath = new String("data/s1 left.txt");
-		String fileName = new String("s1 left.txt");
 		
 		assertEquals(true, tem.load(filePath));
 		assertEquals(fileName, tem.getFile().getName());
@@ -101,19 +107,12 @@ class TextEditorTests {
 	
 	@Test
 	void failingLoadTest() {
-		String filePath = new String("non-existing-file-path");
-		
-		assertEquals(false, tem.load(filePath));
+		assertEquals(false, tem.load(filePath_NO));
 		assertEquals(null, tem.getFile());
 		assertEquals(false, tem.isUpdated());
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
-	
-	@Test 
-	void saveTest(){
-		
-	}
-	
+
 	String readFile(String filepath) throws IOException {
 		File f = new File(filepath);
 		FileReader fr = new FileReader(filepath);

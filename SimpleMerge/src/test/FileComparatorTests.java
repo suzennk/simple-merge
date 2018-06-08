@@ -20,19 +20,10 @@ import model.FileComparator;
 public class FileComparatorTests {
 	
 	FileComparator fc;
-	
     static int[][] C;
     static ArrayList<Integer> leftDiffIndex;
     static ArrayList<Integer> rightDiffIndex;
     static ArrayList<int[]> blocks;
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() {

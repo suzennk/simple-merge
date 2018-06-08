@@ -160,7 +160,7 @@ public class TextEditorModelTests {
 		assertEquals(fileName, tem.getFileName());
 		
 		tem.closeFile();
-		// if no file is opne, getFileName() should return an empty string
+		// if no file is open, getFileName() should return an empty string
 		assertEquals("", tem.getFileName());
 	}
 

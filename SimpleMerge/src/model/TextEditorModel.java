@@ -1,4 +1,4 @@
-
+package model;
 /**
 * TextEditorModel.java
 */
@@ -15,14 +15,11 @@ public class TextEditorModel {
 	private String fileContentBuffer;
 	private boolean dirty;
 
-	private ArrayList<String> alignedFileContentBufferList;
-	/** for viewing purpose */
-	private ArrayList<String> fileContentBufferList;
-	/** for saving purpose */
+	private ArrayList<String> alignedFileContentBufferList;		/* for viewing purpose */
+	private ArrayList<String> fileContentBufferList;			/* for saving purpose */
 	private ArrayList<Integer> diffIndices;
 	private ArrayList<int[]> blocks;
-	private int traverseIndex;
-	/** index of blocks */
+	private int traverseIndex;									/* index of blocks */
 
 	private FileReader fr;
 	private FileWriter fw;
@@ -47,8 +44,7 @@ public class TextEditorModel {
 
 	/**
 	 * opens the file in the corresponding file path and sets the file of PanelInfo.
-	 * 
-	 * @return true if success, false if fail
+	 * @return true if successfully loaded file, false if failed to load files
 	 */
 	public boolean load(String filePath) {
 		if (file != null) {
@@ -67,7 +63,7 @@ public class TextEditorModel {
 
 			originalFileContent = new String();
 			String s = br.readLine();
-			
+
 			if (s != null)
 				originalFileContent += s;
 			while ((s = br.readLine()) != null) {
@@ -103,7 +99,6 @@ public class TextEditorModel {
 
 	/**
 	 * saves the file
-	 * 
 	 * @return true if success, false if failure.
 	 */
 	public boolean save() {
@@ -118,17 +113,19 @@ public class TextEditorModel {
 
 	/**
 	 * save the file w/ different file name
-	 * 
 	 * @param newFilePath
 	 * @return true if success, false if failure.
 	 */
 	public boolean saveAs(String newFilePath) {
+		System.out.println("save as");
+		newFilePath = this.concatFileExtension(newFilePath);
+		
 		try {
 			file = new File(newFilePath);
 
 			fw = new FileWriter(newFilePath);
 			bw = new BufferedWriter(fw);
-
+			
 			bw.write(fileContentBuffer);
 
 			System.out.println("Saved");
@@ -170,11 +167,29 @@ public class TextEditorModel {
 		fileContentBufferList = null;
 	}
 
-	public void resetToOriginal() {
-		this.fileContentBuffer = new String(originalFileContent);
-		this.dirty = false;
+	/**
+	 * Switch the mode to another mode
+	 * @param mode
+	 */
+	public void setMode(Mode mode) {
+		this.mode = mode;
+		switch (mode) {
+		case VIEW:
+			dirty = false;
+			break;
+		case EDIT:
+			break;
+		case COMPARE:
+			dirty = false;
+			break;
+		default:
+			break;
+		}
 	}
-
+	
+	/**
+	 * convert ArrayList<String> to String when saving contents from Compare Mode
+	 */
 	public void fileContentBufferToString() {
 		fileContentBuffer = new String();
 
@@ -195,8 +210,35 @@ public class TextEditorModel {
 	public boolean fileIsOpen() {
 		return file != null;
 	}
+	
+	/** 
+	 * resets the modification in file.
+	 */
+	public void resetToOriginal() {
+		this.fileContentBuffer = new String(originalFileContent);
+		this.dirty = false;
+	}
+	
+	/* Private Functions */
+	private String concatFileExtension(String filePath) {
+		String extension = new String();
+		int ptr = file.getName().lastIndexOf('.');
+		if (ptr != -1)
+			extension = file.getName().substring(ptr);
+		
+		if (filePath.lastIndexOf('.') == -1) { 
+			filePath += extension;
+			System.out.println(filePath);
+		}
+		return filePath;
+		
+	}
 
 	/* Getter & Setter */
+	public File getFile() {
+		return this.file;
+	}
+	
 	public String getFilePath() {
 		if (file == null)
 			return "";
@@ -204,24 +246,24 @@ public class TextEditorModel {
 			return file.getPath();
 	}
 
+	/**
+	 * @return the file name of current file.
+	 * returns null if no file is open
+	 */
 	public String getFileName() {
 		if (file == null)
 			return "";
 		else
 			return file.getName();
 	}
-
+	
 	/**
 	 * @return current mode of text editor
 	 */
 	public Mode getMode() {
 		return this.mode;
 	}
-
-	public void setMode(Mode mode) {
-		this.mode = mode;
-	}
-
+	
 	public String getOriginalFileContent() {
 		return this.originalFileContent;
 	}
@@ -230,10 +272,14 @@ public class TextEditorModel {
 		return this.fileContentBuffer;
 	}
 
+	/**
+	 * set the file content as a copy of 'fileContent'
+	 * @param fileContent
+	 */
 	public void setFileContentBuffer(String fileContent) {
 		fileContentBuffer = new String(fileContent);
 	}
-
+	
 	public boolean isUpdated() {
 		return dirty;
 	}
@@ -242,83 +288,65 @@ public class TextEditorModel {
 		this.dirty = flag;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
-	// Merge - Use these methods ! //
-	//////////////////////////////////////////////////////////////////////////////
-
-	public void setDiffIndices(ArrayList<Integer> diffIndices) {
-		this.diffIndices = diffIndices;
-	}
-
-	public void setTraverseIndex(int traverseIndex) {
-		this.traverseIndex = traverseIndex;
-	}
-
 	public ArrayList<String> getAlignedFileContentBufferList() {
 		return alignedFileContentBufferList;
 	}
-
-	public ArrayList<String> getFileContentBufferList() {
-		System.out.println(fileContentBuffer);
-		System.out.println("-------------");
-		// does not split well in empty space
-		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
-
-		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
-
-		System.out.println(fileContentBufferList);
-		System.out.println("-------------");
-		return this.fileContentBufferList;
-	}
-
-	// setBlocks(), setFileContentBufferList(), and
-	// setAlignedFileContentBufferList()
-	// above methods are no longer needed, as references are copied by getter
-	// methods
-	public void setBlocks(ArrayList<int[]> blocks) {
-		this.blocks = blocks;
-	}
-
-	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
-		this.fileContentBufferList = fileContentBufferList;
-	}
-
+	
 	public void setAlignedFileContentBufferList(ArrayList<String> alignedFileContentBufferList) {
 		this.alignedFileContentBufferList = alignedFileContentBufferList;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
-	// Merge - Use these methods ! //
-	//////////////////////////////////////////////////////////////////////////////
+	/**
+	 * call when entering compare mode
+	 * @return parsed file content buffer
+	 */
+	public ArrayList<String> getFileContentBufferStringToList() {
+
+		String[] fcArray = fileContentBuffer.split("\\r?\\n", -1);
+		this.fileContentBufferList = new ArrayList<String>(Arrays.asList(fcArray));
+
+		return this.fileContentBufferList;
+	}
+	
+	public ArrayList<String> getFileContentBufferList() {
+		return this.fileContentBufferList;
+	}
+	
+	public void setFileContentBufferList(ArrayList<String> fileContentBufferList) {
+		this.fileContentBufferList = fileContentBufferList;
+	}
+	
+	public void setDiffIndices(ArrayList<Integer> diffIndices) {
+		this.diffIndices = diffIndices;
+	}
+
+	public void setBlocks(ArrayList<int[]> blocks) {
+		this.blocks = blocks;
+	}
+	
+	public void setTraverseIndex(int traverseIndex) {
+		this.traverseIndex = traverseIndex;
+	}
 
 	public ArrayList<Integer> getDiffIndices() {
 		return diffIndices;
 	}
 
-	public int getTraverseIndex() {
-		return traverseIndex;
-	}
-
 	public ArrayList<int[]> getBlocks() {
 		return blocks;
 	}
-
+	
+	/**
+	 * @return current block indices. returns null if no block is selected
+	 */
 	public int[] getCurrentBlock() {
-		return this.blocks.get(traverseIndex);
+		if (traverseIndex < 0 || traverseIndex > this.blocks.size())
+			return null;
+		else
+			return this.blocks.get(traverseIndex);
 	}
-
-	/* Private Functions */
-	private void exitCompareMode() {
-		fileContentBuffer = new String();
-
-		for (int i = 0; i < fileContentBufferList.size(); i++) {
-			fileContentBuffer += this.fileContentBufferList.get(i);
-			fileContentBuffer += "\r\n";
-		}
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Test PanelInfo.java");
+	
+	public int getTraverseIndex() {
+		return traverseIndex;
 	}
 }

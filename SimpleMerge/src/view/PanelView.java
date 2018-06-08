@@ -1,9 +1,15 @@
+package view;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import controller.TextEditorController;
+import model.Mode;
+import model.TextEditorModel;
 
 public class PanelView extends JPanel {
 	protected	TextEditorController tec;
@@ -34,13 +40,10 @@ public class PanelView extends JPanel {
 	private 	ImageIcon saveAs_icon;
 	private 	ImageIcon x_icon;
 
-	
 	private Color highlightColor;
 	private Color focusColor;
 	
-	private ArrayList<Integer> diffIndex;
-	private int[] block; // block to be colored: {begin_idx, end_idx}
-	   
+	private FileDialog fd;
 	
 	public PanelView() throws Exception{
 		tec				= new TextEditorController();
@@ -52,10 +55,8 @@ public class PanelView extends JPanel {
 		highlightColor 	= new Color(0,0,0); // set color default as WHITE
 		focusColor 		= new Color(0,0,0);		
 		
-		diffIndex		= new ArrayList<Integer>(); // highlighted when compare & traverse
-		block 			= new int[] {0, 0}; // default value : nothing to be colored
-
-		
+		fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
+				 
 		// set image icon
 		load_icon 		= new ImageIcon("res/load.png");
 		edit_icon 		= new ImageIcon("res/edit.png");
@@ -93,7 +94,7 @@ public class PanelView extends JPanel {
 		
 		fileNameLabel 	= new JLabel("");
 		fileNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-		fileNameLabel.setFont(new Font("Arial",Font.BOLD,20));		
+		fileNameLabel.setFont(new Font(fileNameLabel.getFont().getName(), Font.BOLD, 20));
 
 		// Text Area
 		textArea	 	= new JEditorPane();
@@ -101,11 +102,9 @@ public class PanelView extends JPanel {
 		textArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		textArea.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		
-		
 		tln		 		= new TextLineNumber(textArea);
 		model			= new DefaultTableModel();
 	    textTable		= new CompareTable();
-	    
 
 		scrollPane		= new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);
@@ -113,7 +112,6 @@ public class PanelView extends JPanel {
 		 
 		statusLabel		= new JLabel("");
 		statusLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 2, 0));
-		
 		
 		menuPanel.setLayout(new GridLayout(1, 4));   
 		menuPanel.add(loadBtn);
@@ -143,7 +141,9 @@ public class PanelView extends JPanel {
 		textArea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
 				// DIRTY FLAG SET
-				tec.setUpdated(true);
+				if (tec.fileIsOpen()) {
+					tec.setUpdated(true);
+				}
 				tec.setFileContentBuffer(textArea.getText());
 				updateView();
 			}
@@ -152,8 +152,6 @@ public class PanelView extends JPanel {
 		editBtn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Edit button pressed.");
-				
 				// Set Mode
 				setMode(Mode.EDIT);
 			}
@@ -161,7 +159,6 @@ public class PanelView extends JPanel {
 		
 		saveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		  		System.out.println("Save button pressed.");
 
 		  		if (tec.getMode() == Mode.COMPARE) {
 		  			tec.fileContentBufferToString();
@@ -177,7 +174,6 @@ public class PanelView extends JPanel {
 		   
 		saveAsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Save As button pressed.");
 
 				if (tec.getMode() == Mode.COMPARE) {
 					tec.fileContentBufferToString();
@@ -191,46 +187,28 @@ public class PanelView extends JPanel {
 		});
 	}
 
-	public void setMode(Mode mode) {
-		switch (mode) {
-		case VIEW:
-			tec.setMode(Mode.VIEW);
-			statusLabel.setText("View Mode");
-			textArea.setEditable(false);
-			loadBtn.setEnabled(true);
-			editBtn.setEnabled(true);
-			saveBtn.setEnabled(false);
-			saveAsBtn.setEnabled(false);
-			xBtn.setEnabled(true);
-			tec.setUpdated(false);
-			break;
-		case EDIT:
-			tec.setMode(Mode.EDIT);
-			statusLabel.setText("Edit Mode");
-			textArea.setEditable(true);
-			loadBtn.setEnabled(true);
-			editBtn.setEnabled(false);
-			saveBtn.setEnabled(true);
-			saveAsBtn.setEnabled(true);
-			xBtn.setEnabled(true);
-			break;
-		case COMPARE:
-			tec.setMode(Mode.COMPARE);
-			statusLabel.setText("Compare Mode");
-			textArea.setEditable(false);
-			loadBtn.setEnabled(false);
-			editBtn.setEnabled(false);
-			saveBtn.setEnabled(true);
-			saveAsBtn.setEnabled(true);
-			xBtn.setEnabled(false);
-			tec.setUpdated(false);
-			break;
-		default:
-			break;
-		}
-		updateView();
+	
+	
+	public void save() {
+  		if (tec.save()) {
+  			if(tec.getMode() != Mode.COMPARE)
+  				setMode(Mode.VIEW);
+  		}
 	}
-
+	
+	public void saveAs() {
+		fd.setVisible(true);
+		
+		if (fd.getFile() != null) {
+			String filePath = fd.getDirectory() + fd.getFile();
+			if (tec.saveAs(filePath)) {
+				if(tec.getMode()!=Mode.COMPARE)
+					setMode(Mode.VIEW);	
+				else 
+					updateView();
+			}
+		}
+	}
 	
 	public void enterCompareMode() {
 		// make model arguments
@@ -249,24 +227,52 @@ public class PanelView extends JPanel {
 		scrollPane = new JScrollPane(textTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		editorPanel.add(scrollPane);
-		System.out.println("change to text table");
 	}
 	
 	public void exitCompareMode() {
 		// JEditorPane
 		textTable.setVisible(false);
 		textArea.setVisible(true);
+
+		textArea.setText(tec.getFileContentBuffer());
 		
 		editorPanel.remove(scrollPane);
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setRowHeaderView(tln);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		editorPanel.add(scrollPane);
-		System.out.println("change to editor");
 	}
 
 	
+	public void updateView() {
+	
+		if (!tec.fileIsOpen()) {
+			textArea.setText("Click the Load Button.");
+			editBtn.setEnabled(false);
+		} 
+		if (!tec.isUpdated()) {
+			fileNameLabel.setText(tec.getFileName());
+		} else {
+			fileNameLabel.setText("*" + tec.getFileName());
+		}
 
+	}
+	
+	public void updateTable(boolean up) {
+		textTable.highlightBlocks(tec.getBlocks(), tec.getDiffIndices(), tec.getTraverseIndex());
+		if (up) {
+			textTable.scrollUpToCurrentIndex(tec.getBlocks(), tec.getCurrentBlock());
+		}
+		else {
+			textTable.scrollDownToCurrentIndex(tec.getBlocks(), tec.getCurrentBlock());
+		}
+		
+	}
+	
+	public void updateTableModel() {
+		textTable.updateModel(tec.getAlignedFileContentBufferList(), tec.getBlocks(), tec.getDiffIndices());
+	}
+	
 	/**
 	 * @return -1 if not updated
 	 * @return 0 if save
@@ -279,8 +285,8 @@ public class PanelView extends JPanel {
 
 		if (tec.isUpdated()) {
 			n = JOptionPane.showOptionDialog(this,
-					"The file has been edited. Do you want to save the file and continue?", "Question",
-					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+					tec.getFileName() +" has been edited.\nDo you want to save the file and continue?", "Simple Merge",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 		}
 		return n;
 	}
@@ -301,49 +307,43 @@ public class PanelView extends JPanel {
 		return n;
 	}
 	
-	public void updateView() {
-	
-		if (!tec.fileIsOpen()) {
-			textArea.setText("Click the Load Button.");
+	public void setMode(Mode mode) {
+		switch (mode) {
+		case VIEW:
+			tec.setMode(Mode.VIEW);
+			statusLabel.setText("View Mode");
+			textArea.setEditable(false);
+			loadBtn.setEnabled(true);
+			editBtn.setEnabled(true);
+			saveBtn.setEnabled(false);
+			saveAsBtn.setEnabled(false);
+			xBtn.setEnabled(true);
+			break;
+		case EDIT:
+			tec.setMode(Mode.EDIT);
+			statusLabel.setText("Edit Mode");
+			textArea.setEditable(true);
+			loadBtn.setEnabled(true);
+			editBtn.setEnabled(false);
+			saveBtn.setEnabled(true);
+			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(true);
+			break;
+		case COMPARE:
+			tec.setMode(Mode.COMPARE);
+			statusLabel.setText("Compare Mode");
+			textArea.setEditable(false);
+			loadBtn.setEnabled(false);
+			editBtn.setEnabled(false);
+			saveBtn.setEnabled(true);
+			saveAsBtn.setEnabled(true);
+			xBtn.setEnabled(false);
+			break;
+		default:
+			break;
 		}
+		updateView();
 
-		if (tec.isUpdated()) {
-			fileNameLabel.setText("*" + tec.getFileName());
-		} else {
-			fileNameLabel.setText(tec.getFileName());
-		}
-
-	}
-
-	
-	public void save() {
-  		if (tec.save()) {
-  			if(tec.getMode() != Mode.COMPARE)
-  				setMode(Mode.VIEW);
-  		}
-	}
-	
-	public void saveAs() {
-		FileDialog fd = new FileDialog(new JFrame(), "Open File", FileDialog.SAVE);
-		fd.setVisible(true);
-		
-		if (fd.getFile() != null) {
-			String filePath = fd.getDirectory() + fd.getFile();
-			if (tec.saveAs(filePath)) {
-				if(tec.getMode()!=Mode.COMPARE)
-					setMode(Mode.VIEW);	
-				else 
-					updateView();
-			}
-		}
-	}
-	
-	public void updateTable() {
-		textTable.highlightBlocks(tec.getBlocks(), tec.getTraverseIndex());
-	}
-	
-	public void updateTableModel() {
-		textTable.updateModel(tec.getAlignedFileContentBufferList(), tec.getBlocks(), tec.getDiffIndices());
 	}
 	
 	public void resetToOriginal() {
@@ -359,14 +359,6 @@ public class PanelView extends JPanel {
 		focusColor = new Color(x, y, z);
 	}
 
-	public void setDiffIndex(ArrayList<Integer> diffIndex){
-		this.diffIndex=diffIndex;
-	}
-	
-	public void setBlock(int[] block){
-		this.block=block;
-	}
-	
 	public TextEditorModel getTEM() {
 		return tec.getTEM();
 	}

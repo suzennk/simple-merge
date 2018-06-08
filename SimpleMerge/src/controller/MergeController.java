@@ -1,7 +1,12 @@
+package controller;
+
+import model.Merge;
+import model.TextEditorModel;
+
 public class MergeController {
 	private Merge merge;
 	
-	MergeController (TextEditorModel left, TextEditorModel right) {
+	public MergeController (TextEditorModel left, TextEditorModel right) {
 		merge = new Merge(left, right);
 	}
 	

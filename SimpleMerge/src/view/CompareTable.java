@@ -1,10 +1,15 @@
+package view;
+
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 public class CompareTable extends JTable {
@@ -18,7 +23,7 @@ public class CompareTable extends JTable {
 
 	}
 
-	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies, Color highlightColor, Color focusColor) {
+	public CompareTable(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndices, Color highlightColor, Color focusColor) {
 		super();
 
 		// Set highlight color
@@ -35,7 +40,7 @@ public class CompareTable extends JTable {
 		int ctr = 0;
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
-			if (diffIndicies.get(i) == 0) {
+			if (diffIndices.get(i) == 0) {
 				contents.addElement("-");
 			}
 			else {
@@ -43,11 +48,10 @@ public class CompareTable extends JTable {
 			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
-//			System.out.println(i + "\t\t" + fileContentList.get(i));
 		}
 
 		// Highlight Lines
-		highlightBlocks(blocks);
+		highlightBlocks(blocks, diffIndices);
 
 		this.setModel(model);
 
@@ -57,17 +61,13 @@ public class CompareTable extends JTable {
 		JTableHeader header = this.getTableHeader();
 		header.setBackground(Color.WHITE);
 
-		// TODO column width
-		// Set column size
-		TableColumnModel col = this.getColumnModel();
-		col.getColumn(0).setPreferredWidth(40);
-		col.getColumn(1).setPreferredWidth(550);
+		// Set row and column size
 		this.setRowHeight(20);
-
-		this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		TableColumnModel col = this.getColumnModel();
+		col.getColumn(0).setMaxWidth(40);
 	}
 
-	public void highlightBlocks(ArrayList<int[]> blocks, int traverseIndex) {
+	public void highlightBlocks(ArrayList<int[]> blocks, ArrayList<Integer> greyIndices, int traverseIndex) {
 
 		ArrayList<Integer> highlightIndices = new ArrayList<Integer>();
 		
@@ -84,7 +84,7 @@ public class CompareTable extends JTable {
 			}
 			
 		}
-		renderer = new CompareTableRenderer(highlightIndices, highlightColor, focusColor);
+		renderer = new CompareTableRenderer(highlightIndices, greyIndices, highlightColor, focusColor);
 		try {
 			this.setDefaultRenderer(Class.forName("java.lang.Object"), renderer);
 		} catch (ClassNotFoundException e) {
@@ -95,7 +95,7 @@ public class CompareTable extends JTable {
 
 	}
 	
-	public void updateModel(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndicies) {
+	public void updateModel(ArrayList<String> fileContentList, ArrayList<int[]> blocks, ArrayList<Integer> diffIndices) {
 		Vector<String> head = new Vector<String>();
 		head.addElement("line");
 		head.addElement("Content");
@@ -105,7 +105,7 @@ public class CompareTable extends JTable {
 		int ctr = 0;
 		for (int i = 1; i < fileContentList.size(); i++) {
 			Vector<String> contents = new Vector<String>();
-			if (diffIndicies.get(i) == 0) {
+			if (diffIndices.get(i) == 0) {
 				contents.addElement("-");
 			}
 			else {
@@ -113,11 +113,10 @@ public class CompareTable extends JTable {
 			}
 			contents.addElement(fileContentList.get(i));
 			model.addRow(contents);
-//			System.out.println(i + "\t\t" + fileContentList.get(i));
 		}
 
 		// Highlight Lines
-		highlightBlocks(blocks);
+		highlightBlocks(blocks, diffIndices);
 
 		this.setModel(model);
 		
@@ -135,12 +134,25 @@ public class CompareTable extends JTable {
 		this.setRowHeight(20);
 	}
 	
-	public void highlightBlocks(ArrayList<int[]> blocks) {
+	public void highlightBlocks(ArrayList<int[]> blocks, ArrayList<Integer> greyIndices) {
 
-		highlightBlocks(blocks, 0);
+		highlightBlocks(blocks, greyIndices, 0);
 
 	}
+	
+	public void scrollDownToCurrentIndex(ArrayList<int[]> blocks, int[] currentBlock) {
+		if (blocks.size() != 0) {
+			Rectangle cellRect = this.getCellRect(currentBlock[1] - 1, 0, true);
+			this.scrollRectToVisible(cellRect);
+		}
+	}
 
+	public void scrollUpToCurrentIndex(ArrayList<int[]> blocks, int[] currentBlock) {
+		if (blocks.size() != 0) {
+			Rectangle cellRect = this.getCellRect(currentBlock[0] - 1, 0, true);
+			this.scrollRectToVisible(cellRect);
+		}
+	}
 
 	@Override
 	public boolean isCellEditable(int row, int col) {

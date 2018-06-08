@@ -40,7 +40,7 @@ public class Merge {
 		this.rightPanel = rightPanel;
 		this.traverseCursor = 0;
 
-		/* get panel contents, parse it and store to arraylist */
+		/* get panel contents, parse it and store to arrayList */
 		this.leftFileContents = leftPanel.getFileContentBufferStringToList();
 		this.leftFileSourceContents = new ArrayList<String>(leftFileContents);
 		this.leftViewContents = new ArrayList<String>();
@@ -224,7 +224,7 @@ public class Merge {
 
 		left.setFileContentBuffer("\r\n" + "\r\n" + "\r\n" + "AAA\r\n" + "\r\n" + "\r\n" + "");
 
-		right.setFileContentBuffer("\r\n" + "\r\n" + "\r\n" + "AAA\r\n" + "\r\n" + "\r\n" + "");
+		right.setFileContentBuffer("\r\n" + "\r\n" + "\r\n" + "AA\r\n" + "1\r\n" + "\r\n" + "");
 
 		Merge mc = new Merge(left, right);
 

@@ -36,8 +36,8 @@ public class TextEditorModelTests {
 
 	@Before
 	public void setUp() throws Exception {
-		filePath = new String("data/s1 left.txt");
-		fileName = new String("s1 left.txt");
+		filePath = new String("number.txt");
+		fileName = new String("number.txt");
 
 		filePath_NO = new String("non-existing-file-path");
 

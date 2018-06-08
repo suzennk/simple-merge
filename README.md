@@ -9,3 +9,9 @@
 4. Choose last Radiobutton option Workspace default JRE and click Finish.
 5. Press f5 for refresh.
 6. Run your program .
+
+
+### how to run program
+view package 소속의 MainView.java 가 main 함수를 가지고 있기 때문에 MainView.java에서 Run 한다.
+
+

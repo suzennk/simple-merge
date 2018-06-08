@@ -141,9 +141,11 @@ class TextEditorModelTests {
 		tem.load(filePath);
 		assertEquals(true, tem.saveAs("saveAs1.txt"));
 		assertEquals("saveAs1.txt", tem.getFileName());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 		
 		assertEquals(true, tem.saveAs("saveAs2"));
 		assertEquals("saveAs2.txt", tem.getFileName());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 
 

@@ -11,7 +11,7 @@
 6. Run your program .
 
 
-### how to run program
+### How to run program
 main function is in MainView.java in view package.
 So run MainView.java
 

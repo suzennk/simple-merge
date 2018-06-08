@@ -88,24 +88,22 @@ class TextEditorTests {
 
 	@Test
 	void loadTest() throws IOException {
+		String filePath = new String("data/s1 left.txt");
+		String fileName = new String("s1 left.txt");
 		
-		assertEquals(true, tem.load("data/s1 left.txt"));
-		assertEquals("s1 left.txt", tem.getFile().getName());
+		assertEquals(true, tem.load(filePath));
+		assertEquals(fileName, tem.getFile().getName());
 		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile("data/s1 left.txt"), tem.getFileContentBuffer());
-		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
-		
-		assertEquals(true, tem.load("data/s10 left.txt"));
-		assertEquals("s10 left.txt", tem.getFile().getName());
-		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile("data/s10 left.txt"), tem.getFileContentBuffer());
+		assertEquals(readFile(filePath), tem.getFileContentBuffer());
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 
 	}
 	
 	@Test
 	void failingLoadTest() {
-		assertEquals(false, tem.load("non-existing-file-path"));
+		String filePath = new String("non-existing-file-path");
+		
+		assertEquals(false, tem.load(filePath));
 		assertEquals(null, tem.getFile());
 		assertEquals(false, tem.isUpdated());
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());

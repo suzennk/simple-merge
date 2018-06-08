@@ -120,22 +120,14 @@ public class TextEditorModel {
 	 */
 	public boolean saveAs(String newFilePath) {
 		System.out.println("save as");
-		String extension = new String();
-		int ptr = file.getName().lastIndexOf('.');
-		if (ptr != -1)
-			extension = file.getName().substring(ptr);
-		
-		if (newFilePath.lastIndexOf('.') == -1) { 
-			newFilePath += extension;
-			System.out.println(newFilePath);
-		}
+		newFilePath = this.concatFileExtension(newFilePath);
 		
 		try {
 			file = new File(newFilePath);
 
 			fw = new FileWriter(newFilePath);
 			bw = new BufferedWriter(fw);
-
+			
 			bw.write(fileContentBuffer);
 
 			System.out.println("Saved");
@@ -229,6 +221,20 @@ public class TextEditorModel {
 		this.dirty = false;
 	}
 	
+	/* Private Functions */
+	private String concatFileExtension(String filePath) {
+		String extension = new String();
+		int ptr = file.getName().lastIndexOf('.');
+		if (ptr != -1)
+			extension = file.getName().substring(ptr);
+		
+		if (filePath.lastIndexOf('.') == -1) { 
+			filePath += extension;
+			System.out.println(filePath);
+		}
+		return filePath;
+		
+	}
 
 	/* Getter & Setter */
 	public File getFile() {

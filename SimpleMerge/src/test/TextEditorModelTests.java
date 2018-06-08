@@ -42,6 +42,7 @@ public class TextEditorModelTests {
 		filePath_NO = new String("non-existing-file-path");
 
 		tem = new TextEditorModel();
+		tem.load(filePath);
 	}
 
 	@After
@@ -109,6 +110,22 @@ public class TextEditorModelTests {
 	public void resetToOriginal() {
 		tem.resetToOriginal();
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
+	}
+
+	@Test
+	public void getFilePathTest() {
+		assertEquals(filePath, tem.getFilePath());
+		
+		tem.closeFile();
+		assertEquals("", tem.getFilePath());
+	}
+	
+	@Test 
+	public void getFileNameTest() {
+		assertEquals(fileName, tem.getFileName());
+		
+		tem.closeFile();
+		assertEquals("", tem.getFileName());
 	}
 
 	String readFile(String filepath) throws IOException {

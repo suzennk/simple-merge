@@ -130,10 +130,14 @@ class TextEditorModelTests {
 		// when no file is loaded, saving should fail.
 		tem.closeFile();
 		assertEquals(false, tem.save());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
+		
 		
 		// when a file is loaded, successfully save.
 		tem.load(filePath);
 		assertEquals(true, tem.save());
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
+		
 	}
 	
 	@Test

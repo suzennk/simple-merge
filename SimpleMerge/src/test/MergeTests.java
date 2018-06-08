@@ -28,9 +28,6 @@ public class MergeTests {
 		
 		m = new Merge(left, right);
 	}
-	@After
-	public void tearDown() throws Exception {
-	}
 	
 	@Test
 	public void testTraverseNext() {

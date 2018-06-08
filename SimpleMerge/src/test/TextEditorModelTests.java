@@ -18,13 +18,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import simplemerge.Mode;
 import simplemerge.TextEditorModel;
 
 /**
  * @author Susan
  *
  */
-class TextEditorModelLoadTests {
+class TextEditorModelTests {
 
 	TextEditorModel tem;
 	static String inputFile;
@@ -112,6 +113,39 @@ class TextEditorModelLoadTests {
 		assertEquals(false, tem.isUpdated());
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
+	
+	@Test
+	void closeFileTest() {
+		tem.closeFile();
+		assertEquals(null, tem.getFile());
+		assertEquals(Mode.VIEW, tem.getMode());
+		assertEquals(null, tem.getOriginalFileContent());
+		assertEquals(null, tem.getFileContentBuffer());
+		assertEquals(false, tem.isUpdated());
+		assertEquals(null, tem.getFileContentBufferList());
+	}
+	
+	@Test
+	void saveTest() {
+		// when no file is loaded, saving should fail.
+		tem.closeFile();
+		assertEquals(false, tem.save());
+		
+		// when a file is loaded, successfully save.
+		tem.load(filePath);
+		assertEquals(true, tem.save());
+	}
+	
+	@Test
+	void saveAsTest() {
+		tem.load(filePath);
+		assertEquals(true, tem.saveAs("saveAs1.txt"));
+		assertEquals("saveAs1.txt", tem.getFileName());
+		
+		assertEquals(true, tem.saveAs("saveAs2"));
+		assertEquals("saveAs2.txt", tem.getFileName());
+	}
+
 
 	String readFile(String filepath) throws IOException {
 		File f = new File(filepath);

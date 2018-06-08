@@ -1,4 +1,4 @@
-package simplemerge;
+package view;
 
 import java.awt.*;
 import java.awt.event.*;

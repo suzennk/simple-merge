@@ -1,4 +1,4 @@
-package simplemerge;
+package view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +7,9 @@ import java.io.FilenameFilter;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
+import controller.MergeController;
+import model.Mode;
 
 
 public class MainView extends JFrame{

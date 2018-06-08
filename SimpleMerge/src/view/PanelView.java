@@ -1,4 +1,4 @@
-package simplemerge;
+package view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import controller.TextEditorController;
+import model.Mode;
+import model.TextEditorModel;
 
 public class PanelView extends JPanel {
 	protected	TextEditorController tec;

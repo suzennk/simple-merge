@@ -1,4 +1,4 @@
-package simplemerge;
+package model;
 
 public enum Mode {
 		VIEW,

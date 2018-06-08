@@ -1,4 +1,4 @@
-package simplemerge;
+package model;
 
 import java.util.ArrayList;
 

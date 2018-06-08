@@ -1,4 +1,4 @@
-package simplemerge;
+package model;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -35,7 +35,7 @@ public class Merge {
 		// should not call this constructor
 	}
 
-	Merge(TextEditorModel leftPanel, TextEditorModel rightPanel) {
+	public Merge(TextEditorModel leftPanel, TextEditorModel rightPanel) {
 		this.leftPanel = leftPanel;
 		this.rightPanel = rightPanel;
 		this.traverseCursor = 0;
@@ -144,7 +144,7 @@ public class Merge {
 		rightPanel.setTraverseIndex(traverseCursor);
 	}
 
-	void copyToLeft() {
+	public void copyToLeft() {
 		for (int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++) {
 			leftDiffIndex.set(i, rightDiffIndex.get(i));
 			leftViewContents.set(i, rightViewContents.get(i));
@@ -154,7 +154,7 @@ public class Merge {
 		setThingsAfterMerge();
 	}
 
-	void copyToRight() {
+	public void copyToRight() {
 		for (int i = blocks.get(traverseCursor)[0]; i <= blocks.get(traverseCursor)[1]; i++) {
 			rightDiffIndex.set(i, leftDiffIndex.get(i));
 			rightViewContents.set(i, leftViewContents.get(i));

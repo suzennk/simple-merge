@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import simplemerge.Mode;
-import simplemerge.TextEditorModel;
+import model.Mode;
+import model.TextEditorModel;
 
 public class TextEditorModelTests {
 

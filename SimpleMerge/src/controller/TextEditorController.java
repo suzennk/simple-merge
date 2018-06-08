@@ -1,12 +1,16 @@
-package simplemerge;
+package controller;
 
 /**
+
 * TextEditorController.java
 */
 
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import model.Mode;
+import model.TextEditorModel;
 
 public class TextEditorController {
 	private TextEditorModel tem;

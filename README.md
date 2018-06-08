@@ -12,6 +12,7 @@
 
 
 ### how to run program
-view package 소속의 MainView.java 가 main 함수를 가지고 있기 때문에 MainView.java에서 Run 한다.
+main function is in MainView.java in view package.
+So run MainView.java
 
 

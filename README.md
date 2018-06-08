@@ -12,7 +12,7 @@
 
 
 ### How to run program
-main function is in MainView.java in view package.
+Main function is in MainView.java in view package.
 So run MainView.java
 
 

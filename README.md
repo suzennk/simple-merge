@@ -9,3 +9,10 @@
 4. Choose last Radiobutton option Workspace default JRE and click Finish.
 5. Press f5 for refresh.
 6. Run your program .
+
+
+### how to run program
+main function is in MainView.java in view package.
+So run MainView.java
+
+

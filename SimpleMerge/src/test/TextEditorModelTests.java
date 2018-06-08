@@ -51,20 +51,35 @@ public class TextEditorModelTests {
 
 	@Test
 	public void loadTest() throws IOException {
-		
+		// loading a file should return true
 		assertEquals(true, tem.load(filePath));
+		
+		// file name should be set
 		assertEquals(fileName, tem.getFile().getName());
+		
+		// dirty flag must be false right after load
 		assertEquals(false, tem.isUpdated());
-		assertEquals(readFile(filePath), tem.getFileContentBuffer());
+		
+		// file content buffer must be set equal to original file content
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 
 	}
 	
 	@Test
 	public void failingLoadTest() {
+		// loading a non-existing file should return false
 		assertEquals(false, tem.load(filePath_NO));
+		
+		// tem.file should be null
 		assertEquals(null, tem.getFile());
+		
+		// dirty flag must be false b/c no file is open
 		assertEquals(false, tem.isUpdated());
+		
+		// file content buffer should be null
+		assertEquals(null, tem.getFileContentBuffer());
+
+		// file content buffer must be set equal to original file content
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 	
@@ -72,9 +87,7 @@ public class TextEditorModelTests {
 	public void saveTest() {
 		// when no file is loaded, saving should fail.
 		tem.closeFile();
-		assertEquals(false, tem.save());
-		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
-		
+		assertEquals(false, tem.save());		
 		
 		// when a file is loaded, successfully save.
 		tem.load(filePath);
@@ -86,20 +99,36 @@ public class TextEditorModelTests {
 	@Test
 	public void saveAsTest() {
 		tem.load(filePath);
+		// save as "saveAs1.txt" should return true
 		assertEquals(true, tem.saveAs("saveAs1.txt"));
+		
+		// file should be set to new file
 		assertEquals("saveAs1.txt", tem.getFileName());
+
+		// file content buffer must be set equal to original file content
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 		
+		// save as "saveAs" should return true
 		assertEquals(true, tem.saveAs("saveAs2"));
+		
+		// file should be set to new file 
+		// file extension is added automatically
 		assertEquals("saveAs2.txt", tem.getFileName());
+
+		// file content buffer must be set equal to original file content
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 
 	@Test
 	public void closeFileTest() {
+		// close the file
 		tem.closeFile();
-		assertEquals(null, tem.getFile());
+		
+		// mode should be set to View Mode
 		assertEquals(Mode.VIEW, tem.getMode());
+		
+		// everything else should be null
+		assertEquals(null, tem.getFile());
 		assertEquals(null, tem.getOriginalFileContent());
 		assertEquals(null, tem.getFileContentBuffer());
 		assertEquals(false, tem.isUpdated());
@@ -108,41 +137,32 @@ public class TextEditorModelTests {
 	
 	@Test
 	public void resetToOriginal() {
+		// reset to original
 		tem.resetToOriginal();
+
+		// file content buffer must be set equal to original file content
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 
 	@Test
 	public void getFilePathTest() {
+		// getFilePath() should return the file path
 		assertEquals(filePath, tem.getFilePath());
 		
 		tem.closeFile();
+		// if no file is open, getFilePath() should return an empty string
 		assertEquals("", tem.getFilePath());
 	}
 	
 	@Test 
 	public void getFileNameTest() {
+		// getFileName() should return the file name
 		assertEquals(fileName, tem.getFileName());
 		
 		tem.closeFile();
+		// if no file is open, getFileName() should return an empty string
 		assertEquals("", tem.getFileName());
 	}
 
-	String readFile(String filepath) throws IOException {
-		File f = new File(filepath);
-		FileReader fr = new FileReader(filepath);
-		BufferedReader br = new BufferedReader(fr);
-
-		String originalFileContent = new String();
-		String s = br.readLine();
-
-		if (s != null)
-			originalFileContent += s;
-		while ((s = br.readLine()) != null) {
-			originalFileContent += "\r\n";
-			originalFileContent += s;
-		}
-		return originalFileContent;
-	}
 
 }

@@ -12,7 +12,7 @@ public class FileComparator {
     * which stores start and end indices of blocks */
    private ArrayList<int[]> blocks;
 
-   FileComparator(ArrayList<String> left, ArrayList<String> right) {
+   public FileComparator(ArrayList<String> left, ArrayList<String> right) {
       leftDiffIndex = new ArrayList<Integer>();
       rightDiffIndex = new ArrayList<Integer>();
       blocks = new ArrayList<int[]>();
@@ -244,7 +244,7 @@ public class FileComparator {
     * Make all elements in rightDiffIndex to positive integer and return it
     * @return diffRight
     */
-   ArrayList<Integer> getDiffRight() {
+   public ArrayList<Integer> getDiffRight() {
       for (int i = 1; i < rightDiffIndex.size(); i++) {
          int num = rightDiffIndex.get(i);
          if (num < 0) {
@@ -255,75 +255,7 @@ public class FileComparator {
       return this.rightDiffIndex;
    }
 
-   ArrayList<int[]> getBlocks() {
+   public ArrayList<int[]> getBlocks() {
       return this.blocks;
-   }
-
-   public static void main(String[] args) {
-      /*
-       * This main is a test for this class. You can delete this if you don't need.
-       */
-      ArrayList<String> s2 = new ArrayList<String>();
-      ArrayList<String> s1 = new ArrayList<String>();
-      
-      s1.add("Your job is to work on these two files:");
-      s1.add(" - Board.JAVA");
-      s1.add(" - Solver.JAVA");
-      s1.add("");
-      s1.add("Nothing to do in these three files");
-      s1.add(" - MinPQ.JAVA");
-      s1.add(" - Queue.JAVA");
-      s1.add(" - Stack.JAVA");
-      s1.add("");
-      s1.add("Hello!");
-      s1.add("Kim Soyeon test :)");
-      s1.add("");
-      s1.add("ischanged");
-      s1.add("");
-      s1.add("");
-      s1.add("1");
-      
-      s2.add("Your job is to work on these two files:");
-      s2.add(" - Board.JAVA");
-      s2.add(" - Solver.JAVA");
-      s2.add("");
-      s2.add("Nothing to do in these three files");
-      s2.add(" - MinPQ.JAVA");
-      s2.add(" - Queue.JAVA");
-      s2.add(" - Stack.JAVA");
-      s2.add("");
-      s2.add("");
-      s2.add("Hello!");
-      s2.add("isChanged");
-      
-      
-      FileComparator fc = new FileComparator(s2, s1);
-
-      System.out.println("Left Panel=========");
-      for (int i = 1; i < fc.getDiffLeft().size(); i++) {
-         System.out.println("[" + i + "](=" + fc.getDiffLeft().get(i) + ")\t");
-      }
-
-      System.out.println("\nRight Panel=========");
-      for (int i = 1; i < fc.getDiffRight().size(); i++) {
-         System.out.println("[" + i + "](=" + fc.getDiffRight().get(i) + ")\t");
-      }
-
-      System.out.println("\nDiff blocks=========");
-      for (int i = 0; i < fc.blocks.size(); i++) {
-         System.out.println("block[" + i + "]: (" + fc.blocks.get(i)[0] + ", " + fc.blocks.get(i)[1] + ")");
-      }
-      System.out.println("\nCTABLE=========");
-      for (int i = 0; i < fc.C.length; i++) {
-    	  for(int j =0; j < fc.C[0].length; j++)
-    		  System.out.printf("%2d ", fc.C[i][j]);
-    	  System.out.println();
-       }
-      System.out.println("\nCTABLE Trans=========");
-      for (int i = 0; i < fc.C[0].length; i++) {
-    	  for(int j =0; j < fc.C.length; j++)
-    		  System.out.printf("%2d ", fc.C[j][i]);
-    	  System.out.println();
-       }
    }
 }

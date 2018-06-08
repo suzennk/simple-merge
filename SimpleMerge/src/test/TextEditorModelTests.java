@@ -68,17 +68,6 @@ public class TextEditorModelTests {
 	}
 	
 	@Test
-	public void closeFileTest() {
-		tem.closeFile();
-		assertEquals(null, tem.getFile());
-		assertEquals(Mode.VIEW, tem.getMode());
-		assertEquals(null, tem.getOriginalFileContent());
-		assertEquals(null, tem.getFileContentBuffer());
-		assertEquals(false, tem.isUpdated());
-		assertEquals(null, tem.getFileContentBufferList());
-	}
-	
-	@Test
 	public void saveTest() {
 		// when no file is loaded, saving should fail.
 		tem.closeFile();
@@ -105,6 +94,22 @@ public class TextEditorModelTests {
 		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
 	}
 
+	@Test
+	public void closeFileTest() {
+		tem.closeFile();
+		assertEquals(null, tem.getFile());
+		assertEquals(Mode.VIEW, tem.getMode());
+		assertEquals(null, tem.getOriginalFileContent());
+		assertEquals(null, tem.getFileContentBuffer());
+		assertEquals(false, tem.isUpdated());
+		assertEquals(null, tem.getFileContentBufferList());
+	}
+	
+	@Test
+	public void resetToOriginal() {
+		tem.resetToOriginal();
+		assertEquals(tem.getFileContentBuffer(), tem.getOriginalFileContent());
+	}
 
 	String readFile(String filepath) throws IOException {
 		File f = new File(filepath);
